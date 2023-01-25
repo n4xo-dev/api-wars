@@ -1,0 +1,1 @@
+![arquitecture](docs/ArquitectureDark.png)
