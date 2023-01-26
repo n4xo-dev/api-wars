@@ -1,0 +1,3 @@
+[submodule "api-wars-cli"]
+	path = api-wars-cli
+	url = https://github.com/iLopezosa/api-wars-cli
