@@ -1,5 +1,5 @@
 [submodule "api-wars-cli"]
-	path = api-wars-cli
+	path = cli
 	url = https://github.com/iLopezosa/api-wars-cli
 [submodule "rest"]
 	path = rest
