@@ -1,1 +1,1 @@
-![arquitecture](docs/ArquitectureDark.png)
+![architecture](docs/ArchitectureDarkTransparent.png)
