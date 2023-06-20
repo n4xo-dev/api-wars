@@ -16,11 +16,11 @@
 
 In this model:
 
-- A `User` can have many `Posts`.
-- A `Post` can have many `Comments`.
-- A `User` can have many `Comments`.
-- A `Chat` can have many `Messages`.
-- A `User` can have many `Messages`.
+- A `User` can have many `Posts` and a `Post` must have only one `User`.
+- A `Post` can have many `Comments` and a `Comment` must have only one `Post`.
+- A `User` can have many `Comments` and a `Comment` must have only one `User`.
+- A `Chat` can have many `Messages` and a `Message` must have only one `Chat`.
+- A `User` can have many `Messages` and a `Message` must have only one `User`.
 - A `User` can participate in many `Chats` and a `Chat` can have many `Users` (represented by the `Participant` entity).
 
 ## Diagram
