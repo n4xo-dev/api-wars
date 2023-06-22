@@ -1,4 +1,4 @@
-module github.com/iLopezosa/api-wars/rest
+module github.com/iLopezosa/api-wars/rest/src
 
 go 1.20
 
