@@ -41,11 +41,13 @@ func GetConfig() Config {
 		maxNumOfParticipants = 4
 	}
 
-	return Config{
+	config = Config{
 		NumOfUsers:           numOfUsers,
 		NumOfChats:           numOfChats,
 		NumOfPosts:           numOfPosts,
 		MaxNumOfMessages:     maxNumOfMessages,
 		MaxNumOfParticipants: maxNumOfParticipants,
 	}
+
+	return config
 }
