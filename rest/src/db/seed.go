@@ -8,23 +8,22 @@ import (
 	"github.com/iLopezosa/api-wars/rest/src/config"
 	"github.com/iLopezosa/api-wars/rest/src/models"
 	"github.com/jaswdr/faker"
-	"gorm.io/gorm"
 )
 
-func Reset(db *gorm.DB) {
+func Reset() {
 
-	err := db.Migrator().DropTable(models.Chat{}, models.Comment{}, models.Message{}, models.Post{}, models.User{}, "participants")
+	err := DBClient.Migrator().DropTable(models.Chat{}, models.Comment{}, models.Message{}, models.Post{}, models.User{}, "participants")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = db.AutoMigrate(models.User{}, models.Post{}, models.Comment{}, models.Message{}, models.Chat{})
+	err = DBClient.AutoMigrate(models.User{}, models.Post{}, models.Comment{}, models.Message{}, models.Chat{})
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func Seed(db *gorm.DB) {
+func Seed() {
 	conf := config.GetConfig()
 	fake := faker.New()
 
@@ -56,7 +55,7 @@ func Seed(db *gorm.DB) {
 		})
 	}
 
-	db.Create(users)
+	DBClient.Create(users)
 
 	var chats []*models.Chat
 	for i := 1; i <= conf.NumOfChats; i++ {
@@ -86,5 +85,5 @@ func Seed(db *gorm.DB) {
 		})
 	}
 
-	db.Create(chats)
+	DBClient.Create(chats)
 }
