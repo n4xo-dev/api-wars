@@ -3,7 +3,6 @@ package db
 import (
 	"log"
 	"math/rand"
-	"time"
 
 	"github.com/iLopezosa/api-wars/rest/src/config"
 	"github.com/iLopezosa/api-wars/rest/src/models"
@@ -72,9 +71,8 @@ func Seed() {
 		numOfMessages := rand.Intn(conf.MaxNumOfMessages) + 1
 		for j := 1; j <= numOfMessages; j++ {
 			messages = append(messages, models.Message{
-				Content:   fake.Lorem().Sentence(j),
-				Timestamp: fake.Time().Time(time.Now()),
-				UserID:    uint(rand.Intn(conf.NumOfUsers)) + 1,
+				Content: fake.Lorem().Sentence(j),
+				UserID:  uint(rand.Intn(conf.NumOfUsers)) + 1,
 			})
 		}
 

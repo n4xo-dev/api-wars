@@ -1,42 +1,60 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
-	ID       uint      `gorm:"primaryKey" json:"id"`
-	Name     string    `json:"name"`
-	Email    string    `gorm:"unique;not null;index" json:"email"`
-	Posts    []Post    `json:"posts"`
-	Messages []Message `json:"messages"`
-	Comments []Comment `json:"comments"`
-	Chats    []*Chat   `gorm:"many2many:participants;" json:"chats"`
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	Name      string         `json:"name"`
+	Email     string         `gorm:"unique;not null;index" json:"email"`
+	Posts     []Post         `json:"posts"`
+	Messages  []Message      `json:"messages"`
+	Comments  []Comment      `json:"comments"`
+	Chats     []*Chat        `gorm:"many2many:participants;" json:"chats"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `json:"deletedAt"`
 }
 
 type Post struct {
-	ID       uint      `gorm:"primaryKey" json:"id"`
-	Title    string    `json:"title"`
-	Content  string    `json:"content"`
-	Comments []Comment `json:"comments"`
-	UserID   uint      `json:"userId"`
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	Title     string         `json:"title"`
+	Content   string         `json:"content"`
+	Comments  []Comment      `json:"comments"`
+	UserID    uint           `json:"userId"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `json:"deletedAt"`
 }
 
 type Comment struct {
-	ID      uint   `gorm:"primaryKey" json:"id"`
-	Content string `json:"content"`
-	UserID  uint   `json:"userId"`
-	PostID  uint   `json:"postId"`
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	Content   string         `json:"content"`
+	UserID    uint           `json:"userId"`
+	PostID    uint           `json:"postId"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `json:"deletedAt"`
 }
 
 type Message struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	Content   string    `json:"content"`
-	Timestamp time.Time `json:"timestamp"`
-	UserID    uint      `json:"userId"`
-	ChatID    uint      `json:"chatId"`
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	Content   string         `json:"content"`
+	UserID    uint           `json:"userId"`
+	ChatID    uint           `json:"chatId"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `json:"deletedAt"`
 }
 
 type Chat struct {
-	ID           uint      `gorm:"primaryKey" json:"id"`
-	Messages     []Message `json:"messages"`
-	Participants []*User   `gorm:"many2many:participants;" json:"participants"`
+	ID           uint           `gorm:"primaryKey" json:"id"`
+	Messages     []Message      `json:"messages"`
+	Participants []*User        `gorm:"many2many:participants;" json:"participants"`
+	CreatedAt    time.Time      `json:"createdAt"`
+	UpdatedAt    time.Time      `json:"updatedAt"`
+	DeletedAt    gorm.DeletedAt `json:"deletedAt"`
 }

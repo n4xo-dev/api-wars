@@ -15,7 +15,9 @@ var gormOnce sync.Once
 func Connect() *gorm.DB {
 	gormOnce.Do(func() {
 		dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Madrid"
-		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+			PrepareStmt: true,
+		})
 
 		if err != nil {
 			log.Fatal(err)
