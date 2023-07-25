@@ -28,3 +28,12 @@ func Connect() *gorm.DB {
 
 	return DBClient
 }
+
+func Disconnect() {
+	sqlDB, err := DBClient.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	sqlDB.Close()
+}

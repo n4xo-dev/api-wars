@@ -18,6 +18,7 @@ func main() {
 	fmt.Println("Creating connection to the database...")
 
 	db.Connect()
+	defer db.Disconnect()
 
 	fmt.Println("Resetting the database...")
 
