@@ -1,11 +1,11 @@
 package tests
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/iLopezosa/api-wars/rest/src/db"
 	"github.com/iLopezosa/api-wars/rest/src/models"
 )
@@ -22,12 +22,18 @@ func TestUsersComplete() {
 		log.Fatal(err)
 	}
 
+	fmt.Println(u.ID)
 	u2, err := db.UserRead(u.ID)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	spew.Dump(u2)
+	b, err := json.MarshalIndent(u2, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%d: %s\n", u.ID, string(b))
 	time.Sleep(5 * time.Second)
 	fmt.Println("Updating user...")
 
@@ -42,7 +48,11 @@ func TestUsersComplete() {
 		log.Fatal(err)
 	}
 
-	spew.Dump(u2)
+	b, err = json.MarshalIndent(u2, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
 	fmt.Println("List all users:")
 
@@ -51,7 +61,11 @@ func TestUsersComplete() {
 		log.Fatal(err)
 	}
 
-	spew.Dump(users)
+	b, err = json.MarshalIndent(users, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
 	fmt.Println("Find user with email: mr.han@linkin.park")
 
@@ -60,7 +74,11 @@ func TestUsersComplete() {
 		log.Fatal(err)
 	}
 
-	spew.Dump(users)
+	b, err = json.MarshalIndent(users, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
 	fmt.Println("Deleting new user...")
 
