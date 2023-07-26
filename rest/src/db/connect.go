@@ -6,6 +6,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DBClient *gorm.DB
@@ -17,6 +18,7 @@ func Connect() *gorm.DB {
 		dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Madrid"
 		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 			PrepareStmt: true,
+			Logger:      logger.Default.LogMode(logger.Silent),
 		})
 
 		if err != nil {
