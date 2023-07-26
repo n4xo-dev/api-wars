@@ -91,8 +91,8 @@ func runTests(toDo []string) {
 			tests.TestCommentsComplete()
 		// case "messages":
 		// 	tests.TestMessagesComplete()
-		// case "chats":
-		// 	tests.TestChatsComplete()
+		case "chats":
+			tests.TestChatsComplete()
 		default:
 			fmt.Printf("Unknown test: %s\n", t)
 		}
