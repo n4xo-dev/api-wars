@@ -11,7 +11,8 @@ import (
 )
 
 func TestUsersComplete() {
-	fmt.Println("Creating new user...")
+	fmt.Println("\n---TestUsersComplete---")
+	fmt.Println("\n#1 > Creating new user...")
 
 	u := &models.User{
 		Name:  "Mr. Han",
@@ -22,7 +23,6 @@ func TestUsersComplete() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(u.ID)
 	u2, err := db.UserRead(u.ID)
 	if err != nil {
 		log.Fatal(err)
@@ -35,7 +35,7 @@ func TestUsersComplete() {
 
 	fmt.Printf("%d: %s\n", u.ID, string(b))
 	time.Sleep(5 * time.Second)
-	fmt.Println("Updating user...")
+	fmt.Println("\n#2 > Updating user...")
 
 	u.Email = "mr.han@linkin.park"
 
@@ -54,7 +54,7 @@ func TestUsersComplete() {
 	}
 	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
-	fmt.Println("List all users:")
+	fmt.Println("\n#3 > List all users:")
 
 	users, err := db.UserList()
 	if err != nil {
@@ -67,7 +67,7 @@ func TestUsersComplete() {
 	}
 	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
-	fmt.Println("Find user with email: mr.han@linkin.park")
+	fmt.Println("\n#4 > Find user with email: mr.han@linkin.park")
 
 	users, err = db.UserFindByEmail("mr.han@linkin.park")
 	if err != nil {
@@ -80,10 +80,17 @@ func TestUsersComplete() {
 	}
 	fmt.Println(string(b))
 	time.Sleep(5 * time.Second)
-	fmt.Println("Deleting new user...")
+	fmt.Println("\n#5 > Deleting new user...")
 
 	if err = db.UserDelete(u.ID); err != nil {
 		log.Fatal(err)
+	}
+
+	_, err = db.UserRead(u.ID)
+	if err != nil {
+		fmt.Println("User deleted")
+	} else {
+		log.Fatal("User not deleted")
 	}
 
 	fmt.Println("DONE!")
