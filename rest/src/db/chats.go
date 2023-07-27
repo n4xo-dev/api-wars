@@ -8,7 +8,7 @@ import (
 // Updater or creates a chat if the id provided within the chat is found or not, respectively
 func ChatUpsert(chat *models.Chat) error {
 
-	ctx := DBClient.Model(&models.Chat{}).Save(chat)
+	ctx := DBClient.Save(chat)
 
 	return ctx.Error
 }
@@ -41,10 +41,16 @@ func ChatDelete(id uint) error {
 }
 
 // Gets the data of all the chats
-func ChatList() ([]models.Chat, error) {
+func ChatList(eager bool) ([]models.Chat, error) {
 
 	var chats []models.Chat
-	ctx := DBClient.Find(&chats)
+
+	var ctx *gorm.DB
+	if eager {
+		ctx = DBClient.Preload("Participants").Preload("Messages").Find(&chats)
+	} else {
+		ctx = DBClient.Find(&chats)
+	}
 
 	return chats, ctx.Error
 }
