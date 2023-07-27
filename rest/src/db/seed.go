@@ -7,6 +7,7 @@ import (
 	"github.com/iLopezosa/api-wars/rest/src/config"
 	"github.com/iLopezosa/api-wars/rest/src/models"
 	"github.com/jaswdr/faker"
+	"golang.org/x/exp/slices"
 )
 
 func Reset() {
@@ -31,6 +32,12 @@ func Seed() {
 
 		var posts []models.Post
 		for j := 1; j <= conf.NumOfPosts; j++ {
+			consumerID := uint(rand.Intn(conf.NumOfUsers)) + 1
+			// If the consumer is the same as the publisher, increment the consumerID
+			if consumerID == uint(i) {
+				consumerID++
+			}
+
 			posts = append(posts, models.Post{
 				Title:   fake.Company().CatchPhrase(),
 				Content: fake.Lorem().Paragraph(1),
@@ -41,7 +48,7 @@ func Seed() {
 					},
 					{
 						Content: "I consumed this post.",
-						UserID:  uint(rand.Intn(conf.NumOfUsers)) + 1,
+						UserID:  consumerID,
 					},
 				},
 			})
@@ -62,22 +69,28 @@ func Seed() {
 		var participants []*models.User
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
 		for j := 1; j <= numOfParticipants; j++ {
+			participantID := uint(rand.Intn(conf.NumOfUsers) + 1)
+
+			// If the participant is already in the chat, increment the participantID
+			if slices.ContainsFunc(participants, func(p *models.User) bool { return p.ID == participantID }) {
+				participantID++
+			}
 			participants = append(participants, &models.User{
-				ID: uint(rand.Intn(conf.NumOfUsers) + 1),
+				ID: participantID,
 			})
 		}
 
 		var messages []models.Message
 		numOfMessages := rand.Intn(conf.MaxNumOfMessages) + 1
 		for j := 1; j <= numOfMessages; j++ {
+			usrIndex := uint(rand.Intn(len(participants)))
 			messages = append(messages, models.Message{
 				Content: fake.Lorem().Sentence(j),
-				UserID:  uint(rand.Intn(conf.NumOfUsers)) + 1,
+				UserID:  participants[usrIndex].ID,
 			})
 		}
 
 		chats = append(chats, &models.Chat{
-			ID:           uint(i),
 			Messages:     messages,
 			Participants: participants,
 		})

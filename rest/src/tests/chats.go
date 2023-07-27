@@ -30,12 +30,12 @@ func TestChatsComplete() {
 		log.Fatal(err)
 	}
 
-	c2, err := db.ChatRead(c.ID)
+	c2, err := db.ChatRead(c.ID, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	b, err := json.MarshalIndent(c2, "", "")
+	b, err := json.MarshalIndent(c2, "", "  ")
 	if err != nil {
 		log.Fatal(err)
 	}

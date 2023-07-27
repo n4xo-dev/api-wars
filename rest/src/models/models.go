@@ -24,7 +24,7 @@ type Post struct {
 	Title     string         `json:"title"`
 	Content   string         `json:"content"`
 	Comments  []Comment      `json:"comments"`
-	UserID    uint           `json:"userId"`
+	UserID    uint           `gorm:"not null; index" json:"userId"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`
@@ -33,8 +33,8 @@ type Post struct {
 type Comment struct {
 	ID        uint           `gorm:"primaryKey" json:"id"`
 	Content   string         `json:"content"`
-	UserID    uint           `json:"userId"`
-	PostID    uint           `json:"postId"`
+	UserID    uint           `gorm:"not null" json:"userId"`
+	PostID    uint           `gorm:"not null" json:"postId"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`
@@ -43,8 +43,8 @@ type Comment struct {
 type Message struct {
 	ID        uint           `gorm:"primaryKey" json:"id"`
 	Content   string         `json:"content"`
-	UserID    uint           `json:"userId"`
-	ChatID    uint           `json:"chatId"`
+	UserID    uint           `gorm:"not null" json:"userId"`
+	ChatID    uint           `gorm:"not null" json:"chatId"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`

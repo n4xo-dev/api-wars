@@ -1,22 +1,30 @@
 package db
 
-import "github.com/iLopezosa/api-wars/rest/src/models"
+import (
+	"github.com/iLopezosa/api-wars/rest/src/models"
+	"gorm.io/gorm"
+)
 
 // Updater or creates a chat if the id provided within the chat is found or not, respectively
 func ChatUpsert(chat *models.Chat) error {
 
-	ctx := DBClient.Save(chat)
+	ctx := DBClient.Model(&models.Chat{}).Save(chat)
 
 	return ctx.Error
 }
 
 // Gets the data of the chat with the provided id
-func ChatRead(id uint) (models.Chat, error) {
+func ChatRead(id uint, eager bool) (models.Chat, error) {
 
 	var chat = models.Chat{
 		ID: id,
 	}
-	ctx := DBClient.First(&chat)
+	var ctx *gorm.DB
+	if eager {
+		ctx = DBClient.Preload("Participants").Preload("Messages").First(&chat)
+	} else {
+		ctx = DBClient.First(&chat)
+	}
 
 	return chat, ctx.Error
 }
