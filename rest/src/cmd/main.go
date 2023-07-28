@@ -39,24 +39,29 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// Initialize command line arguments and flags
+	testsPtr := flag.String("tests", "", "Tests to run")
+	resetDB := flag.Bool("reset", false, "Reset the database")
+	seedDB := flag.Bool("seed", false, "Seed the database")
+	flag.Parse()
+
 	// Initialize the database
 	fmt.Println("\nCreating connection to the database...")
 
 	db.Connect()
 	defer db.Disconnect()
 
-	fmt.Println("\nResetting the database...")
+	if *resetDB {
+		fmt.Println("\nResetting the database...")
+		db.Reset()
+	}
 
-	db.Reset()
+	if *seedDB {
+		fmt.Println("\nSeeding database...")
+		db.Seed()
+	}
 
-	fmt.Println("\nSeeding database...")
-
-	db.Seed()
-
-	// Initialize command line arguments and flags
-	testsPtr := flag.String("tests", "", "Tests to run")
-	flag.Parse()
-
+	// Run the tests
 	if *testsPtr != "" {
 		validateFlags(testsPtr)
 		tests := strings.Split(*testsPtr, ",")
