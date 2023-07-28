@@ -19,7 +19,7 @@ func TestCommentsComplete() {
 		UserID:  1,
 		Content: "I am a comment",
 	}
-
+	fmt.Printf("%+v\n", c)
 	if err := db.CommentUpsert(c); err != nil {
 		log.Fatal(err)
 	}
@@ -97,6 +97,10 @@ func TestCommentsComplete() {
 	fmt.Println("\n#6 > Deleting comment...")
 
 	if err = db.CommentDelete(c.ID); err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err = db.CommentRead(c.ID); err != nil {
 		fmt.Println("Comment deleted")
 	} else {
 		log.Fatal("Comment not deleted")
