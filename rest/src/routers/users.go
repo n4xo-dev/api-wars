@@ -2,7 +2,7 @@ package routers
 
 import "github.com/gofiber/fiber/v2"
 
-func Users(api *fiber.Router) {
+func UsersRouter(api *fiber.Router) {
 	u := (*api).Group("/users")
 	u.Get("/", UserList)
 	u.Get("/:id", UserRead) // Can use email as id

@@ -2,7 +2,7 @@ package routers
 
 import "github.com/gofiber/fiber/v2"
 
-func Posts(api *fiber.Router) {
+func PostsRouter(api *fiber.Router) {
 	p := (*api).Group("/posts")
 	p.Get("/", PostList)
 	p.Get("/:id", PostRead)

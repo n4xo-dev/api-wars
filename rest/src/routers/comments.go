@@ -2,7 +2,7 @@ package routers
 
 import "github.com/gofiber/fiber/v2"
 
-func Comments(api *fiber.Router) {
+func CommentsRouter(api *fiber.Router) {
 	co := (*api).Group("/comments")
 	co.Get("/", CommentList)
 	co.Get("/:id", CommentRead)

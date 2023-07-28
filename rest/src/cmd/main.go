@@ -71,19 +71,11 @@ func main() {
 	// Initialize Fiber server
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
-	api := app.Group("/api")
-
-	routers.Users(&api)
-	routers.Posts(&api)
-	routers.Comments(&api)
-	routers.Messages(&api)
-	routers.Chats(&api)
+	routers.Setup(app)
 
 	app.Listen(":3000")
+
+	fmt.Println("\nClosing connection to the database...")
 }
 
 // Validate the flags passed to the command line
