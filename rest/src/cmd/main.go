@@ -23,7 +23,11 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
 	"regexp"
+	"runtime"
+	"syscall"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iLopezosa/api-wars/rest/src/db"
@@ -34,6 +38,11 @@ import (
 
 // Main function
 func main() {
+	defer PrintMemUsage()
+
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, os.Interrupt, syscall.SIGTERM)
+
 	// Initialize the environment variables
 	err := godotenv.Load()
 	if err != nil {
@@ -71,7 +80,12 @@ func main() {
 	if *server {
 		app := fiber.New()
 		routers.Setup(app)
-		app.Listen(":3000")
+		PrintMemUsage()
+		go func() {
+			app.Listen(":3000")
+		}()
+		_ = <-sigs
+		app.Shutdown()
 	}
 
 	fmt.Println("\nClosing connection to the database...")
@@ -86,4 +100,16 @@ func validateFlags(testsPtr *string) {
 	if !re.MatchString(*testsPtr) {
 		log.Fatal("Invalid tests flag")
 	}
+}
+
+// PrintMemUsage outputs the current, total and OS memory being used. As well as the
+// number of garage collection cycles completed. For info on each,
+// see: https://golang.org/pkg/runtime/#MemStats
+func PrintMemUsage() {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	fmt.Printf("Alloc = %v MiB", m.Alloc/1024/1024)
+	fmt.Printf("\tTotalAlloc = %v MiB", m.TotalAlloc/1024/1024)
+	fmt.Printf("\tSys = %v MiB", m.Sys/1024/1024)
+	fmt.Printf("\tNumGC = %v\n", m.NumGC)
 }
