@@ -10,4 +10,5 @@ func Setup(app *fiber.App) {
 	CommentsRouter(&api)
 	MessagesRouter(&api)
 	ChatsRouter(&api)
+	HealthcheckRouter(&api)
 }

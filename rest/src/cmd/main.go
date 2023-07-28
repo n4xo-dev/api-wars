@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"log"
 	"regexp"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iLopezosa/api-wars/rest/src/db"
@@ -44,6 +43,7 @@ func main() {
 	// Initialize command line arguments and flags
 	testsPtr := flag.String("tests", "", "Tests to run")
 	resetDB := flag.Bool("reset", false, "Reset the database")
+	server := flag.Bool("server", false, "Run the server")
 	flag.Parse()
 
 	// Initialize the database
@@ -62,18 +62,17 @@ func main() {
 	// Run the tests
 	if *testsPtr != "" {
 		validateFlags(testsPtr)
-		tests := strings.Split(*testsPtr, ",")
-		runTests(tests)
+		tests.Run(testsPtr)
 	} else {
 		fmt.Println("\nNo tests to run")
 	}
 
 	// Initialize Fiber server
-	app := fiber.New()
-
-	routers.Setup(app)
-
-	app.Listen(":3000")
+	if *server {
+		app := fiber.New()
+		routers.Setup(app)
+		app.Listen(":3000")
+	}
 
 	fmt.Println("\nClosing connection to the database...")
 }
@@ -86,25 +85,5 @@ func validateFlags(testsPtr *string) {
 	}
 	if !re.MatchString(*testsPtr) {
 		log.Fatal("Invalid tests flag")
-	}
-}
-
-// runTests runs the tests passed as arguments
-func runTests(toDo []string) {
-	for _, t := range toDo {
-		switch t {
-		case "users":
-			tests.TestUsersComplete()
-		case "posts":
-			tests.TestPostsComplete()
-		case "comments":
-			tests.TestCommentsComplete()
-		case "messages":
-			tests.TestMessagesComplete()
-		case "chats":
-			tests.TestChatsComplete()
-		default:
-			fmt.Printf("\nUnknown test: %s\n", t)
-		}
 	}
 }

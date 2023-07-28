@@ -1,12 +1,15 @@
 package routers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/iLopezosa/api-wars/rest/src/controllers"
+)
 
 func CommentsRouter(api *fiber.Router) {
 	co := (*api).Group("/comments")
-	co.Get("/", CommentList)
-	co.Get("/:id", CommentRead)
-	co.Post("/", CommentCreate)
-	co.Patch("/:id", CommentUpdate)
-	co.Delete("/:id", CommentDelete)
+	co.Get("/", controllers.CommentList)
+	co.Get("/:id", controllers.CommentRead)
+	co.Post("/", controllers.CommentCreate)
+	co.Patch("/:id", controllers.CommentUpdate)
+	co.Delete("/:id", controllers.CommentDelete)
 }
