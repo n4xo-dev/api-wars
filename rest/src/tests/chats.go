@@ -24,7 +24,7 @@ func TestChatsComplete() {
 	}
 
 	c := &models.Chat{
-		Participants: []*models.User{&u1, &u2},
+		Participants: []*models.User{models.ParseUserDTO(&u1), models.ParseUserDTO(&u2)},
 	}
 	fmt.Printf("%+v\n", c)
 	if err := db.ChatUpsert(c); err != nil {

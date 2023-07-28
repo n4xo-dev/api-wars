@@ -33,9 +33,9 @@ func Seed() {
 
 		var posts []models.Post
 		for j := 1; j <= conf.NumOfPosts; j++ {
-			consumerID := uint(rand.Intn(conf.NumOfUsers)) + 1
+			consumerID := uint64(rand.Intn(conf.NumOfUsers)) + 1
 			// If the consumer is the same as the publisher, increment the consumerID
-			if consumerID == uint(i) {
+			if consumerID == uint64(i) {
 				consumerID++
 			}
 
@@ -45,7 +45,7 @@ func Seed() {
 				Comments: []models.Comment{
 					{
 						Content: "I published this post.",
-						UserID:  uint(i),
+						UserID:  uint64(i),
 					},
 					{
 						Content: "I consumed this post.",
@@ -70,7 +70,7 @@ func Seed() {
 		var participants []*models.User
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
 		for j := 1; j <= numOfParticipants; j++ {
-			participantID := uint(rand.Intn(conf.NumOfUsers) + 1)
+			participantID := uint64(rand.Intn(conf.NumOfUsers) + 1)
 
 			// If the participant is already in the chat, increment the participantID
 			if slices.ContainsFunc(participants, func(p *models.User) bool { return p.ID == participantID }) {
@@ -84,7 +84,7 @@ func Seed() {
 		var messages []models.Message
 		numOfMessages := rand.Intn(conf.MaxNumOfMessages) + 1
 		for j := 1; j <= numOfMessages; j++ {
-			usrIndex := uint(rand.Intn(len(participants)))
+			usrIndex := uint64(rand.Intn(len(participants)))
 			messages = append(messages, models.Message{
 				Content: fake.Lorem().Sentence(j),
 				UserID:  participants[usrIndex].ID,

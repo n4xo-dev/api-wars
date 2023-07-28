@@ -14,7 +14,7 @@ func ChatUpsert(chat *models.Chat) error {
 }
 
 // Gets the data of the chat with the provided id
-func ChatRead(id uint, eager bool) (models.Chat, error) {
+func ChatRead(id uint64, eager bool) (models.Chat, error) {
 
 	var chat = models.Chat{
 		ID: id,
@@ -30,7 +30,7 @@ func ChatRead(id uint, eager bool) (models.Chat, error) {
 }
 
 // Deletes the chat with the provided id
-func ChatDelete(id uint) error {
+func ChatDelete(id uint64) error {
 
 	var chat = models.Chat{
 		ID: id,

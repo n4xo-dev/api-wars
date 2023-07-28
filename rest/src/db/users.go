@@ -11,9 +11,9 @@ func UserUpsert(u *models.User) error {
 }
 
 // Gets the data of the user with the provided id
-func UserRead(id uint) (models.User, error) {
+func UserRead(id uint64) (models.UserDTO, error) {
 
-	user := models.User{}
+	user := models.UserDTO{}
 	ctx := DBClient.Model(&models.User{}).Find(&models.User{}).First(&user, id)
 
 	return user, ctx.Error
@@ -28,7 +28,7 @@ func UserPatch(u *models.User) (models.User, error) {
 }
 
 // Deletes the user with the provided id
-func UserDelete(id uint) error {
+func UserDelete(id uint64) error {
 
 	var user = models.User{
 		ID: id,
@@ -39,18 +39,18 @@ func UserDelete(id uint) error {
 }
 
 // Gets the data of all the users
-func UserList() ([]models.User, error) {
+func UserList() ([]models.UserDTO, error) {
 
-	var users []models.User
+	var users []models.UserDTO
 	ctx := DBClient.Model(&models.User{}).Find(&users)
 
 	return users, ctx.Error
 }
 
 // Gets the data of the user with the provided email
-func UserFindByEmail(email string) ([]models.User, error) {
+func UserFindByEmail(email string) ([]models.UserDTO, error) {
 
-	var users []models.User
+	var users []models.UserDTO
 	ctx := DBClient.Model(&models.User{}).Where("email = ?", email).Find(&users)
 
 	return users, ctx.Error

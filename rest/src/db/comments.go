@@ -11,7 +11,7 @@ func CommentUpsert(c *models.Comment) error {
 }
 
 // Gets the data of the comment with the provided id
-func CommentRead(id uint) (models.Comment, error) {
+func CommentRead(id uint64) (models.Comment, error) {
 
 	var comment = models.Comment{
 		ID: id,
@@ -22,7 +22,7 @@ func CommentRead(id uint) (models.Comment, error) {
 }
 
 // Deletes the comment with the provided id
-func CommentDelete(id uint) error {
+func CommentDelete(id uint64) error {
 
 	var comment = models.Comment{
 		ID: id,
@@ -42,7 +42,7 @@ func CommentList() ([]models.Comment, error) {
 }
 
 // Gets the data of the comments with the provided post id
-func CommentListByPostID(postID uint) ([]models.Comment, error) {
+func CommentListByPostID(postID uint64) ([]models.Comment, error) {
 
 	var comments []models.Comment
 	ctx := DBClient.Where("post_id = ?", postID).Find(&comments)
@@ -51,7 +51,7 @@ func CommentListByPostID(postID uint) ([]models.Comment, error) {
 }
 
 // Gets the data of the comments with the provided user id
-func CommentListByUserID(userID uint) ([]models.Comment, error) {
+func CommentListByUserID(userID uint64) ([]models.Comment, error) {
 
 	var comments []models.Comment
 	ctx := DBClient.Where("user_id = ?", userID).Find(&comments)

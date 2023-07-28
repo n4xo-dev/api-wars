@@ -11,7 +11,7 @@ func PostUpsert(post *models.Post) error {
 }
 
 // Gets the data of the post with the provided id
-func PostRead(id uint) (models.Post, error) {
+func PostRead(id uint64) (models.Post, error) {
 
 	var post = models.Post{
 		ID: id,
@@ -22,7 +22,7 @@ func PostRead(id uint) (models.Post, error) {
 }
 
 // Deletes the post with the provided id
-func PostDelete(id uint) error {
+func PostDelete(id uint64) error {
 
 	var post = models.Post{
 		ID: id,
@@ -42,7 +42,7 @@ func PostList() ([]models.Post, error) {
 }
 
 // Gets the data of the posts with the provided user id
-func PostListByUserID(userID uint) ([]models.Post, error) {
+func PostListByUserID(userID uint64) ([]models.Post, error) {
 
 	var posts []models.Post
 	ctx := DBClient.Where("user_id = ?", userID).Find(&posts)

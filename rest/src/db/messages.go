@@ -11,7 +11,7 @@ func MessageUpsert(m *models.Message) error {
 }
 
 // Gets the data of the message with the provided id
-func MessageRead(id uint) (models.Message, error) {
+func MessageRead(id uint64) (models.Message, error) {
 
 	var message = models.Message{
 		ID: id,
@@ -22,7 +22,7 @@ func MessageRead(id uint) (models.Message, error) {
 }
 
 // Deletes the message with the provided id
-func MessageDelete(id uint) error {
+func MessageDelete(id uint64) error {
 
 	var message = models.Message{
 		ID: id,
@@ -42,7 +42,7 @@ func MessageList() ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided chat id
-func MessageListByChatID(chatID uint) ([]models.Message, error) {
+func MessageListByChatID(chatID uint64) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("chat_id = ?", chatID).Find(&messages)
@@ -51,7 +51,7 @@ func MessageListByChatID(chatID uint) ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided user id
-func MessageListByUserID(userID uint) ([]models.Message, error) {
+func MessageListByUserID(userID uint64) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("user_id = ?", userID).Find(&messages)
@@ -60,7 +60,7 @@ func MessageListByUserID(userID uint) ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided chat id and user id
-func MessageListByChatIDAndUserID(chatID uint, userID uint) ([]models.Message, error) {
+func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)
