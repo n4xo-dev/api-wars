@@ -3,6 +3,7 @@ package db
 import (
 	"log"
 	"math/rand"
+	"time"
 
 	"github.com/iLopezosa/api-wars/rest/src/config"
 	"github.com/iLopezosa/api-wars/rest/src/models"
@@ -97,4 +98,7 @@ func Seed() {
 	}
 
 	DBClient.Create(chats)
+
+	// Ensure that the chats are saved in the database
+	time.Sleep(5 * time.Second)
 }
