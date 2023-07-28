@@ -40,16 +40,16 @@ func main() {
 	}
 
 	// Initialize the database
-	fmt.Println("Creating connection to the database...")
+	fmt.Println("\nCreating connection to the database...")
 
 	db.Connect()
 	defer db.Disconnect()
 
-	fmt.Println("Resetting the database...")
+	fmt.Println("\nResetting the database...")
 
 	db.Reset()
 
-	fmt.Println("Seeding database...")
+	fmt.Println("\nSeeding database...")
 
 	db.Seed()
 
@@ -62,7 +62,7 @@ func main() {
 		tests := strings.Split(*testsPtr, ",")
 		runTests(tests)
 	} else {
-		fmt.Println("No tests to run")
+		fmt.Println("\nNo tests to run")
 	}
 }
 
@@ -79,8 +79,6 @@ func validateFlags(testsPtr *string) {
 
 // runTests runs the tests passed as arguments
 func runTests(toDo []string) {
-	fmt.Println("Complete Users test...")
-
 	for _, t := range toDo {
 		switch t {
 		case "users":
@@ -94,7 +92,7 @@ func runTests(toDo []string) {
 		case "chats":
 			tests.TestChatsComplete()
 		default:
-			fmt.Printf("Unknown test: %s\n", t)
+			fmt.Printf("\nUnknown test: %s\n", t)
 		}
 	}
 }
