@@ -42,7 +42,6 @@ func main() {
 	// Initialize command line arguments and flags
 	testsPtr := flag.String("tests", "", "Tests to run")
 	resetDB := flag.Bool("reset", false, "Reset the database")
-	seedDB := flag.Bool("seed", false, "Seed the database")
 	flag.Parse()
 
 	// Initialize the database
@@ -54,9 +53,6 @@ func main() {
 	if *resetDB {
 		fmt.Println("\nResetting the database...")
 		db.Reset()
-	}
-
-	if *seedDB {
 		fmt.Println("\nSeeding database...")
 		db.Seed()
 	}
