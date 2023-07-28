@@ -88,8 +88,8 @@ func runTests(toDo []string) {
 			tests.TestPostsComplete()
 		case "comments":
 			tests.TestCommentsComplete()
-		// case "messages":
-		// 	tests.TestMessagesComplete()
+		case "messages":
+			tests.TestMessagesComplete()
 		case "chats":
 			tests.TestChatsComplete()
 		default:

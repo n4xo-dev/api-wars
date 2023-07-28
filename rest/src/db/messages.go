@@ -3,7 +3,7 @@ package db
 import "github.com/iLopezosa/api-wars/rest/src/models"
 
 // Updater or creates a message if the id provided within the message is found or not, respectively
-func messageUpsert(m *models.Message) error {
+func MessageUpsert(m *models.Message) error {
 
 	ctx := DBClient.Save(m)
 
@@ -11,7 +11,7 @@ func messageUpsert(m *models.Message) error {
 }
 
 // Gets the data of the message with the provided id
-func messageRead(id uint) (models.Message, error) {
+func MessageRead(id uint) (models.Message, error) {
 
 	var message = models.Message{
 		ID: id,
@@ -22,7 +22,7 @@ func messageRead(id uint) (models.Message, error) {
 }
 
 // Deletes the message with the provided id
-func messageDelete(id uint) error {
+func MessageDelete(id uint) error {
 
 	var message = models.Message{
 		ID: id,
@@ -33,7 +33,7 @@ func messageDelete(id uint) error {
 }
 
 // Gets the data of all the messages
-func messageList() ([]models.Message, error) {
+func MessageList() ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Find(&messages)
@@ -42,7 +42,7 @@ func messageList() ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided chat id
-func messageListByChatID(chatID uint) ([]models.Message, error) {
+func MessageListByChatID(chatID uint) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("chat_id = ?", chatID).Find(&messages)
@@ -51,7 +51,7 @@ func messageListByChatID(chatID uint) ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided user id
-func messageListByUserID(userID uint) ([]models.Message, error) {
+func MessageListByUserID(userID uint) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("user_id = ?", userID).Find(&messages)
@@ -60,7 +60,7 @@ func messageListByUserID(userID uint) ([]models.Message, error) {
 }
 
 // Gets the data of the messages with the provided chat id and user id
-func messageListByChatIDAndUserID(chatID uint, userID uint) ([]models.Message, error) {
+func MessageListByChatIDAndUserID(chatID uint, userID uint) ([]models.Message, error) {
 
 	var messages []models.Message
 	ctx := DBClient.Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)

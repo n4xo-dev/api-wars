@@ -19,7 +19,7 @@ func TestCommentsComplete() {
 		UserID:  1,
 		Content: "I am a comment",
 	}
-	fmt.Printf("%+v\n", c)
+
 	if err := db.CommentUpsert(c); err != nil {
 		log.Fatal(err)
 	}
