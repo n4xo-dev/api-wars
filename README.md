@@ -10,7 +10,7 @@ Además, se ha creado un cliente único en TypeScript que actúa como interfaz d
 
 Los servidores están conectados a dos versiones de la base de datos Redis: RedisJSON y Redis Core. Estas bases de datos se gestionan y monitorizan manualmente utilizando RedisInsight. La conexión entre los servidores y las bases de datos se realiza mediante el cliente Go Redis.
 
-![architecture](/assets/diagrams/ArchitectureDarkTransparent.png)
+![architecture](/assets/diagrams/Architecture.png)
 
 ## Evaluación de rendimiento y análisis
 
