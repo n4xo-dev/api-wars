@@ -54,10 +54,58 @@ func UserPatch(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
 func UserPosts(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	} else if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	posts, err := db.PostListByUserID(id)
+
+	if err != nil {
+		return c.SendStatus(500)
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return c.Status(404).JSON(fiber.Map{
+			"error": "user not found",
+		})
+	}
+
+	return c.JSON(posts)
 }
 func UserComments(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	} else if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	comments, err := db.CommentListByUserID(id)
+
+	if err != nil {
+		return c.SendStatus(500)
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return c.Status(404).JSON(fiber.Map{
+			"error": "user not found",
+		})
+	}
+
+	return c.JSON(comments)
 }
 func UserMessages(c *fiber.Ctx) error {
 	return c.SendStatus(501)
