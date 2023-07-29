@@ -93,7 +93,7 @@ func main() {
 
 // Validate the flags passed to the command line
 func validateFlags(testsPtr *string) {
-	re, err := regexp.Compile(`^(users|posts|comments|messages|chats)(,(users|posts|comments|messages|chats))*$`)
+	re, err := regexp.Compile(`^(all|users|posts|comments|messages|chats)(,(users|posts|comments|messages|chats))*$`)
 	if err != nil {
 		log.Fatal(err)
 	}

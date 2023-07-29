@@ -12,6 +12,12 @@ func Run(testsPtr *string) {
 
 	for _, t := range toDo {
 		switch t {
+		case "all":
+			TestUsersComplete()
+			TestPostsComplete()
+			TestCommentsComplete()
+			TestMessagesComplete()
+			TestChatsComplete()
 		case "users":
 			TestUsersComplete()
 		case "posts":
