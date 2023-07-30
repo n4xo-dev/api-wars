@@ -10,7 +10,7 @@ func PostsRouter(api *fiber.Router) {
 	p.Get("/", controllers.PostList)
 	p.Get("/:id", controllers.PostRead)
 	p.Post("/", controllers.PostCreate)
-	p.Patch("/:id", controllers.PostUpdate)
+	p.Put("/:id", controllers.PostUpdate)
 	p.Delete("/:id", controllers.PostDelete)
 	p.Get("/:id/comments", controllers.PostComments)
 }
