@@ -12,7 +12,9 @@ import (
 func UserList(c *fiber.Ctx) error {
 	users, err := db.UserList()
 	if err != nil {
-		return c.SendStatus(500)
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
 	} else {
 		return c.JSON(users)
 	}
@@ -43,7 +45,9 @@ func UserRead(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.SendStatus(500)
+	return c.Status(500).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }
 
 func UserCreate(c *fiber.Ctx) error {
@@ -73,8 +77,8 @@ func UserPosts(c *fiber.Ctx) error {
 
 	posts, err := db.PostListByUserID(id)
 
-	if err != nil {
-		return c.SendStatus(500)
+	if err == nil {
+		return c.JSON(posts)
 	}
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -83,7 +87,9 @@ func UserPosts(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(posts)
+	return c.Status(500).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }
 
 func UserComments(c *fiber.Ctx) error {
@@ -101,8 +107,8 @@ func UserComments(c *fiber.Ctx) error {
 
 	comments, err := db.CommentListByUserID(id)
 
-	if err != nil {
-		return c.SendStatus(500)
+	if err == nil {
+		return c.JSON(comments)
 	}
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -111,7 +117,9 @@ func UserComments(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(comments)
+	return c.Status(500).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }
 
 func UserMessages(c *fiber.Ctx) error {
@@ -129,8 +137,8 @@ func UserMessages(c *fiber.Ctx) error {
 
 	messages, err := db.MessageListByUserID(id)
 
-	if err != nil {
-		return c.SendStatus(500)
+	if err == nil {
+		return c.JSON(messages)
 	}
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -139,7 +147,9 @@ func UserMessages(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(messages)
+	return c.Status(500).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }
 
 func UserChatMessages(c *fiber.Ctx) error {
@@ -174,8 +184,8 @@ func UserChatMessages(c *fiber.Ctx) error {
 
 	messages, err := db.MessageListByChatIDAndUserID(chatId, userId)
 
-	if err != nil {
-		return c.SendStatus(500)
+	if err == nil {
+		return c.JSON(messages)
 	}
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -184,5 +194,7 @@ func UserChatMessages(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(messages)
+	return c.Status(500).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }
