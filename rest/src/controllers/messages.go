@@ -70,7 +70,7 @@ func MessageCreate(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(201).JSON(msg)
+	return c.Status(201).JSON(msg.ToReadMessageDTO())
 }
 
 func MessageUpdate(c *fiber.Ctx) error {

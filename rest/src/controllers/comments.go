@@ -68,7 +68,7 @@ func CommentCreate(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(201).JSON(cmnt)
+	return c.Status(201).JSON(cmnt.ToReadCommentDTO())
 }
 func CommentUpdate(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
