@@ -7,3 +7,11 @@ func (m *WriteMessageDTO) ToMessage() Message {
 		ChatID:  m.ChatID,
 	}
 }
+
+func (c *WriteCommentDTO) ToComment() Comment {
+	return Comment{
+		Content: c.Content,
+		UserID:  c.UserID,
+		PostID:  c.PostID,
+	}
+}

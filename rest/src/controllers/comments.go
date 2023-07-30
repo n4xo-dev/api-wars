@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iLopezosa/api-wars/rest/src/db"
+	"github.com/iLopezosa/api-wars/rest/src/models"
 	"gorm.io/gorm"
 )
 
@@ -51,11 +52,78 @@ func CommentRead(c *fiber.Ctx) error {
 	})
 }
 func CommentCreate(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	cmntDTO := new(models.WriteCommentDTO)
+
+	if err := c.BodyParser(cmntDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	cmnt := cmntDTO.ToComment()
+
+	if err := db.CommentUpsert(&cmnt); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(201)
 }
 func CommentUpdate(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	cmntDTO := new(models.WriteCommentDTO)
+
+	if err := c.BodyParser(cmntDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	cmnt := cmntDTO.ToComment()
+	cmnt.ID = id
+
+	if err := db.CommentUpsert(&cmnt); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(200)
 }
 func CommentDelete(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	if err := db.CommentDelete(id); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(204)
 }
