@@ -13,10 +13,8 @@ func CommentUpsert(c *models.Comment) error {
 // Gets the data of the comment with the provided id
 func CommentRead(id uint64) (models.CommentDTO, error) {
 
-	var comment = models.CommentDTO{
-		ID: id,
-	}
-	ctx := DBClient.Model(&models.Comment{}).First(&comment)
+	var comment = models.CommentDTO{}
+	ctx := DBClient.Model(&models.Comment{}).First(&comment, id)
 
 	return comment, ctx.Error
 }

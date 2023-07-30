@@ -14,7 +14,7 @@ func UserUpsert(u *models.User) error {
 func UserRead(id uint64) (models.UserDTO, error) {
 
 	user := models.UserDTO{}
-	ctx := DBClient.Model(&models.User{}).Find(&models.User{}).First(&user, id)
+	ctx := DBClient.Model(&models.User{}).First(&user, id)
 
 	return user, ctx.Error
 }

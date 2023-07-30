@@ -13,10 +13,8 @@ func PostUpsert(post *models.Post) error {
 // Gets the data of the post with the provided id
 func PostRead(id uint64) (models.PostDTO, error) {
 
-	var post = models.PostDTO{
-		ID: id,
-	}
-	ctx := DBClient.Model(&models.Post{}).First(&post)
+	var post = models.PostDTO{}
+	ctx := DBClient.Model(&models.Post{}).First(&post, id)
 
 	return post, ctx.Error
 }

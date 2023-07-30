@@ -11,12 +11,10 @@ func MessageUpsert(m *models.Message) error {
 }
 
 // Gets the data of the message with the provided id
-func MessageRead(id uint64) (models.Message, error) {
+func MessageRead(id uint64) (models.MessageDTO, error) {
 
-	var message = models.Message{
-		ID: id,
-	}
-	ctx := DBClient.First(&message)
+	var message = models.MessageDTO{}
+	ctx := DBClient.Model(&models.Message{}).First(&message, id)
 
 	return message, ctx.Error
 }
@@ -33,37 +31,37 @@ func MessageDelete(id uint64) error {
 }
 
 // Gets the data of all the messages
-func MessageList() ([]models.Message, error) {
+func MessageList() ([]models.MessageDTO, error) {
 
-	var messages []models.Message
-	ctx := DBClient.Find(&messages)
+	var messages []models.MessageDTO
+	ctx := DBClient.Model(&models.Message{}).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided chat id
-func MessageListByChatID(chatID uint64) ([]models.Message, error) {
+func MessageListByChatID(chatID uint64) ([]models.MessageDTO, error) {
 
-	var messages []models.Message
-	ctx := DBClient.Where("chat_id = ?", chatID).Find(&messages)
+	var messages []models.MessageDTO
+	ctx := DBClient.Model(&models.Message{}).Where("chat_id = ?", chatID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided user id
-func MessageListByUserID(userID uint64) ([]models.Message, error) {
+func MessageListByUserID(userID uint64) ([]models.MessageDTO, error) {
 
-	var messages []models.Message
-	ctx := DBClient.Where("user_id = ?", userID).Find(&messages)
+	var messages []models.MessageDTO
+	ctx := DBClient.Model(&models.Message{}).Where("user_id = ?", userID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided chat id and user id
-func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]models.Message, error) {
+func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]models.MessageDTO, error) {
 
-	var messages []models.Message
-	ctx := DBClient.Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)
+	var messages []models.MessageDTO
+	ctx := DBClient.Model(&models.Message{}).Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)
 
 	return messages, ctx.Error
 }
