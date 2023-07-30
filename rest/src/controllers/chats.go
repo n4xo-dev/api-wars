@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iLopezosa/api-wars/rest/src/db"
+	"github.com/iLopezosa/api-wars/rest/src/models"
 	"gorm.io/gorm"
 )
 
@@ -21,6 +22,7 @@ func ChatList(c *fiber.Ctx) error {
 		return c.JSON(chats)
 	}
 }
+
 func ChatRead(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -54,18 +56,91 @@ func ChatRead(c *fiber.Ctx) error {
 		"error": err.Error(),
 	})
 }
+
 func ChatCreate(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	chat := new(models.Chat)
+
+	if err := db.ChatUpsert(chat); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(201).JSON(chat)
 }
-func ChatUpdate(c *fiber.Ctx) error {
-	return c.SendStatus(501)
-}
-func ChatPatch(c *fiber.Ctx) error {
-	return c.SendStatus(501)
-}
+
 func ChatDelete(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	if err := db.ChatDelete(id); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(204)
 }
+
+func ChatAddUsers(c *fiber.Ctx) error {
+	chatId, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if chatId < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	userIds := new([]uint64)
+
+	if err := c.BodyParser(userIds); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	chat, err := db.ChatRead(chatId, true)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	users := make([]*models.User, len(*userIds))
+	for i, id := range *userIds {
+		users[i] = &models.User{
+			ID: id,
+		}
+	}
+
+	chat.Participants = append(chat.Participants, users...)
+
+	if err := db.ChatPatch(&chat); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(204)
+}
+
 func ChatMessages(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -97,6 +172,7 @@ func ChatMessages(c *fiber.Ctx) error {
 		"error": err.Error(),
 	})
 }
+
 func ChatUserMessages(c *fiber.Ctx) error {
 	chatId, err := strconv.ParseUint(c.Params("chatId"), 10, 64)
 

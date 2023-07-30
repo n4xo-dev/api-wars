@@ -14,9 +14,9 @@ func ChatUpsert(chat *models.Chat) error {
 }
 
 // Gets the data of the chat with the provided id
-func ChatRead(id uint64, eager bool) (models.ReadChatDTO, error) {
+func ChatRead(id uint64, eager bool) (models.Chat, error) {
 
-	var chat = models.ReadChatDTO{}
+	var chat = models.Chat{}
 	var ctx *gorm.DB
 	if eager {
 		ctx = DBClient.Model(&models.Chat{}).Preload("Participants").Preload("Messages").First(&chat, id)
@@ -25,6 +25,14 @@ func ChatRead(id uint64, eager bool) (models.ReadChatDTO, error) {
 	}
 
 	return chat, ctx.Error
+}
+
+// Patch update the chat with the provided id
+func ChatPatch(chat *models.Chat) error {
+
+	ctx := DBClient.Updates(chat).Take(chat)
+
+	return ctx.Error
 }
 
 // Deletes the chat with the provided id
@@ -39,9 +47,9 @@ func ChatDelete(id uint64) error {
 }
 
 // Gets the data of all the chats
-func ChatList(eager bool) ([]models.ReadChatDTO, error) {
+func ChatList(eager bool) ([]models.Chat, error) {
 
-	var chats []models.ReadChatDTO
+	var chats []models.Chat
 
 	var ctx *gorm.DB
 	if eager {

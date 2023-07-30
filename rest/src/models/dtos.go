@@ -57,9 +57,3 @@ type WriteMessageDTO struct {
 	UserID  uint64 `json:"userId"`
 	ChatID  uint64 `json:"chatId"`
 }
-
-type ReadChatDTO struct {
-	ID        uint64 `json:"id"`
-	CreatedAt string `json:"createdAt"`
-	UpdatedAt string `json:"updatedAt"`
-}

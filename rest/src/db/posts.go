@@ -30,6 +30,14 @@ func PostDelete(id uint64) error {
 	return ctx.Error
 }
 
+// Patch update the post with the provided id
+func PostPatch(post *models.Post) error {
+
+	ctx := DBClient.Updates(post).Take(post)
+
+	return ctx.Error
+}
+
 // Gets the data of all the posts
 func PostList() ([]models.ReadPostDTO, error) {
 
