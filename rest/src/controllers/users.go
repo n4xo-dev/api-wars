@@ -17,6 +17,7 @@ func UserList(c *fiber.Ctx) error {
 		return c.JSON(users)
 	}
 }
+
 func UserRead(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -44,15 +45,19 @@ func UserRead(c *fiber.Ctx) error {
 
 	return c.SendStatus(500)
 }
+
 func UserCreate(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
+
 func UserDelete(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
+
 func UserPatch(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
+
 func UserPosts(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -80,6 +85,7 @@ func UserPosts(c *fiber.Ctx) error {
 
 	return c.JSON(posts)
 }
+
 func UserComments(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -107,6 +113,7 @@ func UserComments(c *fiber.Ctx) error {
 
 	return c.JSON(comments)
 }
+
 func UserMessages(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -134,16 +141,20 @@ func UserMessages(c *fiber.Ctx) error {
 
 	return c.JSON(messages)
 }
+
 func UserChatMessages(c *fiber.Ctx) error {
-	userId, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	userId, err := strconv.ParseUint(c.Params("userId"), 10, 64)
 
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"error": "id is required",
+			"error": "userId is required",
 		})
-	} else if userId < 1 {
+	}
+
+	if userId < 1 {
 		return c.Status(400).JSON(fiber.Map{
-			"error": "id must be greater than 0",
+			"error": "userId must be greater than 0",
 		})
 	}
 
@@ -153,7 +164,9 @@ func UserChatMessages(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{
 			"error": "chatId is required",
 		})
-	} else if chatId < 1 {
+	}
+
+	if chatId < 1 {
 		return c.Status(400).JSON(fiber.Map{
 			"error": "chatId must be greater than 0",
 		})
