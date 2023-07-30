@@ -15,5 +15,5 @@ func UsersRouter(api *fiber.Router) {
 	u.Get("/:id/posts", controllers.UserPosts)
 	u.Get("/:id/comments", controllers.UserComments)
 	u.Get("/:id/messages", controllers.UserMessages)
-	u.Get("/:id/chat/:id2/messages", controllers.UserChatMessages)
+	u.Get("/:id/chat/:chatId/messages", controllers.UserChatMessages)
 }
