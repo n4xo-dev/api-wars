@@ -38,10 +38,10 @@ func ChatRead(c *fiber.Ctx) error {
 
 	eager := c.Query("eager", "false") == "true"
 
-	p, err := db.ChatRead(id, eager)
+	chat, err := db.ChatRead(id, eager)
 
 	if err == nil {
-		return c.JSON(p)
+		return c.JSON(chat)
 	}
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
