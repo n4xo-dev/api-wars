@@ -71,7 +71,7 @@ func main() {
 
 	// Run the tests
 	if *testsPtr != "" {
-		if err := validateFlags(testsPtr); err != nil {
+		if err := validateFlags(testsPtr); err == nil {
 			tests.Run(testsPtr)
 		} else {
 			fmt.Println("\nERROR:", err)

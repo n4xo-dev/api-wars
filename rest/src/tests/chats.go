@@ -24,19 +24,19 @@ func TestChatsComplete() {
 	}
 	fmt.Printf("%+v\n", c)
 	if err := db.ChatUpsert(c); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	c2, err := db.ChatRead(c.ID, true)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err := json.MarshalIndent(c2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -50,19 +50,19 @@ func TestChatsComplete() {
 	}
 	c.Messages = append(c.Messages, m)
 	if err := db.ChatUpsert(c); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	c2, err = db.ChatRead(c.ID, true)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(c2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
@@ -70,20 +70,20 @@ func TestChatsComplete() {
 	fmt.Println("\n#3 > List all chats:")
 	chats, err := db.ChatList(true)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(chats, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
 
 	fmt.Println("\n#4 > Deleting chat...")
 	if err := db.ChatDelete(c.ID); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -91,7 +91,7 @@ func TestChatsComplete() {
 	if err != nil {
 		fmt.Printf("\nChat %d deleted successfully\n", c.ID)
 	} else {
-		fmt.Printf("\nERROR: Chat %d still exists", c.ID)
+		fmt.Printf("\nTEST ERROR: Chat %d still exists", c.ID)
 		return
 	}
 

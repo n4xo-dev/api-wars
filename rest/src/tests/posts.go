@@ -19,19 +19,19 @@ func TestPostsComplete() {
 	}
 
 	if err := db.PostUpsert(p); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	p2, err := db.PostRead(p.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err := json.MarshalIndent(p2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -41,19 +41,19 @@ func TestPostsComplete() {
 	p.Content = "It is a dark time for the Rebellion. Although the Death Star has been destroyed, Imperial troops have driven the Rebel forces from their hidden base and pursued them across the galaxy. Evading the dreaded Imperial Starfleet, a group of freedom fighters led by Luke Skywalker has established a new secret base on the remote ice world of Hoth."
 
 	if err = db.PostUpsert(p); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	p2, err = db.PostRead(p.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(p2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
@@ -61,14 +61,14 @@ func TestPostsComplete() {
 
 	posts, err := db.PostList()
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	for _, p := range posts {
 		b, err = json.MarshalIndent(p, "", "  ")
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("TEST ERROR:", err)
 			return
 		}
 		fmt.Println(string(b))
@@ -77,19 +77,19 @@ func TestPostsComplete() {
 
 	posts, err = db.PostListByUserID(1)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(posts, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
 	fmt.Println("\n#5 > Deleting post...")
 	if err = db.PostDelete(p.ID); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -99,7 +99,7 @@ func TestPostsComplete() {
 	if err != nil {
 		fmt.Printf("\nPost %d deleted successfully\n", p.ID)
 	} else {
-		fmt.Printf("\nERROR: Post %d not deleted\n", p.ID)
+		fmt.Printf("\nTEST ERROR: Post %d not deleted\n", p.ID)
 		return
 	}
 

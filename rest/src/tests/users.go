@@ -18,19 +18,19 @@ func TestUsersComplete() {
 	}
 
 	if err := db.UserUpsert(u); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	u2, err := db.UserRead(u.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err := json.MarshalIndent(u2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -40,19 +40,19 @@ func TestUsersComplete() {
 	u.Email = "mr.han@linkin.park"
 
 	if err = db.UserUpsert(u); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	u2, err = db.UserRead(u.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(u2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
@@ -60,13 +60,13 @@ func TestUsersComplete() {
 
 	users, err := db.UserList()
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(users, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
@@ -74,20 +74,20 @@ func TestUsersComplete() {
 
 	users, err = db.UserFindByEmail("mr.han@linkin.park")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(users, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 	fmt.Println(string(b))
 	fmt.Println("\n#5 > Deleting new user...")
 
 	if err = db.UserDelete(u.ID); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -95,7 +95,7 @@ func TestUsersComplete() {
 	if err != nil {
 		fmt.Printf("\nUser %d deleted successfully\n", u.ID)
 	} else {
-		fmt.Printf("\nERROR: User %d not deleted\n", u.ID)
+		fmt.Printf("\nTEST ERROR: User %d not deleted\n", u.ID)
 		return
 	}
 

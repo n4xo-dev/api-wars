@@ -19,19 +19,19 @@ func TestMessagesComplete() {
 	}
 
 	if err := db.MessageUpsert(m); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	m2, err := db.MessageRead(m.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err := json.MarshalIndent(m2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -42,19 +42,19 @@ func TestMessagesComplete() {
 	m.Content = "I am an updated message"
 
 	if err = db.MessageUpsert(m); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	m2, err = db.MessageRead(m.ID)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(m2, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -64,13 +64,13 @@ func TestMessagesComplete() {
 
 	messages, err := db.MessageList()
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(messages, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -80,13 +80,13 @@ func TestMessagesComplete() {
 
 	messages, err = db.MessageListByChatID(1)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(messages, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -96,13 +96,13 @@ func TestMessagesComplete() {
 
 	messages, err = db.MessageListByUserID(1)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(messages, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -112,13 +112,13 @@ func TestMessagesComplete() {
 
 	messages, err = db.MessageListByChatIDAndUserID(1, 1)
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	b, err = json.MarshalIndent(messages, "", "  ")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
@@ -127,14 +127,14 @@ func TestMessagesComplete() {
 	fmt.Println("\n#7 > Deleting message...")
 
 	if err = db.MessageDelete(m.ID); err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("TEST ERROR:", err)
 		return
 	}
 
 	if _, err = db.MessageRead(m.ID); err != nil {
 		fmt.Printf("\nMessage %d deleted successfully", m.ID)
 	} else {
-		fmt.Printf("\nERROR: Message %d not deleted", m.ID)
+		fmt.Printf("\nTEST ERROR: Message %d not deleted", m.ID)
 		return
 	}
 }
