@@ -5,7 +5,7 @@ import "github.com/iLopezosa/api-wars/rest/src/models"
 // Updates or creates a comment if the id provided within the comment is found or not, respectively
 func CommentUpsert(c *models.Comment) error {
 
-	ctx := DBClient.Save(c)
+	ctx := DBClient.Save(c).Take(c)
 
 	return ctx.Error
 }

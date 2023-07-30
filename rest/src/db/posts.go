@@ -5,7 +5,7 @@ import "github.com/iLopezosa/api-wars/rest/src/models"
 // Updater or creates a post if the id provided within the post is found or not, respectively
 func PostUpsert(post *models.Post) error {
 
-	ctx := DBClient.Save(post)
+	ctx := DBClient.Save(post).Take(post)
 
 	return ctx.Error
 }

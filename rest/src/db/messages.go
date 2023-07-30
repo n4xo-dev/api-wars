@@ -5,7 +5,7 @@ import "github.com/iLopezosa/api-wars/rest/src/models"
 // Updater or creates a message if the id provided within the message is found or not, respectively
 func MessageUpsert(m *models.Message) error {
 
-	ctx := DBClient.Save(m)
+	ctx := DBClient.Save(m).Take(m)
 
 	return ctx.Error
 }

@@ -8,7 +8,7 @@ import (
 // Updater or creates a chat if the id provided within the chat is found or not, respectively
 func ChatUpsert(chat *models.Chat) error {
 
-	ctx := DBClient.Save(chat)
+	ctx := DBClient.Save(chat).Take(chat)
 
 	return ctx.Error
 }
