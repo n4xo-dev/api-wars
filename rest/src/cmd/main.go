@@ -20,6 +20,7 @@ If no tests are passed, the application will only initialize the database.
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -70,8 +71,11 @@ func main() {
 
 	// Run the tests
 	if *testsPtr != "" {
-		validateFlags(testsPtr)
-		tests.Run(testsPtr)
+		if err := validateFlags(testsPtr); err != nil {
+			tests.Run(testsPtr)
+		} else {
+			fmt.Println("\nERROR:", err)
+		}
 	} else {
 		fmt.Println("\nNo tests to run")
 	}
@@ -92,14 +96,15 @@ func main() {
 }
 
 // Validate the flags passed to the command line
-func validateFlags(testsPtr *string) {
-	re, err := regexp.Compile(`^(all|users|posts|comments|messages|chats)(,(users|posts|comments|messages|chats))*$`)
+func validateFlags(testsPtr *string) error {
+	re, err := regexp.Compile(`(^(users|posts|comments|messages|chats)(,(users|posts|comments|messages|chats))*$)|(^all$)`)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	if !re.MatchString(*testsPtr) {
-		log.Fatal("Invalid tests flag")
+		return errors.New("Invalid tests flag")
 	}
+	return nil
 }
 
 // PrintMemUsage outputs the current, total and OS memory being used. As well as the
