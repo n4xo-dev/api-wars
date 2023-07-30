@@ -54,7 +54,7 @@ func MessageRead(c *fiber.Ctx) error {
 }
 
 func MessageCreate(c *fiber.Ctx) error {
-	msgDTO := new(models.PostMessageDTO)
+	msgDTO := new(models.WriteMessageDTO)
 
 	if err := c.BodyParser(msgDTO); err != nil {
 		return c.Status(400).JSON(fiber.Map{
@@ -88,7 +88,7 @@ func MessageUpdate(c *fiber.Ctx) error {
 		})
 	}
 
-	msgDTO := new(models.PostMessageDTO)
+	msgDTO := new(models.WriteMessageDTO)
 
 	if err := c.BodyParser(msgDTO); err != nil {
 		return c.Status(400).JSON(fiber.Map{

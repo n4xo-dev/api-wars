@@ -11,9 +11,9 @@ func PostUpsert(post *models.Post) error {
 }
 
 // Gets the data of the post with the provided id
-func PostRead(id uint64) (models.PostDTO, error) {
+func PostRead(id uint64) (models.ReadPostDTO, error) {
 
-	var post = models.PostDTO{}
+	var post = models.ReadPostDTO{}
 	ctx := DBClient.Model(&models.Post{}).First(&post, id)
 
 	return post, ctx.Error
@@ -31,18 +31,18 @@ func PostDelete(id uint64) error {
 }
 
 // Gets the data of all the posts
-func PostList() ([]models.PostDTO, error) {
+func PostList() ([]models.ReadPostDTO, error) {
 
-	var posts []models.PostDTO
+	var posts []models.ReadPostDTO
 	ctx := DBClient.Model(&models.Post{}).Find(&posts)
 
 	return posts, ctx.Error
 }
 
 // Gets the data of the posts with the provided user id
-func PostListByUserID(userID uint64) ([]models.PostDTO, error) {
+func PostListByUserID(userID uint64) ([]models.ReadPostDTO, error) {
 
-	var posts []models.PostDTO
+	var posts []models.ReadPostDTO
 	ctx := DBClient.Model(&models.Post{}).Where("user_id = ?", userID).Find(&posts)
 
 	return posts, ctx.Error

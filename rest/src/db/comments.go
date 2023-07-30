@@ -11,9 +11,9 @@ func CommentUpsert(c *models.Comment) error {
 }
 
 // Gets the data of the comment with the provided id
-func CommentRead(id uint64) (models.CommentDTO, error) {
+func CommentRead(id uint64) (models.ReadCommentDTO, error) {
 
-	var comment = models.CommentDTO{}
+	var comment = models.ReadCommentDTO{}
 	ctx := DBClient.Model(&models.Comment{}).First(&comment, id)
 
 	return comment, ctx.Error
@@ -31,27 +31,27 @@ func CommentDelete(id uint64) error {
 }
 
 // Gets the data of all the comments
-func CommentList() ([]models.CommentDTO, error) {
+func CommentList() ([]models.ReadCommentDTO, error) {
 
-	var comments []models.CommentDTO
+	var comments []models.ReadCommentDTO
 	ctx := DBClient.Model(&models.Comment{}).Find(&comments)
 
 	return comments, ctx.Error
 }
 
 // Gets the data of the comments with the provided post id
-func CommentListByPostID(postID uint64) ([]models.CommentDTO, error) {
+func CommentListByPostID(postID uint64) ([]models.ReadCommentDTO, error) {
 
-	var comments []models.CommentDTO
+	var comments []models.ReadCommentDTO
 	ctx := DBClient.Model(&models.Comment{}).Where("post_id = ?", postID).Find(&comments)
 
 	return comments, ctx.Error
 }
 
 // Gets the data of the comments with the provided user id
-func CommentListByUserID(userID uint64) ([]models.CommentDTO, error) {
+func CommentListByUserID(userID uint64) ([]models.ReadCommentDTO, error) {
 
-	var comments []models.CommentDTO
+	var comments []models.ReadCommentDTO
 	ctx := DBClient.Model(&models.Comment{}).Where("user_id = ?", userID).Find(&comments)
 
 	return comments, ctx.Error

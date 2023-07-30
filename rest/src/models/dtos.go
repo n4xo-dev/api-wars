@@ -1,6 +1,6 @@
 package models
 
-type UserDTO struct {
+type ReadUserDTO struct {
 	ID        uint64 `json:"id"`
 	Name      string `json:"name"`
 	Email     string `json:"email"`
@@ -8,7 +8,12 @@ type UserDTO struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-type PostDTO struct {
+type WriteUserDTO struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+type ReadPostDTO struct {
 	ID        uint64 `json:"id"`
 	Title     string `json:"title"`
 	Content   string `json:"content"`
@@ -17,7 +22,13 @@ type PostDTO struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-type CommentDTO struct {
+type WritePostDTO struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+	UserID  uint64 `json:"userId"`
+}
+
+type ReadCommentDTO struct {
 	ID        uint64 `json:"id"`
 	Content   string `json:"content"`
 	UserID    uint64 `json:"userId"`
@@ -26,7 +37,13 @@ type CommentDTO struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-type MessageDTO struct {
+type WriteCommentDTO struct {
+	Content string `json:"content"`
+	UserID  uint64 `json:"userId"`
+	PostID  uint64 `json:"postId"`
+}
+
+type ReadMessageDTO struct {
 	ID        uint64 `json:"id"`
 	Content   string `json:"content"`
 	UserID    uint64 `json:"userId"`
@@ -35,7 +52,13 @@ type MessageDTO struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-type ChatDTO struct {
+type WriteMessageDTO struct {
+	Content string `json:"content"`
+	UserID  uint64 `json:"userId"`
+	ChatID  uint64 `json:"chatId"`
+}
+
+type ReadChatDTO struct {
 	ID        uint64 `json:"id"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`

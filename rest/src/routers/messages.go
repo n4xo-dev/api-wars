@@ -10,6 +10,6 @@ func MessagesRouter(api *fiber.Router) {
 	m.Get("/", controllers.MessageList)
 	m.Get("/:id", controllers.MessageRead)
 	m.Post("/", controllers.MessageCreate)
-	m.Patch("/:id", controllers.MessageUpdate)
+	m.Put("/:id", controllers.MessageUpdate)
 	m.Delete("/:id", controllers.MessageDelete)
 }

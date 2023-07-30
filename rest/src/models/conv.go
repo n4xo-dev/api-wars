@@ -1,9 +1,9 @@
 package models
 
-func ParseUserDTO(u *UserDTO) *User {
-	return &User{
-		ID:    u.ID,
-		Name:  u.Name,
-		Email: u.Email,
+func (m *WriteMessageDTO) ToMessage() Message {
+	return Message{
+		Content: m.Content,
+		UserID:  m.UserID,
+		ChatID:  m.ChatID,
 	}
 }

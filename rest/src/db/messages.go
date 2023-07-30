@@ -11,9 +11,9 @@ func MessageUpsert(m *models.Message) error {
 }
 
 // Gets the data of the message with the provided id
-func MessageRead(id uint64) (models.MessageDTO, error) {
+func MessageRead(id uint64) (models.ReadMessageDTO, error) {
 
-	var message = models.MessageDTO{}
+	var message = models.ReadMessageDTO{}
 	ctx := DBClient.Model(&models.Message{}).First(&message, id)
 
 	return message, ctx.Error
@@ -31,36 +31,36 @@ func MessageDelete(id uint64) error {
 }
 
 // Gets the data of all the messages
-func MessageList() ([]models.MessageDTO, error) {
+func MessageList() ([]models.ReadMessageDTO, error) {
 
-	var messages []models.MessageDTO
+	var messages []models.ReadMessageDTO
 	ctx := DBClient.Model(&models.Message{}).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided chat id
-func MessageListByChatID(chatID uint64) ([]models.MessageDTO, error) {
+func MessageListByChatID(chatID uint64) ([]models.ReadMessageDTO, error) {
 
-	var messages []models.MessageDTO
+	var messages []models.ReadMessageDTO
 	ctx := DBClient.Model(&models.Message{}).Where("chat_id = ?", chatID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided user id
-func MessageListByUserID(userID uint64) ([]models.MessageDTO, error) {
+func MessageListByUserID(userID uint64) ([]models.ReadMessageDTO, error) {
 
-	var messages []models.MessageDTO
+	var messages []models.ReadMessageDTO
 	ctx := DBClient.Model(&models.Message{}).Where("user_id = ?", userID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided chat id and user id
-func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]models.MessageDTO, error) {
+func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]models.ReadMessageDTO, error) {
 
-	var messages []models.MessageDTO
+	var messages []models.ReadMessageDTO
 	ctx := DBClient.Model(&models.Message{}).Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)
 
 	return messages, ctx.Error
