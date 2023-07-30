@@ -19,6 +19,14 @@ func CommentRead(id uint64) (models.ReadCommentDTO, error) {
 	return comment, ctx.Error
 }
 
+// Patch update the comment with the provided id
+func CommentPatch(c *models.Comment) error {
+
+	ctx := DBClient.Updates(c).Take(c)
+
+	return ctx.Error
+}
+
 // Deletes the comment with the provided id
 func CommentDelete(id uint64) error {
 

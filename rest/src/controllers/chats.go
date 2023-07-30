@@ -60,6 +60,9 @@ func ChatCreate(c *fiber.Ctx) error {
 func ChatUpdate(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
+func ChatPatch(c *fiber.Ctx) error {
+	return c.SendStatus(501)
+}
 func ChatDelete(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }

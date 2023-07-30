@@ -11,5 +11,6 @@ func CommentsRouter(api *fiber.Router) {
 	co.Get("/:id", controllers.CommentRead)
 	co.Post("/", controllers.CommentCreate)
 	co.Put("/:id", controllers.CommentUpdate)
+	co.Patch("/:id", controllers.CommentPatch)
 	co.Delete("/:id", controllers.CommentDelete)
 }

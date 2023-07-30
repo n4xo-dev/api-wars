@@ -1,6 +1,8 @@
 package db
 
-import "github.com/iLopezosa/api-wars/rest/src/models"
+import (
+	"github.com/iLopezosa/api-wars/rest/src/models"
+)
 
 // Updates or creates a user if the id provided within the user is found or not, respectively
 func UserUpsert(u *models.User) error {
@@ -20,11 +22,11 @@ func UserRead(id uint64) (models.ReadUserDTO, error) {
 }
 
 // Patch update the user with the provided id
-func UserPatch(u *models.User) (models.User, error) {
+func UserPatch(u *models.User) error {
 
-	ctx := DBClient.Model(&models.User{}).Updates(u)
+	ctx := DBClient.Updates(u).Take(u)
 
-	return *u, ctx.Error
+	return ctx.Error
 }
 
 // Deletes the user with the provided id

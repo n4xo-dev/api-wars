@@ -11,6 +11,7 @@ func ChatsRouter(api *fiber.Router) {
 	c.Get("/:id", controllers.ChatRead) // Can load messages and participants w/ eager loading
 	c.Post("/", controllers.ChatCreate)
 	c.Put("/:id", controllers.ChatUpdate)
+	c.Patch("/:id", controllers.ChatPatch)
 	c.Delete("/:id", controllers.ChatDelete)
 	c.Get("/:id/messages", controllers.ChatMessages)
 	c.Get("/:chatId/user/:userId/messages", controllers.ChatUserMessages)

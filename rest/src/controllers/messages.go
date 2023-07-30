@@ -105,7 +105,42 @@ func MessageUpdate(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.SendStatus(200)
+	return c.Status(200).JSON(msg.ToReadMessageDTO())
+}
+
+func MessagePatch(c *fiber.Ctx) error {
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	msgDTO := new(models.WriteMessageDTO)
+
+	if err := c.BodyParser(msgDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	msg := msgDTO.ToMessage()
+	msg.ID = id
+
+	if err := db.MessagePatch(&msg); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(200).JSON(msg.ToReadMessageDTO())
 }
 
 func MessageDelete(c *fiber.Ctx) error {

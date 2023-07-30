@@ -56,6 +56,9 @@ func PostCreate(c *fiber.Ctx) error {
 func PostUpdate(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }
+func PostPatch(c *fiber.Ctx) error {
+	return c.SendStatus(501)
+}
 func PostDelete(c *fiber.Ctx) error {
 	return c.SendStatus(501)
 }

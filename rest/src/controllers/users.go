@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iLopezosa/api-wars/rest/src/db"
+	"github.com/iLopezosa/api-wars/rest/src/models"
 	"gorm.io/gorm"
 )
 
@@ -51,15 +52,117 @@ func UserRead(c *fiber.Ctx) error {
 }
 
 func UserCreate(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	uDTO := new(models.WriteUserDTO)
+
+	if err := c.BodyParser(uDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	u := uDTO.ToUser()
+
+	if err := db.UserUpsert(&u); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(201).JSON(u.ToReadUserDTO())
 }
 
 func UserDelete(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	if err := db.UserDelete(id); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.SendStatus(204)
+}
+
+func UserUpdate(c *fiber.Ctx) error {
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	uDTO := new(models.WriteUserDTO)
+
+	if err := c.BodyParser(uDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	u := uDTO.ToUser()
+	u.ID = id
+
+	if err = db.UserUpsert(&u); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(200).JSON(u.ToReadUserDTO())
 }
 
 func UserPatch(c *fiber.Ctx) error {
-	return c.SendStatus(501)
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	uDTO := new(models.WriteUserDTO)
+
+	if err := c.BodyParser(uDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	u := uDTO.ToUser()
+	u.ID = id
+
+	if err = db.UserPatch(&u); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(200).JSON(u.ToReadUserDTO())
 }
 
 func UserPosts(c *fiber.Ctx) error {

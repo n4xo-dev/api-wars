@@ -20,6 +20,7 @@ func CommentList(c *fiber.Ctx) error {
 		return c.JSON(comments)
 	}
 }
+
 func CommentRead(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -51,6 +52,7 @@ func CommentRead(c *fiber.Ctx) error {
 		"error": err.Error(),
 	})
 }
+
 func CommentCreate(c *fiber.Ctx) error {
 	cmntDTO := new(models.WriteCommentDTO)
 
@@ -70,6 +72,7 @@ func CommentCreate(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(cmnt.ToReadCommentDTO())
 }
+
 func CommentUpdate(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 
@@ -102,8 +105,44 @@ func CommentUpdate(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.SendStatus(200)
+	return c.Status(200).JSON(cmnt.ToReadCommentDTO())
 }
+
+func CommentPatch(c *fiber.Ctx) error {
+	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id is required",
+		})
+	}
+
+	if id < 1 {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "id must be greater than 0",
+		})
+	}
+
+	cmntDTO := new(models.WriteCommentDTO)
+
+	if err := c.BodyParser(cmntDTO); err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	cmnt := cmntDTO.ToComment()
+	cmnt.ID = id
+
+	if err := db.CommentPatch(&cmnt); err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(200).JSON(cmnt.ToReadCommentDTO())
+}
+
 func CommentDelete(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 64)
 

@@ -30,6 +30,14 @@ func MessageDelete(id uint64) error {
 	return ctx.Error
 }
 
+// Patch update the message with the provided id
+func MessagePatch(m *models.Message) error {
+
+	ctx := DBClient.Updates(m).Take(m)
+
+	return ctx.Error
+}
+
 // Gets the data of all the messages
 func MessageList() ([]models.ReadMessageDTO, error) {
 
