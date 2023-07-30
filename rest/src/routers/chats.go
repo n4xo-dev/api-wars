@@ -13,5 +13,5 @@ func ChatsRouter(api *fiber.Router) {
 	c.Patch("/:id", controllers.ChatUpdate)
 	c.Delete("/:id", controllers.ChatDelete)
 	c.Get("/:id/messages", controllers.ChatMessages)
-	c.Get("/:id/user/:id2/messages", controllers.ChatUserMessages)
+	c.Get("/:chatId/user/:userId/messages", controllers.ChatUserMessages)
 }
