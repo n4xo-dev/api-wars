@@ -57,10 +57,12 @@ func main() {
 	flag.Parse()
 
 	// Initialize the database
-	fmt.Println("\nCreating connection to the database...")
+	fmt.Println("\nCreating connection to the databases...")
 
 	db.Connect()
+	db.RedisConnect()
 	defer db.Disconnect()
+	defer db.RedisDisconnect()
 
 	if *resetDB {
 		fmt.Println("\nResetting the database...")

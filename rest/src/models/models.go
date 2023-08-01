@@ -58,3 +58,8 @@ type Chat struct {
 	UpdatedAt    time.Time      `json:"updatedAt"`
 	DeletedAt    gorm.DeletedAt `json:"deletedAt"`
 }
+
+type RedisRecord struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}

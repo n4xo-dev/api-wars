@@ -11,4 +11,5 @@ func Setup(app *fiber.App) {
 	MessagesRouter(&api)
 	ChatsRouter(&api)
 	HealthcheckRouter(&api)
+	RedisRouter(&api)
 }
