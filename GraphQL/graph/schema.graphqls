@@ -1,28 +1,100 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
-
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
 type User {
   id: ID!
   name: String!
+  email: String!
+  posts: [Post!]!
+  messages: [Message!]!
+  comments: [Comment!]!
+  chats: [Chat!]!
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  comments: [Comment!]
+  userId: String!
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  userId: String!
+  postId: String!
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
+}
+
+type Message {
+  id: ID!
+  content: String!
+  userId: String!
+  chatId: String!
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
+}
+
+type Chat {
+  id: ID!
+  messages: [Message!]
+  participants: [User!]
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
 }
 
 type Query {
-  todos: [Todo!]!
+  users: [User!]!
+  user(id: ID!): User!
+  posts: [Post!]!
+  post(id: ID!): Post!
+  comments: [Comment!]!
+  comment(id: ID!): Comment!
+  messages: [Message!]!
+  message(id: ID!): Message!
+  chats: [Chat!]!
+  chat(id: ID!): Chat!
 }
 
-input NewTodo {
-  text: String!
+input NewUser {
+  name: String!
+  email: String!
+}
+
+input NewPost {
+  title: String!
+  content: String!
   userId: String!
 }
 
+input NewComment {
+  content: String!
+  userId: String!
+  postId: String!
+}
+
+input NewMessage {
+  content: String!
+  userId: String!
+  chatId: String!
+}
+
+input NewChat {
+  participants: [String!]
+}
+
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createUser(input: NewUser!): User!
+  createPost(input: NewPost!): Post!
+  createComment(input: NewComment!): Comment!
+  createMessage(input: NewMessage!): Message!
+  createChat(input: NewChat!): Chat!
 }
