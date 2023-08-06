@@ -31,9 +31,9 @@ import (
 	"syscall"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/iLopezosa/api-wars/rest/src/db"
-	"github.com/iLopezosa/api-wars/rest/src/routers"
-	"github.com/iLopezosa/api-wars/rest/src/tests"
+	"github.com/iLopezosa/api-wars/rest/db"
+	"github.com/iLopezosa/api-wars/rest/routers"
+	"github.com/iLopezosa/api-wars/rest/tests"
 	"github.com/joho/godotenv"
 )
 

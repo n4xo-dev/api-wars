@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/gofiber/fiber/v2 v2.48.0
-	github.com/iLopezosa/api-wars/rest/src v0.0.0-20230801074645-42982c7ea771
 	github.com/jaswdr/faker v1.18.0
 	github.com/joho/godotenv v1.5.1
 	github.com/redis/go-redis/v9 v9.0.5
@@ -28,6 +27,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.48.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

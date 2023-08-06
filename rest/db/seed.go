@@ -5,8 +5,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/iLopezosa/api-wars/rest/src/config"
-	"github.com/iLopezosa/api-wars/rest/src/models"
+	"github.com/iLopezosa/api-wars/rest/config"
+	"github.com/iLopezosa/api-wars/rest/models"
 	"github.com/jaswdr/faker"
 	"golang.org/x/exp/slices"
 )

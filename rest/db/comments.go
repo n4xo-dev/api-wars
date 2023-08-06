@@ -1,6 +1,6 @@
 package db
 
-import "github.com/iLopezosa/api-wars/rest/src/models"
+import "github.com/iLopezosa/api-wars/rest/models"
 
 // Updates or creates a comment if the id provided within the comment is found or not, respectively
 func CommentUpsert(c *models.Comment) error {

@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/iLopezosa/api-wars/rest/src/controllers"
+	"github.com/iLopezosa/api-wars/rest/controllers"
 )
 
 func PostsRouter(api *fiber.Router) {

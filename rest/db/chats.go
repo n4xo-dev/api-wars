@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/iLopezosa/api-wars/rest/src/models"
+	"github.com/iLopezosa/api-wars/rest/models"
 	"gorm.io/gorm"
 )
 

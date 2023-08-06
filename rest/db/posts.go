@@ -1,6 +1,6 @@
 package db
 
-import "github.com/iLopezosa/api-wars/rest/src/models"
+import "github.com/iLopezosa/api-wars/rest/models"
 
 // Updater or creates a post if the id provided within the post is found or not, respectively
 func PostUpsert(post *models.Post) error {

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/iLopezosa/api-wars/rest/src/db"
-	"github.com/iLopezosa/api-wars/rest/src/models"
+	"github.com/iLopezosa/api-wars/rest/db"
+	"github.com/iLopezosa/api-wars/rest/models"
 )
 
 func TestPostsComplete() {

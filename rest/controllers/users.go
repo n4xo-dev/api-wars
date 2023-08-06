@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/iLopezosa/api-wars/rest/src/db"
-	"github.com/iLopezosa/api-wars/rest/src/models"
+	"github.com/iLopezosa/api-wars/rest/db"
+	"github.com/iLopezosa/api-wars/rest/models"
 	"gorm.io/gorm"
 )
 
