@@ -54,12 +54,19 @@ type Chat {
 type Query {
   users: [User!]!
   user(id: ID!): User!
+  userByEmail(email: String!): User!
   posts: [Post!]!
   post(id: ID!): Post!
+  postsByUser(userId: ID!): [Post!]!
   comments: [Comment!]!
   comment(id: ID!): Comment!
+  commentsByUser(userId: ID!): [Comment!]!
+  commentsByPost(postId: ID!): [Comment!]!
   messages: [Message!]!
   message(id: ID!): Message!
+  messagesByUser(userId: ID!): [Message!]!
+  messagesByChat(chatId: ID!): [Message!]!
+  messagesByChatAndUser(chatId: ID!, userId: ID!): [Message!]!
   chats: [Chat!]!
   chat(id: ID!): Chat!
 }

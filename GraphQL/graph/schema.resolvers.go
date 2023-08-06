@@ -101,27 +101,63 @@ func (r *messageResolver) DeletedAt(ctx context.Context, obj *model.Message) (*s
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	u := input.WriteUserDTO.ToUser()
+
+	if err := db.UserUpsert(&u); err != nil {
+		return nil, err
+	}
+
+	return &u, nil
 }
 
 // CreatePost is the resolver for the createPost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
-	panic(fmt.Errorf("not implemented: CreatePost - createPost"))
+	p := input.WritePostDTO.ToPost()
+
+	if err := db.PostUpsert(&p); err != nil {
+		return nil, err
+	}
+
+	return &p, nil
 }
 
 // CreateComment is the resolver for the createComment field.
 func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewComment) (*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: CreateComment - createComment"))
+	c := input.WriteCommentDTO.ToComment()
+
+	if err := db.CommentUpsert(&c); err != nil {
+		return nil, err
+	}
+
+	return &c, nil
 }
 
 // CreateMessage is the resolver for the createMessage field.
 func (r *mutationResolver) CreateMessage(ctx context.Context, input model.NewMessage) (*model.Message, error) {
-	panic(fmt.Errorf("not implemented: CreateMessage - createMessage"))
+	m := input.WriteMessageDTO.ToMessage()
+
+	if err := db.MessageUpsert(&m); err != nil {
+		return nil, err
+	}
+
+	return &m, nil
 }
 
 // CreateChat is the resolver for the createChat field.
 func (r *mutationResolver) CreateChat(ctx context.Context, input model.NewChat) (*model.Chat, error) {
-	panic(fmt.Errorf("not implemented: CreateChat - createChat"))
+	c := model.Chat{
+		Participants: make([]*model.User, len(input.Participants)),
+	}
+
+	for i, id := range input.Participants {
+		c.Participants[i] = &model.User{ID: id}
+	}
+
+	if err := db.ChatUpsert(&c); err != nil {
+		return nil, err
+	}
+
+	return &c, nil
 }
 
 // ID is the resolver for the id field.
