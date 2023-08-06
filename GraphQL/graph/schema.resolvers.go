@@ -18,6 +18,16 @@ func (r *chatResolver) ID(ctx context.Context, obj *model.Chat) (string, error) 
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
+// Messages is the resolver for the messages field.
+func (r *chatResolver) Messages(ctx context.Context, obj *model.Chat) ([]*model.Message, error) {
+	panic(fmt.Errorf("not implemented: Messages - messages"))
+}
+
+// Participants is the resolver for the participants field.
+func (r *chatResolver) Participants(ctx context.Context, obj *model.Chat) ([]*model.User, error) {
+	panic(fmt.Errorf("not implemented: Participants - participants"))
+}
+
 // CreatedAt is the resolver for the createdAt field.
 func (r *chatResolver) CreatedAt(ctx context.Context, obj *model.Chat) (string, error) {
 	return obj.CreatedAt.String(), nil
@@ -165,6 +175,11 @@ func (r *postResolver) ID(ctx context.Context, obj *model.Post) (string, error) 
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
+// Comments is the resolver for the comments field.
+func (r *postResolver) Comments(ctx context.Context, obj *model.Post) ([]*model.Comment, error) {
+	panic(fmt.Errorf("not implemented: Comments - comments"))
+}
+
 // UserID is the resolver for the userId field.
 func (r *postResolver) UserID(ctx context.Context, obj *model.Post) (string, error) {
 	return fmt.Sprintf("%d", obj.UserID), nil
@@ -212,6 +227,16 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 	return &user, nil
 }
 
+// UserByEmail is the resolver for the userByEmail field.
+func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*model.User, error) {
+	users, err := db.UserFindByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+
+	return &users[0], nil
+}
+
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 	posts, err := db.PostList()
@@ -235,6 +260,21 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error
 	}
 
 	return &post, nil
+}
+
+// PostsByUser is the resolver for the postsByUser field.
+func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*model.Post, error) {
+	uID, err := strconv.ParseUint(userID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	posts, err := db.PostListByUserID(uID)
+	if err != nil {
+		return nil, err
+	}
+
+	return posts, nil
 }
 
 // Comments is the resolver for the comments field.
@@ -262,6 +302,36 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment,
 	return &comment, nil
 }
 
+// CommentsByUser is the resolver for the commentsByUser field.
+func (r *queryResolver) CommentsByUser(ctx context.Context, userID string) ([]*model.Comment, error) {
+	uID, err := strconv.ParseUint(userID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	comments, err := db.CommentListByUserID(uID)
+	if err != nil {
+		return nil, err
+	}
+
+	return comments, nil
+}
+
+// CommentsByPost is the resolver for the commentsByPost field.
+func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*model.Comment, error) {
+	pID, err := strconv.ParseUint(postID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	comments, err := db.CommentListByPostID(pID)
+	if err != nil {
+		return nil, err
+	}
+
+	return comments, nil
+}
+
 // Messages is the resolver for the messages field.
 func (r *queryResolver) Messages(ctx context.Context) ([]*model.Message, error) {
 	messages, err := db.MessageList()
@@ -285,6 +355,56 @@ func (r *queryResolver) Message(ctx context.Context, id string) (*model.Message,
 	}
 
 	return &message, nil
+}
+
+// MessagesByUser is the resolver for the messagesByUser field.
+func (r *queryResolver) MessagesByUser(ctx context.Context, userID string) ([]*model.Message, error) {
+	uID, err := strconv.ParseUint(userID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	messages, err := db.MessageListByUserID(uID)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
+// MessagesByChat is the resolver for the messagesByChat field.
+func (r *queryResolver) MessagesByChat(ctx context.Context, chatID string) ([]*model.Message, error) {
+	cID, err := strconv.ParseUint(chatID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	messages, err := db.MessageListByChatID(cID)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
+// MessagesByChatAndUser is the resolver for the messagesByChatAndUser field.
+func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*model.Message, error) {
+	cID, err := strconv.ParseUint(chatID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	uID, err := strconv.ParseUint(userID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	messages, err := db.MessageListByChatIDAndUserID(cID, uID)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
 }
 
 // Chats is the resolver for the chats field.
@@ -315,6 +435,26 @@ func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error
 // ID is the resolver for the id field.
 func (r *userResolver) ID(ctx context.Context, obj *model.User) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
+}
+
+// Posts is the resolver for the posts field.
+func (r *userResolver) Posts(ctx context.Context, obj *model.User) ([]*model.Post, error) {
+	panic(fmt.Errorf("not implemented: Posts - posts"))
+}
+
+// Messages is the resolver for the messages field.
+func (r *userResolver) Messages(ctx context.Context, obj *model.User) ([]*model.Message, error) {
+	panic(fmt.Errorf("not implemented: Messages - messages"))
+}
+
+// Comments is the resolver for the comments field.
+func (r *userResolver) Comments(ctx context.Context, obj *model.User) ([]*model.Comment, error) {
+	panic(fmt.Errorf("not implemented: Comments - comments"))
+}
+
+// Chats is the resolver for the chats field.
+func (r *userResolver) Chats(ctx context.Context, obj *model.User) ([]*model.Chat, error) {
+	panic(fmt.Errorf("not implemented: Chats - chats"))
 }
 
 // CreatedAt is the resolver for the createdAt field.

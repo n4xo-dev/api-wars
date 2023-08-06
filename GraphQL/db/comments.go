@@ -48,18 +48,18 @@ func CommentList() ([]*model.Comment, error) {
 }
 
 // Gets the data of the comments with the provided post id
-func CommentListByPostID(postID uint64) ([]model.Comment, error) {
+func CommentListByPostID(postID uint64) ([]*model.Comment, error) {
 
-	var comments []model.Comment
+	var comments []*model.Comment
 	ctx := DBClient.Model(&model.Comment{}).Where("post_id = ?", postID).Find(&comments)
 
 	return comments, ctx.Error
 }
 
 // Gets the data of the comments with the provided user id
-func CommentListByUserID(userID uint64) ([]model.Comment, error) {
+func CommentListByUserID(userID uint64) ([]*model.Comment, error) {
 
-	var comments []model.Comment
+	var comments []*model.Comment
 	ctx := DBClient.Model(&model.Comment{}).Where("user_id = ?", userID).Find(&comments)
 
 	return comments, ctx.Error

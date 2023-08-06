@@ -85,3 +85,24 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
+  User:
+    fields:
+      posts:
+        resolver: true
+      messages:
+        resolver: true
+      comments:
+        resolver: true
+      chats:
+        resolver: true
+  Post:
+    fields:
+      comments:
+        resolver: true
+  Chat:
+    fields:
+      messages:
+        resolver: true
+      participants:
+        resolver: true
+

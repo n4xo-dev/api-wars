@@ -48,9 +48,9 @@ func PostList() ([]*model.Post, error) {
 }
 
 // Gets the data of the posts with the provided user id
-func PostListByUserID(userID uint64) ([]model.Post, error) {
+func PostListByUserID(userID uint64) ([]*model.Post, error) {
 
-	var posts []model.Post
+	var posts []*model.Post
 	ctx := DBClient.Model(&model.Post{}).Where("user_id = ?", userID).Find(&posts)
 
 	return posts, ctx.Error

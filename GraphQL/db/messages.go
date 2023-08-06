@@ -48,27 +48,27 @@ func MessageList() ([]*model.Message, error) {
 }
 
 // Gets the data of the messages with the provided chat id
-func MessageListByChatID(chatID uint64) ([]model.Message, error) {
+func MessageListByChatID(chatID uint64) ([]*model.Message, error) {
 
-	var messages []model.Message
+	var messages []*model.Message
 	ctx := DBClient.Model(&model.Message{}).Where("chat_id = ?", chatID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided user id
-func MessageListByUserID(userID uint64) ([]model.Message, error) {
+func MessageListByUserID(userID uint64) ([]*model.Message, error) {
 
-	var messages []model.Message
+	var messages []*model.Message
 	ctx := DBClient.Model(&model.Message{}).Where("user_id = ?", userID).Find(&messages)
 
 	return messages, ctx.Error
 }
 
 // Gets the data of the messages with the provided chat id and user id
-func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]model.Message, error) {
+func MessageListByChatIDAndUserID(chatID uint64, userID uint64) ([]*model.Message, error) {
 
-	var messages []model.Message
+	var messages []*model.Message
 	ctx := DBClient.Model(&model.Message{}).Where("chat_id = ? AND user_id = ?", chatID, userID).Find(&messages)
 
 	return messages, ctx.Error
