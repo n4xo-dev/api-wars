@@ -47,9 +47,9 @@ func ChatDelete(id uint64) error {
 }
 
 // Gets the data of all the chats
-func ChatList(eager bool) ([]model.Chat, error) {
+func ChatList(eager bool) ([]*model.Chat, error) {
 
-	var chats []model.Chat
+	var chats []*model.Chat
 
 	var ctx *gorm.DB
 	if eager {

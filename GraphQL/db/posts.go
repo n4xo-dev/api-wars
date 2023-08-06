@@ -39,9 +39,9 @@ func PostPatch(post *model.Post) error {
 }
 
 // Gets the data of all the posts
-func PostList() ([]model.Post, error) {
+func PostList() ([]*model.Post, error) {
 
-	var posts []model.Post
+	var posts []*model.Post
 	ctx := DBClient.Model(&model.Post{}).Find(&posts)
 
 	return posts, ctx.Error

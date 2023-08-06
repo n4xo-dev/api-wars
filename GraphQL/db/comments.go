@@ -39,9 +39,9 @@ func CommentDelete(id uint64) error {
 }
 
 // Gets the data of all the comments
-func CommentList() ([]model.Comment, error) {
+func CommentList() ([]*model.Comment, error) {
 
-	var comments []model.Comment
+	var comments []*model.Comment
 	ctx := DBClient.Model(&model.Comment{}).Find(&comments)
 
 	return comments, ctx.Error

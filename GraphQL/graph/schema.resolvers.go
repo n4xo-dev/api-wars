@@ -163,47 +163,117 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	uID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := db.UserRead(uID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
-	panic(fmt.Errorf("not implemented: Posts - posts"))
+	posts, err := db.PostList()
+	if err != nil {
+		return nil, err
+	}
+
+	return posts, nil
 }
 
 // Post is the resolver for the post field.
 func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error) {
-	panic(fmt.Errorf("not implemented: Post - post"))
+	pID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	post, err := db.PostRead(pID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &post, nil
 }
 
 // Comments is the resolver for the comments field.
 func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: Comments - comments"))
+	comments, err := db.CommentList()
+	if err != nil {
+		return nil, err
+	}
+
+	return comments, nil
 }
 
 // Comment is the resolver for the comment field.
 func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: Comment - comment"))
+	cID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	comment, err := db.CommentRead(cID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &comment, nil
 }
 
 // Messages is the resolver for the messages field.
 func (r *queryResolver) Messages(ctx context.Context) ([]*model.Message, error) {
-	panic(fmt.Errorf("not implemented: Messages - messages"))
+	messages, err := db.MessageList()
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
 }
 
 // Message is the resolver for the message field.
 func (r *queryResolver) Message(ctx context.Context, id string) (*model.Message, error) {
-	panic(fmt.Errorf("not implemented: Message - message"))
+	mID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	message, err := db.MessageRead(mID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &message, nil
 }
 
 // Chats is the resolver for the chats field.
 func (r *queryResolver) Chats(ctx context.Context) ([]*model.Chat, error) {
-	panic(fmt.Errorf("not implemented: Chats - chats"))
+	chats, err := db.ChatList(false)
+	if err != nil {
+		return nil, err
+	}
+
+	return chats, nil
 }
 
 // Chat is the resolver for the chat field.
 func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error) {
-	panic(fmt.Errorf("not implemented: Chat - chat"))
+	cID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	chat, err := db.ChatRead(cID, false)
+	if err != nil {
+		return nil, err
+	}
+
+	return &chat, nil
 }
 
 // ID is the resolver for the id field.

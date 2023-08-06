@@ -39,9 +39,9 @@ func MessagePatch(m *model.Message) error {
 }
 
 // Gets the data of all the messages
-func MessageList() ([]model.Message, error) {
+func MessageList() ([]*model.Message, error) {
 
-	var messages []model.Message
+	var messages []*model.Message
 	ctx := DBClient.Model(&model.Message{}).Find(&messages)
 
 	return messages, ctx.Error
