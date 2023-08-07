@@ -14,17 +14,33 @@ func ChatUpsert(chat *model.Chat) error {
 }
 
 // Gets the data of the chat with the provided id
-func ChatRead(id uint64, eager bool) (model.Chat, error) {
+func ChatRead(id uint64) (model.Chat, error) {
 
 	var chat = model.Chat{}
 	var ctx *gorm.DB
-	if eager {
-		ctx = DBClient.Model(&model.Chat{}).Preload("Participants").Preload("Messages").First(&chat, id)
-	} else {
-		ctx = DBClient.Model(&model.Chat{}).First(&chat, id)
-	}
+	ctx = DBClient.Model(&model.Chat{}).First(&chat, id)
 
 	return chat, ctx.Error
+}
+
+// Get the messages of the chat with the provided id
+func ChatMessages(id uint64) ([]*model.Message, error) {
+
+	var messages []*model.Message
+	ctx := DBClient.Model(&model.Message{}).Where("chat_id = ?", id).Find(&messages)
+
+	return messages, ctx.Error
+}
+
+// Get the participants of the chat with the provided id
+func ChatParticipants(id uint64) ([]*model.User, error) {
+
+	chat := model.Chat{
+		ID: id,
+	}
+	ctx := DBClient.Preload("Participants").Find(&chat)
+
+	return chat.Participants, ctx.Error
 }
 
 // Patch update the chat with the provided id
@@ -47,16 +63,24 @@ func ChatDelete(id uint64) error {
 }
 
 // Gets the data of all the chats
-func ChatList(eager bool) ([]*model.Chat, error) {
+func ChatList() ([]*model.Chat, error) {
 
 	var chats []*model.Chat
 
 	var ctx *gorm.DB
-	if eager {
-		ctx = DBClient.Model(&model.Chat{}).Preload("Participants").Preload("Messages").Find(&chats)
-	} else {
-		ctx = DBClient.Model(&model.Chat{}).Find(&chats)
-	}
+
+	ctx = DBClient.Model(&model.Chat{}).Find(&chats)
 
 	return chats, ctx.Error
+}
+
+// Gets the data of the chats with the provided user id
+func ChatListByUserID(userID uint64) ([]*model.Chat, error) {
+
+	user := model.User{
+		ID: userID,
+	}
+	ctx := DBClient.Model(&model.User{}).Preload("Chats").Find(&user)
+
+	return user.Chats, ctx.Error
 }

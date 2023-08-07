@@ -20,12 +20,12 @@ func (r *chatResolver) ID(ctx context.Context, obj *model.Chat) (string, error) 
 
 // Messages is the resolver for the messages field.
 func (r *chatResolver) Messages(ctx context.Context, obj *model.Chat) ([]*model.Message, error) {
-	panic(fmt.Errorf("not implemented: Messages - messages"))
+	return db.ChatMessages(obj.ID)
 }
 
 // Participants is the resolver for the participants field.
 func (r *chatResolver) Participants(ctx context.Context, obj *model.Chat) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented: Participants - participants"))
+	return db.ChatParticipants(obj.ID)
 }
 
 // CreatedAt is the resolver for the createdAt field.
@@ -177,7 +177,7 @@ func (r *postResolver) ID(ctx context.Context, obj *model.Post) (string, error) 
 
 // Comments is the resolver for the comments field.
 func (r *postResolver) Comments(ctx context.Context, obj *model.Post) ([]*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: Comments - comments"))
+	return db.PostComments(obj.ID)
 }
 
 // UserID is the resolver for the userId field.
@@ -409,7 +409,7 @@ func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string
 
 // Chats is the resolver for the chats field.
 func (r *queryResolver) Chats(ctx context.Context) ([]*model.Chat, error) {
-	chats, err := db.ChatList(false)
+	chats, err := db.ChatList()
 	if err != nil {
 		return nil, err
 	}
@@ -424,7 +424,7 @@ func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error
 		return nil, err
 	}
 
-	chat, err := db.ChatRead(cID, false)
+	chat, err := db.ChatRead(cID)
 	if err != nil {
 		return nil, err
 	}
@@ -439,22 +439,22 @@ func (r *userResolver) ID(ctx context.Context, obj *model.User) (string, error) 
 
 // Posts is the resolver for the posts field.
 func (r *userResolver) Posts(ctx context.Context, obj *model.User) ([]*model.Post, error) {
-	panic(fmt.Errorf("not implemented: Posts - posts"))
+	return db.PostListByUserID(obj.ID)
 }
 
 // Messages is the resolver for the messages field.
 func (r *userResolver) Messages(ctx context.Context, obj *model.User) ([]*model.Message, error) {
-	panic(fmt.Errorf("not implemented: Messages - messages"))
+	return db.MessageListByUserID(obj.ID)
 }
 
 // Comments is the resolver for the comments field.
 func (r *userResolver) Comments(ctx context.Context, obj *model.User) ([]*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: Comments - comments"))
+	return db.CommentListByUserID(obj.ID)
 }
 
 // Chats is the resolver for the chats field.
 func (r *userResolver) Chats(ctx context.Context, obj *model.User) ([]*model.Chat, error) {
-	panic(fmt.Errorf("not implemented: Chats - chats"))
+	return db.ChatListByUserID(obj.ID)
 }
 
 // CreatedAt is the resolver for the createdAt field.
