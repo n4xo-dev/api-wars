@@ -170,6 +170,18 @@ func (r *mutationResolver) CreateChat(ctx context.Context, input model.NewChat) 
 	return &c, nil
 }
 
+// CreateRedisRecord is the resolver for the createRedisRecord field.
+func (r *mutationResolver) CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*model.RedisRecord, error) {
+	if err := db.RedisSet(input.Key, input.Value); err != nil {
+		return nil, err
+	}
+
+	return &model.RedisRecord{
+		Key:   input.Key,
+		Value: input.Value,
+	}, nil
+}
+
 // ID is the resolver for the id field.
 func (r *postResolver) ID(ctx context.Context, obj *model.Post) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
@@ -430,6 +442,19 @@ func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error
 	}
 
 	return &chat, nil
+}
+
+// RedisRecord is the resolver for the redisRecord field.
+func (r *queryResolver) RedisRecord(ctx context.Context, key string) (*model.RedisRecord, error) {
+	val, err := db.RedisGet(key)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.RedisRecord{
+		Key:   key,
+		Value: val,
+	}, nil
 }
 
 // ID is the resolver for the id field.

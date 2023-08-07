@@ -84,11 +84,12 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateChat    func(childComplexity int, input model.NewChat) int
-		CreateComment func(childComplexity int, input model.NewComment) int
-		CreateMessage func(childComplexity int, input model.NewMessage) int
-		CreatePost    func(childComplexity int, input model.NewPost) int
-		CreateUser    func(childComplexity int, input model.NewUser) int
+		CreateChat        func(childComplexity int, input model.NewChat) int
+		CreateComment     func(childComplexity int, input model.NewComment) int
+		CreateMessage     func(childComplexity int, input model.NewMessage) int
+		CreatePost        func(childComplexity int, input model.NewPost) int
+		CreateRedisRecord func(childComplexity int, input model.NewRedisRecord) int
+		CreateUser        func(childComplexity int, input model.NewUser) int
 	}
 
 	Post struct {
@@ -117,9 +118,15 @@ type ComplexityRoot struct {
 		Post                  func(childComplexity int, id string) int
 		Posts                 func(childComplexity int) int
 		PostsByUser           func(childComplexity int, userID string) int
+		RedisRecord           func(childComplexity int, key string) int
 		User                  func(childComplexity int, id string) int
 		UserByEmail           func(childComplexity int, email string) int
 		Users                 func(childComplexity int) int
+	}
+
+	RedisRecord struct {
+		Key   func(childComplexity int) int
+		Value func(childComplexity int) int
 	}
 
 	User struct {
@@ -168,6 +175,7 @@ type MutationResolver interface {
 	CreateComment(ctx context.Context, input model.NewComment) (*model.Comment, error)
 	CreateMessage(ctx context.Context, input model.NewMessage) (*model.Message, error)
 	CreateChat(ctx context.Context, input model.NewChat) (*model.Chat, error)
+	CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*model.RedisRecord, error)
 }
 type PostResolver interface {
 	ID(ctx context.Context, obj *model.Post) (string, error)
@@ -196,6 +204,7 @@ type QueryResolver interface {
 	MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*model.Message, error)
 	Chats(ctx context.Context) ([]*model.Chat, error)
 	Chat(ctx context.Context, id string) (*model.Chat, error)
+	RedisRecord(ctx context.Context, key string) (*model.RedisRecord, error)
 }
 type UserResolver interface {
 	ID(ctx context.Context, obj *model.User) (string, error)
@@ -427,6 +436,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreatePost(childComplexity, args["input"].(model.NewPost)), true
 
+	case "Mutation.createRedisRecord":
+		if e.complexity.Mutation.CreateRedisRecord == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createRedisRecord_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateRedisRecord(childComplexity, args["input"].(model.NewRedisRecord)), true
+
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -643,6 +664,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.PostsByUser(childComplexity, args["userId"].(string)), true
 
+	case "Query.redisRecord":
+		if e.complexity.Query.RedisRecord == nil {
+			break
+		}
+
+		args, err := ec.field_Query_redisRecord_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.RedisRecord(childComplexity, args["key"].(string)), true
+
 	case "Query.user":
 		if e.complexity.Query.User == nil {
 			break
@@ -673,6 +706,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Users(childComplexity), true
+
+	case "RedisRecord.key":
+		if e.complexity.RedisRecord.Key == nil {
+			break
+		}
+
+		return e.complexity.RedisRecord.Key(childComplexity), true
+
+	case "RedisRecord.value":
+		if e.complexity.RedisRecord.Value == nil {
+			break
+		}
+
+		return e.complexity.RedisRecord.Value(childComplexity), true
 
 	case "User.chats":
 		if e.complexity.User.Chats == nil {
@@ -756,6 +803,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewComment,
 		ec.unmarshalInputNewMessage,
 		ec.unmarshalInputNewPost,
+		ec.unmarshalInputNewRedisRecord,
 		ec.unmarshalInputNewUser,
 	)
 	first := true
@@ -925,6 +973,21 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewPost2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐNewPost(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createRedisRecord_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewRedisRecord
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewRedisRecord2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐNewRedisRecord(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1119,6 +1182,21 @@ func (ec *executionContext) field_Query_postsByUser_args(ctx context.Context, ra
 		}
 	}
 	args["userId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_redisRecord_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["key"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("key"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["key"] = arg0
 	return args, nil
 }
 
@@ -2439,6 +2517,67 @@ func (ec *executionContext) fieldContext_Mutation_createChat(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createChat_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createRedisRecord(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createRedisRecord(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateRedisRecord(rctx, fc.Args["input"].(model.NewRedisRecord))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.RedisRecord)
+	fc.Result = res
+	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createRedisRecord(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "key":
+				return ec.fieldContext_RedisRecord_key(ctx, field)
+			case "value":
+				return ec.fieldContext_RedisRecord_value(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RedisRecord", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createRedisRecord_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -3976,6 +4115,67 @@ func (ec *executionContext) fieldContext_Query_chat(ctx context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_redisRecord(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_redisRecord(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().RedisRecord(rctx, fc.Args["key"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.RedisRecord)
+	fc.Result = res
+	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_redisRecord(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "key":
+				return ec.fieldContext_RedisRecord_key(ctx, field)
+			case "value":
+				return ec.fieldContext_RedisRecord_value(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RedisRecord", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_redisRecord_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query___type(ctx, field)
 	if err != nil {
@@ -4100,6 +4300,94 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RedisRecord_key(ctx context.Context, field graphql.CollectedField, obj *model.RedisRecord) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RedisRecord_key(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Key, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RedisRecord_key(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RedisRecord",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RedisRecord_value(ctx context.Context, field graphql.CollectedField, obj *model.RedisRecord) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RedisRecord_value(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Value, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RedisRecord_value(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RedisRecord",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -6558,6 +6846,44 @@ func (ec *executionContext) unmarshalInputNewPost(ctx context.Context, obj inter
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewRedisRecord(ctx context.Context, obj interface{}) (model.NewRedisRecord, error) {
+	var it model.NewRedisRecord
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"key", "value"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "key":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("key"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Key = data
+		case "value":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Value = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj interface{}) (model.NewUser, error) {
 	var it model.NewUser
 	asMap := map[string]interface{}{}
@@ -7394,6 +7720,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createRedisRecord":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createRedisRecord(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8061,6 +8394,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "redisRecord":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_redisRecord(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -8069,6 +8424,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var redisRecordImplementors = []string{"RedisRecord"}
+
+func (ec *executionContext) _RedisRecord(ctx context.Context, sel ast.SelectionSet, obj *model.RedisRecord) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, redisRecordImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("RedisRecord")
+		case "key":
+			out.Values[i] = ec._RedisRecord_key(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "value":
+			out.Values[i] = ec._RedisRecord_value(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8968,6 +9367,11 @@ func (ec *executionContext) unmarshalNNewPost2githubᚗcomᚋiLopezosaᚋapiᚑw
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNNewRedisRecord2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐNewRedisRecord(ctx context.Context, v interface{}) (model.NewRedisRecord, error) {
+	res, err := ec.unmarshalInputNewRedisRecord(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -9029,6 +9433,20 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwar
 		return graphql.Null
 	}
 	return ec._Post(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNRedisRecord2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v model.RedisRecord) graphql.Marshaler {
+	return ec._RedisRecord(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v *model.RedisRecord) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._RedisRecord(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

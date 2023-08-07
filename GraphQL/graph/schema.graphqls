@@ -51,6 +51,11 @@ type Chat {
   deletedAt: String
 }
 
+type RedisRecord {
+  key: String!
+  value: String!
+}
+
 type Query {
   users: [User!]!
   user(id: ID!): User!
@@ -69,6 +74,7 @@ type Query {
   messagesByChatAndUser(chatId: ID!, userId: ID!): [Message!]!
   chats: [Chat!]!
   chat(id: ID!): Chat!
+  redisRecord(key: String!): RedisRecord!
 }
 
 input NewUser {
@@ -98,10 +104,17 @@ input NewChat {
   participants: [String!]
 }
 
+input NewRedisRecord {
+  key: String!
+  value: String!
+}
+
 type Mutation {
   createUser(input: NewUser!): User!
   createPost(input: NewPost!): Post!
   createComment(input: NewComment!): Comment!
   createMessage(input: NewMessage!): Message!
   createChat(input: NewChat!): Chat!
+  createRedisRecord(input: NewRedisRecord!): RedisRecord!
+  # TODO: add update and delete mutations
 }
