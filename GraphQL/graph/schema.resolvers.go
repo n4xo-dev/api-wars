@@ -182,6 +182,190 @@ func (r *mutationResolver) CreateRedisRecord(ctx context.Context, input model.Ne
 	}, nil
 }
 
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error) {
+	uID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	if uID < 1 {
+		return nil, fmt.Errorf("id must be greater than 0")
+	}
+
+	u := model.User{
+		ID: uID,
+	}
+	if input.Name != nil {
+		u.Name = *input.Name
+	}
+	if input.Email != nil {
+		u.Email = *input.Email
+	}
+
+	if err := db.UserPatch(&u); err != nil {
+		return nil, err
+	}
+
+	return &u, nil
+}
+
+// UpdatePost is the resolver for the updatePost field.
+func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input model.UpdatePost) (*model.Post, error) {
+	pID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	if pID < 1 {
+		return nil, fmt.Errorf("id must be greater than 0")
+	}
+
+	p := model.Post{
+		ID: pID,
+	}
+	if input.Title != nil {
+		p.Title = *input.Title
+	}
+	if input.Content != nil {
+		p.Content = *input.Content
+	}
+
+	if err := db.PostPatch(&p); err != nil {
+		return nil, err
+	}
+
+	return &p, nil
+}
+
+// UpdateComment is the resolver for the updateComment field.
+func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input model.UpdateComment) (*model.Comment, error) {
+	cID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	if cID < 1 {
+		return nil, fmt.Errorf("id must be greater than 0")
+	}
+
+	c := model.Comment{
+		ID: cID,
+	}
+	if input.Content != nil {
+		c.Content = *input.Content
+	}
+
+	if err := db.CommentPatch(&c); err != nil {
+		return nil, err
+	}
+
+	return &c, nil
+}
+
+// UpdateMessage is the resolver for the updateMessage field.
+func (r *mutationResolver) UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*model.Message, error) {
+	mID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	if mID < 1 {
+		return nil, fmt.Errorf("id must be greater than 0")
+	}
+
+	m := model.Message{
+		ID: mID,
+	}
+	if input.Content != nil {
+		m.Content = *input.Content
+	}
+
+	if err := db.MessagePatch(&m); err != nil {
+		return nil, err
+	}
+
+	return &m, nil
+}
+
+// UpdateRedisRecord is the resolver for the updateRedisRecord field.
+func (r *mutationResolver) UpdateRedisRecord(ctx context.Context, key string, value string) (*model.RedisRecord, error) {
+	if err := db.RedisSet(key, value); err != nil {
+		return nil, err
+	}
+
+	return &model.RedisRecord{
+		Key:   key,
+		Value: value,
+	}, nil
+}
+
+// AddUsersToChat is the resolver for the addUsersToChat field.
+func (r *mutationResolver) AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*model.Chat, error) {
+	cID, err := strconv.ParseUint(chatID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	if cID < 1 {
+		return nil, fmt.Errorf("id must be greater than 0")
+	}
+
+	uIDs := make([]uint64, len(userIds))
+	for i, id := range userIds {
+		uIDs[i], err = strconv.ParseUint(id, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	currUs, err := db.ChatParticipants(cID)
+	if err != nil {
+		return nil, err
+	}
+
+	newUs := make([]*model.User, len(uIDs))
+	for i, id := range uIDs {
+		newUs[i] = &model.User{ID: id}
+	}
+
+	c := model.Chat{
+		ID:           cID,
+		Participants: append(currUs, newUs...),
+	}
+
+	if err := db.ChatPatch(&c); err != nil {
+		return nil, err
+	}
+
+	return &c, nil
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: DeleteUser - deleteUser"))
+}
+
+// DeletePost is the resolver for the deletePost field.
+func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*model.Post, error) {
+	panic(fmt.Errorf("not implemented: DeletePost - deletePost"))
+}
+
+// DeleteComment is the resolver for the deleteComment field.
+func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*model.Comment, error) {
+	panic(fmt.Errorf("not implemented: DeleteComment - deleteComment"))
+}
+
+// DeleteMessage is the resolver for the deleteMessage field.
+func (r *mutationResolver) DeleteMessage(ctx context.Context, id string) (*model.Message, error) {
+	panic(fmt.Errorf("not implemented: DeleteMessage - deleteMessage"))
+}
+
+// DeleteChat is the resolver for the deleteChat field.
+func (r *mutationResolver) DeleteChat(ctx context.Context, id string) (*model.Chat, error) {
+	panic(fmt.Errorf("not implemented: DeleteChat - deleteChat"))
+}
+
+// DeleteRedisRecord is the resolver for the deleteRedisRecord field.
+func (r *mutationResolver) DeleteRedisRecord(ctx context.Context, key string) (*model.RedisRecord, error) {
+	panic(fmt.Errorf("not implemented: DeleteRedisRecord - deleteRedisRecord"))
+}
+
 // ID is the resolver for the id field.
 func (r *postResolver) ID(ctx context.Context, obj *model.Post) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil

@@ -109,6 +109,24 @@ input NewRedisRecord {
   value: String!
 }
 
+input UpdateUser {
+  name: String
+  email: String
+}
+
+input UpdatePost {
+  title: String
+  content: String
+}
+
+input UpdateComment {
+  content: String
+}
+
+input UpdateMessage {
+  content: String
+}
+
 type Mutation {
   createUser(input: NewUser!): User!
   createPost(input: NewPost!): Post!
@@ -116,5 +134,16 @@ type Mutation {
   createMessage(input: NewMessage!): Message!
   createChat(input: NewChat!): Chat!
   createRedisRecord(input: NewRedisRecord!): RedisRecord!
-  # TODO: add update and delete mutations
+  updateUser(id: ID!, input: UpdateUser!): User!
+  updatePost(id: ID!, input: UpdatePost!): Post!
+  updateComment(id: ID!, input: UpdateComment!): Comment!
+  updateMessage(id: ID!, input: UpdateMessage!): Message!
+  updateRedisRecord(key: String!, value: String!): RedisRecord!
+  addUsersToChat(chatId: ID!, userIds: [String!]!): Chat!
+  deleteUser(id: ID!): User!
+  deletePost(id: ID!): Post!
+  deleteComment(id: ID!): Comment!
+  deleteMessage(id: ID!): Message!
+  deleteChat(id: ID!): Chat!
+  deleteRedisRecord(key: String!): RedisRecord!
 }
