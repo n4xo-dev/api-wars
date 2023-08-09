@@ -73,6 +73,11 @@ type ComplexityRoot struct {
 		UserID    func(childComplexity int) int
 	}
 
+	Deletion struct {
+		ID  func(childComplexity int) int
+		Msg func(childComplexity int) int
+	}
+
 	Message struct {
 		ChatID    func(childComplexity int) int
 		Content   func(childComplexity int) int
@@ -95,7 +100,6 @@ type ComplexityRoot struct {
 		DeleteComment     func(childComplexity int, id string) int
 		DeleteMessage     func(childComplexity int, id string) int
 		DeletePost        func(childComplexity int, id string) int
-		DeleteRedisRecord func(childComplexity int, key string) int
 		DeleteUser        func(childComplexity int, id string) int
 		UpdateComment     func(childComplexity int, id string, input model.UpdateComment) int
 		UpdateMessage     func(childComplexity int, id string, input model.UpdateMessage) int
@@ -194,12 +198,11 @@ type MutationResolver interface {
 	UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*model.Message, error)
 	UpdateRedisRecord(ctx context.Context, key string, value string) (*model.RedisRecord, error)
 	AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*model.Chat, error)
-	DeleteUser(ctx context.Context, id string) (*model.User, error)
-	DeletePost(ctx context.Context, id string) (*model.Post, error)
-	DeleteComment(ctx context.Context, id string) (*model.Comment, error)
-	DeleteMessage(ctx context.Context, id string) (*model.Message, error)
-	DeleteChat(ctx context.Context, id string) (*model.Chat, error)
-	DeleteRedisRecord(ctx context.Context, key string) (*model.RedisRecord, error)
+	DeleteUser(ctx context.Context, id string) (*model.Deletion, error)
+	DeletePost(ctx context.Context, id string) (*model.Deletion, error)
+	DeleteComment(ctx context.Context, id string) (*model.Deletion, error)
+	DeleteMessage(ctx context.Context, id string) (*model.Deletion, error)
+	DeleteChat(ctx context.Context, id string) (*model.Deletion, error)
 }
 type PostResolver interface {
 	ID(ctx context.Context, obj *model.Post) (string, error)
@@ -362,6 +365,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Comment.UserID(childComplexity), true
+
+	case "Deletion.id":
+		if e.complexity.Deletion.ID == nil {
+			break
+		}
+
+		return e.complexity.Deletion.ID(childComplexity), true
+
+	case "Deletion.msg":
+		if e.complexity.Deletion.Msg == nil {
+			break
+		}
+
+		return e.complexity.Deletion.Msg(childComplexity), true
 
 	case "Message.chatId":
 		if e.complexity.Message.ChatID == nil {
@@ -543,18 +560,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeletePost(childComplexity, args["id"].(string)), true
-
-	case "Mutation.deleteRedisRecord":
-		if e.complexity.Mutation.DeleteRedisRecord == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_deleteRedisRecord_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.DeleteRedisRecord(childComplexity, args["key"].(string)), true
 
 	case "Mutation.deleteUser":
 		if e.complexity.Mutation.DeleteUser == nil {
@@ -1264,21 +1269,6 @@ func (ec *executionContext) field_Mutation_deletePost_args(ctx context.Context, 
 		}
 	}
 	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_deleteRedisRecord_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["key"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("key"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["key"] = arg0
 	return args, nil
 }
 
@@ -2259,6 +2249,94 @@ func (ec *executionContext) fieldContext_Comment_deletedAt(ctx context.Context, 
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Deletion_id(ctx context.Context, field graphql.CollectedField, obj *model.Deletion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Deletion_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Deletion_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Deletion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Deletion_msg(ctx context.Context, field graphql.CollectedField, obj *model.Deletion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Deletion_msg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Msg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Deletion_msg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Deletion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -3438,9 +3516,9 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*model.Deletion)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3452,27 +3530,11 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_User_id(ctx, field)
-			case "name":
-				return ec.fieldContext_User_name(ctx, field)
-			case "email":
-				return ec.fieldContext_User_email(ctx, field)
-			case "posts":
-				return ec.fieldContext_User_posts(ctx, field)
-			case "messages":
-				return ec.fieldContext_User_messages(ctx, field)
-			case "comments":
-				return ec.fieldContext_User_comments(ctx, field)
-			case "chats":
-				return ec.fieldContext_User_chats(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_User_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_User_updatedAt(ctx, field)
-			case "deletedAt":
-				return ec.fieldContext_User_deletedAt(ctx, field)
+				return ec.fieldContext_Deletion_id(ctx, field)
+			case "msg":
+				return ec.fieldContext_Deletion_msg(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Deletion", field.Name)
 		},
 	}
 	defer func() {
@@ -3515,9 +3577,9 @@ func (ec *executionContext) _Mutation_deletePost(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Post)
+	res := resTmp.(*model.Deletion)
 	fc.Result = res
-	return ec.marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
+	return ec.marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deletePost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3529,23 +3591,11 @@ func (ec *executionContext) fieldContext_Mutation_deletePost(ctx context.Context
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Post_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Post_title(ctx, field)
-			case "content":
-				return ec.fieldContext_Post_content(ctx, field)
-			case "comments":
-				return ec.fieldContext_Post_comments(ctx, field)
-			case "userId":
-				return ec.fieldContext_Post_userId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Post_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Post_updatedAt(ctx, field)
-			case "deletedAt":
-				return ec.fieldContext_Post_deletedAt(ctx, field)
+				return ec.fieldContext_Deletion_id(ctx, field)
+			case "msg":
+				return ec.fieldContext_Deletion_msg(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Post", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Deletion", field.Name)
 		},
 	}
 	defer func() {
@@ -3588,9 +3638,9 @@ func (ec *executionContext) _Mutation_deleteComment(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Comment)
+	res := resTmp.(*model.Deletion)
 	fc.Result = res
-	return ec.marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx, field.Selections, res)
+	return ec.marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteComment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3602,21 +3652,11 @@ func (ec *executionContext) fieldContext_Mutation_deleteComment(ctx context.Cont
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Comment_id(ctx, field)
-			case "content":
-				return ec.fieldContext_Comment_content(ctx, field)
-			case "userId":
-				return ec.fieldContext_Comment_userId(ctx, field)
-			case "postId":
-				return ec.fieldContext_Comment_postId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Comment_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Comment_updatedAt(ctx, field)
-			case "deletedAt":
-				return ec.fieldContext_Comment_deletedAt(ctx, field)
+				return ec.fieldContext_Deletion_id(ctx, field)
+			case "msg":
+				return ec.fieldContext_Deletion_msg(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Comment", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Deletion", field.Name)
 		},
 	}
 	defer func() {
@@ -3659,9 +3699,9 @@ func (ec *executionContext) _Mutation_deleteMessage(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Message)
+	res := resTmp.(*model.Deletion)
 	fc.Result = res
-	return ec.marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx, field.Selections, res)
+	return ec.marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteMessage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3673,21 +3713,11 @@ func (ec *executionContext) fieldContext_Mutation_deleteMessage(ctx context.Cont
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Message_id(ctx, field)
-			case "content":
-				return ec.fieldContext_Message_content(ctx, field)
-			case "userId":
-				return ec.fieldContext_Message_userId(ctx, field)
-			case "chatId":
-				return ec.fieldContext_Message_chatId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Message_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Message_updatedAt(ctx, field)
-			case "deletedAt":
-				return ec.fieldContext_Message_deletedAt(ctx, field)
+				return ec.fieldContext_Deletion_id(ctx, field)
+			case "msg":
+				return ec.fieldContext_Deletion_msg(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Message", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Deletion", field.Name)
 		},
 	}
 	defer func() {
@@ -3730,9 +3760,9 @@ func (ec *executionContext) _Mutation_deleteChat(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Chat)
+	res := resTmp.(*model.Deletion)
 	fc.Result = res
-	return ec.marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx, field.Selections, res)
+	return ec.marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteChat(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3744,19 +3774,11 @@ func (ec *executionContext) fieldContext_Mutation_deleteChat(ctx context.Context
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Chat_id(ctx, field)
-			case "messages":
-				return ec.fieldContext_Chat_messages(ctx, field)
-			case "participants":
-				return ec.fieldContext_Chat_participants(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Chat_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Chat_updatedAt(ctx, field)
-			case "deletedAt":
-				return ec.fieldContext_Chat_deletedAt(ctx, field)
+				return ec.fieldContext_Deletion_id(ctx, field)
+			case "msg":
+				return ec.fieldContext_Deletion_msg(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Chat", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Deletion", field.Name)
 		},
 	}
 	defer func() {
@@ -3767,67 +3789,6 @@ func (ec *executionContext) fieldContext_Mutation_deleteChat(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteChat_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteRedisRecord(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteRedisRecord(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteRedisRecord(rctx, fc.Args["key"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.RedisRecord)
-	fc.Result = res
-	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteRedisRecord(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "key":
-				return ec.fieldContext_RedisRecord_key(ctx, field)
-			case "value":
-				return ec.fieldContext_RedisRecord_value(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type RedisRecord", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteRedisRecord_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -8801,6 +8762,50 @@ func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
+var deletionImplementors = []string{"Deletion"}
+
+func (ec *executionContext) _Deletion(ctx context.Context, sel ast.SelectionSet, obj *model.Deletion) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, deletionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Deletion")
+		case "id":
+			out.Values[i] = ec._Deletion_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "msg":
+			out.Values[i] = ec._Deletion_msg(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var messageImplementors = []string{"Message"}
 
 func (ec *executionContext) _Message(ctx context.Context, sel ast.SelectionSet, obj *model.Message) graphql.Marshaler {
@@ -9184,13 +9189,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteChat":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteChat(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteRedisRecord":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteRedisRecord(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -10740,6 +10738,20 @@ func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑ
 		return graphql.Null
 	}
 	return ec._Comment(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDeletion2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx context.Context, sel ast.SelectionSet, v model.Deletion) graphql.Marshaler {
+	return ec._Deletion(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDeletion2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐDeletion(ctx context.Context, sel ast.SelectionSet, v *model.Deletion) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Deletion(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {

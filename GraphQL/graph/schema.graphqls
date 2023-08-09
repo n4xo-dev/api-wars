@@ -127,6 +127,11 @@ input UpdateMessage {
   content: String
 }
 
+type Deletion {
+  id: ID!
+  msg: String!
+}
+
 type Mutation {
   createUser(input: NewUser!): User!
   createPost(input: NewPost!): Post!
@@ -140,10 +145,9 @@ type Mutation {
   updateMessage(id: ID!, input: UpdateMessage!): Message!
   updateRedisRecord(key: String!, value: String!): RedisRecord!
   addUsersToChat(chatId: ID!, userIds: [String!]!): Chat!
-  deleteUser(id: ID!): User!
-  deletePost(id: ID!): Post!
-  deleteComment(id: ID!): Comment!
-  deleteMessage(id: ID!): Message!
-  deleteChat(id: ID!): Chat!
-  deleteRedisRecord(key: String!): RedisRecord!
+  deleteUser(id: ID!): Deletion!
+  deletePost(id: ID!): Deletion!
+  deleteComment(id: ID!): Deletion!
+  deleteMessage(id: ID!): Deletion!
+  deleteChat(id: ID!): Deletion!
 }

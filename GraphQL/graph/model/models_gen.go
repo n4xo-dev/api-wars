@@ -2,6 +2,11 @@
 
 package model
 
+type Deletion struct {
+	ID  string `json:"id"`
+	Msg string `json:"msg"`
+}
+
 type UpdateComment struct {
 	Content *string `json:"content,omitempty"`
 }

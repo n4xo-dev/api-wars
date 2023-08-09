@@ -337,33 +337,73 @@ func (r *mutationResolver) AddUsersToChat(ctx context.Context, chatID string, us
 }
 
 // DeleteUser is the resolver for the deleteUser field.
-func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: DeleteUser - deleteUser"))
+func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.Deletion, error) {
+	uID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = db.UserDelete(uID); err != nil {
+		return nil, err
+	}
+
+	return &model.Deletion{ID: id, Msg: fmt.Sprintf("User #%d has been deleted succesfully.", uID)}, nil
 }
 
 // DeletePost is the resolver for the deletePost field.
-func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*model.Post, error) {
-	panic(fmt.Errorf("not implemented: DeletePost - deletePost"))
+func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*model.Deletion, error) {
+	pID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = db.PostDelete(pID); err != nil {
+		return nil, err
+	}
+
+	return &model.Deletion{ID: id, Msg: fmt.Sprintf("Post #%d has been deleted succesfully.", pID)}, nil
 }
 
 // DeleteComment is the resolver for the deleteComment field.
-func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: DeleteComment - deleteComment"))
+func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (*model.Deletion, error) {
+	cID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = db.CommentDelete(cID); err != nil {
+		return nil, err
+	}
+
+	return &model.Deletion{ID: id, Msg: fmt.Sprintf("Comment #%d has been deleted succesfully.", cID)}, nil
 }
 
 // DeleteMessage is the resolver for the deleteMessage field.
-func (r *mutationResolver) DeleteMessage(ctx context.Context, id string) (*model.Message, error) {
-	panic(fmt.Errorf("not implemented: DeleteMessage - deleteMessage"))
+func (r *mutationResolver) DeleteMessage(ctx context.Context, id string) (*model.Deletion, error) {
+	mID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = db.MessageDelete(mID); err != nil {
+		return nil, err
+	}
+
+	return &model.Deletion{ID: id, Msg: fmt.Sprintf("Message #%d has been deleted succesfully.", mID)}, nil
 }
 
 // DeleteChat is the resolver for the deleteChat field.
-func (r *mutationResolver) DeleteChat(ctx context.Context, id string) (*model.Chat, error) {
-	panic(fmt.Errorf("not implemented: DeleteChat - deleteChat"))
-}
+func (r *mutationResolver) DeleteChat(ctx context.Context, id string) (*model.Deletion, error) {
+	cID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
 
-// DeleteRedisRecord is the resolver for the deleteRedisRecord field.
-func (r *mutationResolver) DeleteRedisRecord(ctx context.Context, key string) (*model.RedisRecord, error) {
-	panic(fmt.Errorf("not implemented: DeleteRedisRecord - deleteRedisRecord"))
+	if err = db.ChatDelete(cID); err != nil {
+		return nil, err
+	}
+
+	return &model.Deletion{ID: id, Msg: fmt.Sprintf("Chat #%d has been deleted succesfully.", cID)}, nil
 }
 
 // ID is the resolver for the id field.
