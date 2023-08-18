@@ -1,0 +1,103 @@
+/**
+ * User proto file
+ */
+
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package proto;
+
+service UserService {
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc GetUsersPosts(GetUsersPostsRequest) returns (ListPostsResponse);
+  rpc GetUsersComments(GetUsersCommentsRequest) returns (ListCommentsResponse);
+  rpc GetUsersMessages(GetUsersMessagesRequest) returns (ListMessagesResponse);
+  rpc GetUsersMessagesFromChat(GetUsersMessagesFromChatRequest) returns (ListMessagesResponse);
+}
+
+message UserDTO {
+  uint64 id = 1;
+  string name = 2;
+  string email = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message ListUsersRequest {}
+
+message ListUsersResponse {
+  repeated UserDTO users = 1;
+}
+
+message GetUserRequest {
+  uint64 id = 1;
+}
+
+message GetUserResponse {
+  UserDTO user = 1;
+}
+
+message CreateUserRequest {
+  uint64 name = 1;
+  string email = 2;
+}
+
+message CreateUserResponse {
+  UserDTO user = 1;
+}
+
+message DeleteUserRequest {
+  uint64 id = 1;
+}
+
+message DeleteUserResponse {
+  bool deleted = 1;
+}
+
+message UpdateUserRequest {
+  uint64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UpdateUserResponse {
+  UserDTO user = 1;
+}
+
+message GetUsersPostsRequest {
+  uint64 id = 1;
+}
+
+message GetUsersPostsResponse {
+  repeated proto.PostDTO posts = 1;
+}
+
+message GetUsersCommentsRequest {
+  uint64 id = 1;
+}
+
+message GetUsersCommentsResponse {
+  repeated proto.CommentDTO comments = 1;
+}
+
+message GetUsersMessagesRequest {
+  uint64 id = 1;
+}
+
+message GetUsersMessagesResponse {
+  repeated proto.MessageDTO messages = 1;
+}
+
+message GetUsersMessagesFromChatRequest {
+  uint64 id = 1;
+  uint64 chat_id = 2;
+}
+
+message GetUsersMessagesFromChatResponse {
+  repeated proto.MessageDTO messages = 1;
+}
