@@ -4,11 +4,11 @@ go 1.20
 
 require (
 	github.com/gofiber/fiber/v2 v2.48.0
-	github.com/jaswdr/faker v1.18.0
+	github.com/jaswdr/faker v1.18.1
 	github.com/joho/godotenv v1.5.1
 	github.com/redis/go-redis/v9 v9.0.5
 	gorm.io/driver/postgres v1.5.2
-	gorm.io/gorm v1.25.1
+	gorm.io/gorm v1.25.2
 )
 
 require (

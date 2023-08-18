@@ -1,5 +1,7 @@
 go 1.20
 
-use ./REST
+use ./rest
 
-use ./GraphQL
+use ./graphql
+
+use ./grpc
