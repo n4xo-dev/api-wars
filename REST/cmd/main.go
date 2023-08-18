@@ -64,6 +64,7 @@ func main() {
 	defer db.Disconnect()
 	defer db.RedisDisconnect()
 
+	// Reset and seed the database
 	if *resetDB {
 		fmt.Println("\nResetting the database...")
 		db.Reset()
