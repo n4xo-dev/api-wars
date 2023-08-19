@@ -4,9 +4,12 @@
 
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
+package users;
 
-package proto;
+import "google/protobuf/timestamp.proto";
+import "./posts.proto";
+
+option go_package = "github.com/iLopezosa/api-wars/grpc/proto";
 
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
@@ -74,7 +77,7 @@ message GetUsersPostsRequest {
 }
 
 message GetUsersPostsResponse {
-  repeated proto.PostDTO posts = 1;
+  repeated posts.PostDTO posts = 1;
 }
 
 message GetUsersCommentsRequest {
