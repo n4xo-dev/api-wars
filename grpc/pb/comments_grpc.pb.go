@@ -4,7 +4,7 @@
 // - protoc             v3.12.4
 // source: comments.proto
 
-package protos
+package pb
 
 import (
 	context "context"

@@ -1,0 +1,69 @@
+/**
+ * Messages proto file
+ **/
+
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
+
+service MessagesService {
+  rpc ListMessages(ListMessagesRequest) returns (ListMessagesResponse);
+  rpc GetMessage(GetMessageRequest) returns (GetMessageResponse);
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageResponse);
+  rpc UpdateMessage(UpdateMessageRequest) returns (UpdateMessageResponse);
+  rpc DeleteMessage(DeleteMessageRequest) returns (DeleteMessageResponse);
+}
+
+message MessageDTO {
+  uint64 id = 1;
+  string content = 2;
+  uint64 user_id = 3;
+  uint64 chat_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message ListMessagesRequest {}
+
+message ListMessagesResponse {
+  repeated MessageDTO messages = 1;
+}
+
+message GetMessageRequest {
+  uint64 id = 1;
+}
+
+message GetMessageResponse {
+  MessageDTO message = 1;
+}
+
+message CreateMessageRequest {
+  string content = 1;
+  uint64 user_id = 2;
+  uint64 chat_id = 3;
+}
+
+message CreateMessageResponse {
+  MessageDTO message = 1;
+}
+
+message UpdateMessageRequest {
+  uint64 id = 1;
+  string content = 2;
+  uint64 user_id = 3;
+  uint64 chat_id = 4;
+}
+
+message UpdateMessageResponse {
+  MessageDTO message = 1;
+}
+
+message DeleteMessageRequest {
+  uint64 id = 1;
+}
+
+message DeleteMessageResponse {
+  bool deleted = 1;
+}

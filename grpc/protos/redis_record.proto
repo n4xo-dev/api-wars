@@ -1,0 +1,40 @@
+/**
+ * RedisRecord proto file
+ */
+
+syntax = "proto3";
+
+option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
+
+service RedisService {
+  rpc Ping (PingRequest) returns (PingResponse) {}
+  rpc Get (GetRedisRecordRequest) returns (GetRedisRecordResponse) {}
+  rpc Set (SetRedisRecordRequest) returns (SetRedisRecordResponse) {}
+}
+
+message RedisRecord {
+  string key = 1;
+  string value = 2;
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+}
+
+message GetRedisRecordRequest {
+  string key = 1;
+}
+
+message GetRedisRecordResponse {
+  RedisRecord record = 1;
+}
+
+message SetRedisRecordRequest {
+  RedisRecord record = 1;
+}
+
+message SetRedisRecordResponse {
+  RedisRecord record = 1;
+}

@@ -4,13 +4,12 @@
 
 syntax = "proto3";
 
-package users;
-
 import "google/protobuf/timestamp.proto";
-import "posts/posts.proto";
-import "comments/comments.proto";
+import "posts.proto";
+import "comments.proto";
+import "messages.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/protos";
+option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
 
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
@@ -18,10 +17,10 @@ service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-  rpc GetUsersPosts(GetUsersPostsRequest) returns (posts.ListPostsResponse);
-  rpc GetUsersComments(GetUsersCommentsRequest) returns (comments.ListCommentsResponse);
-  rpc GetUsersMessages(GetUsersMessagesRequest) returns (messages.ListMessagesResponse);
-  rpc GetUsersMessagesFromChat(GetUsersMessagesFromChatRequest) returns (messages.ListMessagesResponse);
+  rpc GetUsersPosts(GetUsersPostsRequest) returns (ListPostsResponse);
+  rpc GetUsersComments(GetUsersCommentsRequest) returns (ListCommentsResponse);
+  rpc GetUsersMessages(GetUsersMessagesRequest) returns (ListMessagesResponse);
+  rpc GetUsersMessagesFromChat(GetUsersMessagesFromChatRequest) returns (ListMessagesResponse);
 }
 
 message UserDTO {
@@ -78,7 +77,7 @@ message GetUsersPostsRequest {
 }
 
 message GetUsersPostsResponse {
-  repeated posts.PostDTO posts = 1;
+  repeated PostDTO posts = 1;
 }
 
 message GetUsersCommentsRequest {
@@ -86,7 +85,7 @@ message GetUsersCommentsRequest {
 }
 
 message GetUsersCommentsResponse {
-  repeated comments.CommentDTO comments = 1;
+  repeated CommentDTO comments = 1;
 }
 
 message GetUsersMessagesRequest {
@@ -94,7 +93,7 @@ message GetUsersMessagesRequest {
 }
 
 message GetUsersMessagesResponse {
-  repeated messages.MessageDTO messages = 1;
+  repeated MessageDTO messages = 1;
 }
 
 message GetUsersMessagesFromChatRequest {
@@ -103,5 +102,5 @@ message GetUsersMessagesFromChatRequest {
 }
 
 message GetUsersMessagesFromChatResponse {
-  repeated messages.MessageDTO messages = 1;
+  repeated MessageDTO messages = 1;
 }

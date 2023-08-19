@@ -6,7 +6,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/protos";
+option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
 
 service CommentsService {
   rpc ListComments(ListCommentsRequest) returns (ListCommentsResponse);
@@ -52,6 +52,8 @@ message CreateCommentResponse {
 message UpdateCommentRequest {
   uint64 id = 1;
   string content = 2;
+  uint64 user_id = 3;
+  uint64 post_id = 4;
 }
 
 message UpdateCommentResponse {
