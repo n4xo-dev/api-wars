@@ -36,5 +36,5 @@ message SetRedisRecordRequest {
 }
 
 message SetRedisRecordResponse {
-  RedisRecord record = 1;
+  string message = 1;
 }
