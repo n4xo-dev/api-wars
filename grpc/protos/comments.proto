@@ -1,0 +1,67 @@
+/**
+ * Comments proto file
+ */
+
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/iLopezosa/api-wars/grpc/protos";
+
+service CommentsService {
+  rpc ListComments(ListCommentsRequest) returns (ListCommentsResponse);
+  rpc GetComment(GetCommentRequest) returns (GetCommentResponse);
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
+  rpc UpdateComment(UpdateCommentRequest) returns (UpdateCommentResponse);
+  rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse);
+}
+
+message CommentDTO {
+  uint64 id = 1;
+  string content = 2;
+  uint64 user_id = 3;
+  uint64 post_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message ListCommentsRequest {}
+
+message ListCommentsResponse {
+  repeated CommentDTO comments = 1;
+}
+
+message GetCommentRequest {
+  uint64 id = 1;
+}
+
+message GetCommentResponse {
+  CommentDTO comment = 1;
+}
+
+message CreateCommentRequest {
+  string content = 1;
+  uint64 user_id = 2;
+  uint64 post_id = 3;
+}
+
+message CreateCommentResponse {
+  CommentDTO comment = 1;
+}
+
+message UpdateCommentRequest {
+  uint64 id = 1;
+  string content = 2;
+}
+
+message UpdateCommentResponse {
+  CommentDTO comment = 1;
+}
+
+message DeleteCommentRequest {
+  uint64 id = 1;
+}
+
+message DeleteCommentResponse {
+  bool deleted = 1;
+}

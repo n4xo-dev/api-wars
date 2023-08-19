@@ -4,11 +4,19 @@
 
 syntax = "proto3";
 
-package posts;
-
 import "google/protobuf/timestamp.proto";
+import "comments.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/proto";
+option go_package = "github.com/iLopezosa/api-wars/grpc/protos";
+
+service PostsService {
+  rpc ListPosts(ListPostsRequest) returns (ListPostsResponse);
+  rpc GetPost(GetPostRequest) returns (GetPostResponse);
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+  rpc GetPostsComments(GetPostsCommentsRequest) returns (GetPostsCommentsResponse);
+}
 
 message PostDTO {
   uint64 id = 1;

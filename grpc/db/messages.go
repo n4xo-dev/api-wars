@@ -1,6 +1,6 @@
 package db
 
-import "github.com/iLopezosa/api-wars/rest/models"
+import "github.com/iLopezosa/api-wars/grpc/models"
 
 // Updater or creates a message if the id provided within the message is found or not, respectively
 func MessageUpsert(m *models.Message) error {

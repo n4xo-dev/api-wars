@@ -7,9 +7,10 @@ syntax = "proto3";
 package users;
 
 import "google/protobuf/timestamp.proto";
-import "./posts.proto";
+import "posts/posts.proto";
+import "comments/comments.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/proto";
+option go_package = "github.com/iLopezosa/api-wars/grpc/protos";
 
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
@@ -17,10 +18,10 @@ service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-  rpc GetUsersPosts(GetUsersPostsRequest) returns (ListPostsResponse);
-  rpc GetUsersComments(GetUsersCommentsRequest) returns (ListCommentsResponse);
-  rpc GetUsersMessages(GetUsersMessagesRequest) returns (ListMessagesResponse);
-  rpc GetUsersMessagesFromChat(GetUsersMessagesFromChatRequest) returns (ListMessagesResponse);
+  rpc GetUsersPosts(GetUsersPostsRequest) returns (posts.ListPostsResponse);
+  rpc GetUsersComments(GetUsersCommentsRequest) returns (comments.ListCommentsResponse);
+  rpc GetUsersMessages(GetUsersMessagesRequest) returns (messages.ListMessagesResponse);
+  rpc GetUsersMessagesFromChat(GetUsersMessagesFromChatRequest) returns (messages.ListMessagesResponse);
 }
 
 message UserDTO {
@@ -85,7 +86,7 @@ message GetUsersCommentsRequest {
 }
 
 message GetUsersCommentsResponse {
-  repeated proto.CommentDTO comments = 1;
+  repeated comments.CommentDTO comments = 1;
 }
 
 message GetUsersMessagesRequest {
@@ -93,7 +94,7 @@ message GetUsersMessagesRequest {
 }
 
 message GetUsersMessagesResponse {
-  repeated proto.MessageDTO messages = 1;
+  repeated messages.MessageDTO messages = 1;
 }
 
 message GetUsersMessagesFromChatRequest {
@@ -102,5 +103,5 @@ message GetUsersMessagesFromChatRequest {
 }
 
 message GetUsersMessagesFromChatResponse {
-  repeated proto.MessageDTO messages = 1;
+  repeated messages.MessageDTO messages = 1;
 }

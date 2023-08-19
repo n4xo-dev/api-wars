@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/iLopezosa/api-wars/rest/models"
+	"github.com/iLopezosa/api-wars/grpc/models"
 )
 
 // Updates or creates a user if the id provided within the user is found or not, respectively
