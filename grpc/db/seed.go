@@ -3,7 +3,6 @@ package db
 import (
 	"log"
 	"math/rand"
-	"time"
 
 	"github.com/iLopezosa/api-wars/grpc/config"
 	"github.com/iLopezosa/api-wars/grpc/models"
@@ -28,6 +27,17 @@ func Seed() {
 	conf := config.GetConfig()
 	fake := faker.New()
 
+	// Start transaction
+	tx := DBClient.Begin()
+
+	// Handle panic and rollback
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// Create users, posts and comments
 	var users []*models.User
 	for i := 1; i <= conf.NumOfUsers; i++ {
 
@@ -62,8 +72,13 @@ func Seed() {
 		})
 	}
 
-	DBClient.Create(users)
+	// Create users or rollback
+	if result := tx.Create(users); result.Error != nil {
+		tx.Rollback()
+		log.Fatal(result.Error)
+	}
 
+	// Create chats and messages
 	var chats []*models.Chat
 	for i := 1; i <= conf.NumOfChats; i++ {
 
@@ -71,7 +86,6 @@ func Seed() {
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
 		for j := 1; j <= numOfParticipants; j++ {
 			participantID := uint64(rand.Intn(conf.NumOfUsers)) + 1
-
 			// If the participant is already in the chat, increment the participantID
 			if slices.ContainsFunc(participants, func(p *models.User) bool { return p.ID == participantID }) {
 				participantID = (participantID % uint64(conf.NumOfUsers)) + 1
@@ -97,8 +111,12 @@ func Seed() {
 		})
 	}
 
-	DBClient.Create(chats)
+	// Create chats or rollback
+	if result := tx.Create(chats); result.Error != nil {
+		tx.Rollback()
+		log.Fatal(result.Error)
+	}
 
-	// Ensure that the chats are saved in the database
-	time.Sleep(5 * time.Second)
+	// Commit transaction
+	tx.Commit()
 }
