@@ -36,7 +36,7 @@ func Seed() {
 			consumerID := uint64(rand.Intn(conf.NumOfUsers)) + 1
 			// If the consumer is the same as the publisher, increment the consumerID
 			if consumerID == uint64(i) {
-				consumerID++
+				consumerID = (consumerID % uint64(conf.NumOfUsers)) + 1
 			}
 
 			posts = append(posts, model.Post{
@@ -70,11 +70,11 @@ func Seed() {
 		var participants []*model.User
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
 		for j := 1; j <= numOfParticipants; j++ {
-			participantID := uint64(rand.Intn(conf.NumOfUsers) + 1)
+			participantID := uint64(rand.Intn(conf.NumOfUsers)) + 1
 
 			// If the participant is already in the chat, increment the participantID
 			if slices.ContainsFunc(participants, func(p *model.User) bool { return p.ID == participantID }) {
-				participantID++
+				participantID = (participantID % uint64(conf.NumOfUsers)) + 1
 			}
 			participants = append(participants, &model.User{
 				ID: participantID,
