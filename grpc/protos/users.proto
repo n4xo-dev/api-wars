@@ -45,7 +45,7 @@ message GetUserResponse {
 }
 
 message CreateUserRequest {
-  uint64 name = 1;
+  string name = 1;
   string email = 2;
 }
 

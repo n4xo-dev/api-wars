@@ -2,10 +2,12 @@ package services
 
 import (
 	context "context"
+	"errors"
 
 	"github.com/iLopezosa/api-wars/grpc/db"
 	"github.com/iLopezosa/api-wars/grpc/models"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"gorm.io/gorm"
 
 	// grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -36,11 +38,14 @@ func (p *PostsServiceServer) GetPost(ctx context.Context, getReq *pb.GetPostRequ
 	}
 
 	post, err := db.PostRead(getReq.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error while getting post from database: %v", err)
+	if err == nil {
+		return &pb.GetPostResponse{Post: post.ToPbPostDTO()}, nil
+	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, status.Errorf(codes.NotFound, "Post not found")
 	}
 
-	return &pb.GetPostResponse{Post: post.ToPbPostDTO()}, nil
+	return nil, status.Errorf(codes.Internal, "Error while getting post from database: %v", err)
 }
 
 func (p *PostsServiceServer) CreatePost(ctx context.Context, createReq *pb.CreatePostRequest) (*pb.CreatePostResponse, error) {

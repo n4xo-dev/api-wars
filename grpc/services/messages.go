@@ -2,12 +2,14 @@ package services
 
 import (
 	context "context"
+	"errors"
 	// grpc "google.golang.org/grpc"
 	"github.com/iLopezosa/api-wars/grpc/db"
 	"github.com/iLopezosa/api-wars/grpc/models"
 	"github.com/iLopezosa/api-wars/grpc/pb"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 type MessagesServiceServer struct {
@@ -34,11 +36,14 @@ func (m *MessagesServiceServer) GetMessage(ctx context.Context, getReq *pb.GetMe
 	}
 
 	message, err := db.MessageRead(getReq.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "could not retrieve message from database: %v", err)
+	if err == nil {
+		return &pb.GetMessageResponse{Message: message.ToPbMessageDTO()}, nil
+	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, status.Errorf(codes.NotFound, "message not found")
 	}
 
-	return &pb.GetMessageResponse{Message: message.ToPbMessageDTO()}, nil
+	return nil, status.Errorf(codes.Internal, "could not retrieve message from database: %v", err)
 }
 
 func (m *MessagesServiceServer) CreateMessage(ctx context.Context, createReq *pb.CreateMessageRequest) (*pb.CreateMessageResponse, error) {

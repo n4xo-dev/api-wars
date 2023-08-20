@@ -2,10 +2,12 @@ package services
 
 import (
 	context "context"
+	"errors"
 
 	"github.com/iLopezosa/api-wars/grpc/db"
 	"github.com/iLopezosa/api-wars/grpc/models"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"gorm.io/gorm"
 
 	//grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -38,13 +40,14 @@ func (c *ChatsServiceServer) GetChat(ctx context.Context, getReq *pb.GetChatRequ
 	}
 
 	chat, err := db.ChatRead(getReq.Id, getReq.Eager)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "error getting chat: %v", err)
+	if err == nil {
+		return &pb.GetChatResponse{Chat: chat.ToPbChat()}, nil
+	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, status.Errorf(codes.NotFound, "chat not found")
 	}
 
-	return &pb.GetChatResponse{
-		Chat: chat.ToPbChat(),
-	}, nil
+	return nil, status.Errorf(codes.Internal, "error getting chat: %v", err)
 }
 
 func (c *ChatsServiceServer) CreateChat(ctx context.Context, createReq *pb.CreateChatRequest) (*pb.CreateChatResponse, error) {

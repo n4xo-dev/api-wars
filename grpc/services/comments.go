@@ -2,6 +2,7 @@ package services
 
 import (
 	context "context"
+	"errors"
 
 	// grpc "google.golang.org/grpc"
 	"github.com/iLopezosa/api-wars/grpc/db"
@@ -9,6 +10,7 @@ import (
 	"github.com/iLopezosa/api-wars/grpc/pb"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 type CommentsServiceServer struct {
@@ -36,11 +38,14 @@ func (c *CommentsServiceServer) GetComment(ctx context.Context, getReq *pb.GetCo
 	}
 
 	comment, err := db.CommentRead(getReq.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to get comment: %v", err)
+	if err == nil {
+		return &pb.GetCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
+	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, status.Errorf(codes.NotFound, "comment not found")
 	}
 
-	return &pb.GetCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
+	return nil, status.Errorf(codes.Internal, "failed to get comment: %v", err)
 }
 
 func (c *CommentsServiceServer) CreateComment(ctx context.Context, createReq *pb.CreateCommentRequest) (*pb.CreateCommentResponse, error) {
