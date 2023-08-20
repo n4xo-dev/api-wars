@@ -4,7 +4,6 @@ import (
 	"log"
 	"math/rand"
 	"slices"
-	"time"
 
 	"github.com/iLopezosa/api-wars/rest/config"
 	"github.com/iLopezosa/api-wars/rest/models"
@@ -28,10 +27,21 @@ func Seed() {
 	conf := config.GetConfig()
 	fake := faker.New()
 
-	var users []*models.User
+	// Start transaction
+	tx := DBClient.Begin()
+
+	// Handle panic and rollback
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// Create users, posts, and messages
+	users := make([]*models.User, conf.NumOfUsers)
 	for i := 1; i <= conf.NumOfUsers; i++ {
 
-		var posts []models.Post
+		posts := make([]models.Post, conf.NumOfPosts)
 		for j := 1; j <= conf.NumOfPosts; j++ {
 			consumerID := uint64(rand.Intn(conf.NumOfUsers)) + 1
 			// If the consumer is the same as the publisher, increment the consumerID
@@ -39,7 +49,7 @@ func Seed() {
 				consumerID = (consumerID % uint64(conf.NumOfUsers)) + 1
 			}
 
-			posts = append(posts, models.Post{
+			posts[j-1] = models.Post{
 				Title:   fake.Company().CatchPhrase(),
 				Content: fake.Lorem().Paragraph(1),
 				Comments: []models.Comment{
@@ -52,53 +62,61 @@ func Seed() {
 						UserID:  consumerID,
 					},
 				},
-			})
+			}
 		}
 
-		users = append(users, &models.User{
+		users[i-1] = &models.User{
 			Name:  fake.Person().Name(),
 			Email: fake.Internet().Email(),
 			Posts: posts,
-		})
+		}
 	}
 
-	DBClient.Create(users)
+	// Create users or rollback
+	if result := tx.Create(users); result.Error != nil {
+		tx.Rollback()
+		log.Fatal("SEED ERRROR", result.Error)
+	}
 
-	var chats []*models.Chat
+	// Create chats and messages
+	chats := make([]*models.Chat, conf.NumOfChats)
 	for i := 1; i <= conf.NumOfChats; i++ {
 
-		var participants []*models.User
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
+		participants := make([]*models.User, numOfParticipants)
 		for j := 1; j <= numOfParticipants; j++ {
 			participantID := uint64(rand.Intn(conf.NumOfUsers)) + 1
-
 			// If the participant is already in the chat, increment the participantID
 			if slices.ContainsFunc(participants, func(p *models.User) bool { return p.ID == participantID }) {
 				participantID = (participantID % uint64(conf.NumOfUsers))
 			}
-			participants = append(participants, &models.User{
+			participants[j-1] = &models.User{
 				ID: participantID,
-			})
+			}
 		}
 
-		var messages []models.Message
+		messages := make([]models.Message, conf.MaxNumOfMessages)
 		numOfMessages := rand.Intn(conf.MaxNumOfMessages) + 1
 		for j := 1; j <= numOfMessages; j++ {
 			usrIndex := uint64(rand.Intn(len(participants)))
-			messages = append(messages, models.Message{
+			messages[j-1] = models.Message{
 				Content: fake.Lorem().Sentence(j),
 				UserID:  participants[usrIndex].ID,
-			})
+			}
 		}
 
-		chats = append(chats, &models.Chat{
+		chats[i-1] = &models.Chat{
 			Messages:     messages,
 			Participants: participants,
-		})
+		}
 	}
 
-	DBClient.Create(chats)
+	// Create users or rollback
+	if result := tx.Create(chats); result.Error != nil {
+		tx.Rollback()
+		log.Fatal("SEED ERRROR", result.Error)
+	}
 
-	// Ensure that the chats are saved in the database
-	time.Sleep(5 * time.Second)
+	// Commit transaction
+	tx.Commit()
 }
