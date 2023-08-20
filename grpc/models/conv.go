@@ -1,75 +1,89 @@
 package models
 
-func (m *WriteMessageDTO) ToMessage() Message {
-	return Message{
-		Content: m.Content,
-		UserID:  m.UserID,
-		ChatID:  m.ChatID,
-	}
-}
+import "github.com/iLopezosa/api-wars/grpc/pb"
 
-func (m *Message) ToReadMessageDTO() ReadMessageDTO {
-	return ReadMessageDTO{
-		ID:        m.ID,
+func (m *Message) ToPbMessageDTO() *pb.MessageDTO {
+	return &pb.MessageDTO{
+		Id:        m.ID,
 		Content:   m.Content,
-		UserID:    m.UserID,
-		ChatID:    m.ChatID,
+		UserId:    m.UserID,
+		ChatId:    m.ChatID,
 		CreatedAt: m.CreatedAt.String(),
 		UpdatedAt: m.UpdatedAt.String(),
 	}
 }
 
-func (c *WriteCommentDTO) ToComment() Comment {
-	return Comment{
-		Content: c.Content,
-		UserID:  c.UserID,
-		PostID:  c.PostID,
+func (m *ReadMessageDTO) ToPbMessageDTO() *pb.MessageDTO {
+	return &pb.MessageDTO{
+		Id:        m.ID,
+		Content:   m.Content,
+		UserId:    m.UserID,
+		ChatId:    m.ChatID,
+		CreatedAt: m.CreatedAt,
+		UpdatedAt: m.UpdatedAt,
 	}
 }
 
-func (c *Comment) ToReadCommentDTO() ReadCommentDTO {
-	return ReadCommentDTO{
-		ID:        c.ID,
+func (c *Comment) ToPbCommentDTO() *pb.CommentDTO {
+	return &pb.CommentDTO{
+		Id:        c.ID,
 		Content:   c.Content,
-		UserID:    c.UserID,
-		PostID:    c.PostID,
+		UserId:    c.UserID,
+		PostId:    c.PostID,
 		CreatedAt: c.CreatedAt.String(),
 		UpdatedAt: c.UpdatedAt.String(),
 	}
 }
 
-func (p *WritePostDTO) ToPost() Post {
-	return Post{
-		Title:   p.Title,
-		Content: p.Content,
-		UserID:  p.UserID,
+func (c *ReadCommentDTO) ToPbCommentDTO() *pb.CommentDTO {
+	return &pb.CommentDTO{
+		Id:        c.ID,
+		Content:   c.Content,
+		UserId:    c.UserID,
+		PostId:    c.PostID,
+		CreatedAt: c.CreatedAt,
+		UpdatedAt: c.UpdatedAt,
 	}
 }
 
-func (p *Post) ToReadPostDTO() ReadPostDTO {
-	return ReadPostDTO{
-		ID:        p.ID,
+func (p *Post) ToPbPostDTO() *pb.PostDTO {
+	return &pb.PostDTO{
+		Id:        p.ID,
 		Title:     p.Title,
 		Content:   p.Content,
-		UserID:    p.UserID,
+		UserId:    p.UserID,
 		CreatedAt: p.CreatedAt.String(),
 		UpdatedAt: p.UpdatedAt.String(),
 	}
 }
 
-func (u *WriteUserDTO) ToUser() User {
-	return User{
-		Name:  u.Name,
-		Email: u.Email,
+func (p *ReadPostDTO) ToPbPostDTO() *pb.PostDTO {
+	return &pb.PostDTO{
+		Id:        p.ID,
+		Title:     p.Title,
+		Content:   p.Content,
+		UserId:    p.UserID,
+		CreatedAt: p.CreatedAt,
+		UpdatedAt: p.UpdatedAt,
 	}
 }
 
-func (u *User) ToReadUserDTO() ReadUserDTO {
-	return ReadUserDTO{
-		ID:        u.ID,
+func (u *User) ToPbUserDTO() *pb.UserDTO {
+	return &pb.UserDTO{
+		Id:        u.ID,
 		Name:      u.Name,
 		Email:     u.Email,
 		CreatedAt: u.CreatedAt.String(),
 		UpdatedAt: u.UpdatedAt.String(),
+	}
+}
+
+func (u *ReadUserDTO) ToPbUserDTO() *pb.UserDTO {
+	return &pb.UserDTO{
+		Id:        u.ID,
+		Name:      u.Name,
+		Email:     u.Email,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
 	}
 }
