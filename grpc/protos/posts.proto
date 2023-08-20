@@ -4,7 +4,6 @@
 
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
 import "comments.proto";
 
 option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
@@ -23,8 +22,8 @@ message PostDTO {
   string title = 2;
   string content = 3;
   uint64 user_id = 4;
-  google.protobuf.Timestamp created_at = 5;
-  google.protobuf.Timestamp updated_at = 6;
+  string created_at = 5;
+  string updated_at = 6;
 }
 
 message ListPostsRequest {

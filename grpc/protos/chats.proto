@@ -4,7 +4,6 @@
 
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
 import "messages.proto";
 import "users.proto";
 
@@ -24,9 +23,9 @@ message Chat {
   uint64 id = 1;
   repeated MessageDTO messages = 2;
   repeated UserDTO participants = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-  google.protobuf.Timestamp deleted_at = 6;
+  string created_at = 4;
+  string updated_at = 5;
+  string deleted_at = 6;
 }
 
 message ListChatsRequest {}
