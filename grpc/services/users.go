@@ -69,7 +69,7 @@ func (u *UserServiceServer) DeleteUser(ctx context.Context, deleteReq *pb.Delete
 		return nil, status.Errorf(codes.Internal, "error deleting user: %v", err)
 	}
 
-	return &pb.DeleteUserResponse{}, nil
+	return &pb.DeleteUserResponse{Deleted: true}, nil
 }
 
 func (u *UserServiceServer) UpdateUser(ctx context.Context, updateReq *pb.UpdateUserRequest) (*pb.UpdateUserResponse, error) {
