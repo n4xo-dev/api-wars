@@ -16,9 +16,9 @@ func CommentList(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{
 			"error": err.Error(),
 		})
-	} else {
-		return c.JSON(comments)
 	}
+	return c.JSON(comments)
+
 }
 
 func CommentRead(c *fiber.Ctx) error {
