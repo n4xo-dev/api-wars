@@ -16,9 +16,8 @@ func UserList(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{
 			"error": err.Error(),
 		})
-	} else {
-		return c.JSON(users)
 	}
+	return c.JSON(users)
 }
 
 func UserRead(c *fiber.Ctx) error {
@@ -28,7 +27,8 @@ func UserRead(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{
 			"error": "id is required",
 		})
-	} else if id < 1 {
+	}
+	if id < 1 {
 		return c.Status(400).JSON(fiber.Map{
 			"error": "id must be greater than 0",
 		})
