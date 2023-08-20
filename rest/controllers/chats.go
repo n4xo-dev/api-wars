@@ -202,7 +202,7 @@ func ChatUserMessages(c *fiber.Ctx) error {
 		})
 	}
 
-	messages, err := db.MessageListByChatID(chatId)
+	messages, err := db.MessageListByChatIDAndUserID(chatId, userId)
 
 	if err == nil {
 		return c.JSON(messages)
