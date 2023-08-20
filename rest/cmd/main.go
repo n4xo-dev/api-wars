@@ -89,7 +89,7 @@ func main() {
 		routers.Setup(app)
 		PrintMemUsage()
 		go func() {
-			app.Listen(":3000")
+			app.Listen(":8080")
 		}()
 		_ = <-sigs
 		app.Shutdown()
