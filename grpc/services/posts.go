@@ -62,6 +62,7 @@ func (p *PostsServiceServer) UpdatePost(ctx context.Context, updateReq *pb.Updat
 		ID:      updateReq.Id,
 		Title:   updateReq.Title,
 		Content: updateReq.Content,
+		UserID:  updateReq.UserId,
 	}
 
 	if err := db.PostPatch(post); err != nil {
