@@ -22,17 +22,9 @@ func (c *CommentsServiceServer) ListComments(ctx context.Context, listReq *pb.Li
 	}
 
 	commentsPB := make([]*pb.CommentDTO, len(comments))
-	const dateLayout = "2006-01-02T15:04:05.999999-07:00"
 
 	for i, comment := range comments {
-		commentsPB[i] = &pb.CommentDTO{
-			Id:        comment.ID,
-			Content:   comment.Content,
-			UserId:    comment.UserID,
-			PostId:    comment.PostID,
-			CreatedAt: comment.CreatedAt,
-			UpdatedAt: comment.UpdatedAt,
-		}
+		commentsPB[i] = comment.ToPbCommentDTO()
 	}
 
 	return &pb.ListCommentsResponse{Comments: commentsPB}, nil
@@ -48,18 +40,7 @@ func (c *CommentsServiceServer) GetComment(ctx context.Context, getReq *pb.GetCo
 		return nil, status.Errorf(codes.Internal, "failed to get comment: %v", err)
 	}
 
-	const dateLayout = "2006-01-02T15:04:05.999999-07:00"
-
-	commentPB := &pb.CommentDTO{
-		Id:        comment.ID,
-		Content:   comment.Content,
-		UserId:    comment.UserID,
-		PostId:    comment.PostID,
-		CreatedAt: comment.CreatedAt,
-		UpdatedAt: comment.UpdatedAt,
-	}
-
-	return &pb.GetCommentResponse{Comment: commentPB}, nil
+	return &pb.GetCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
 }
 
 func (c *CommentsServiceServer) CreateComment(ctx context.Context, createReq *pb.CreateCommentRequest) (*pb.CreateCommentResponse, error) {
@@ -72,14 +53,7 @@ func (c *CommentsServiceServer) CreateComment(ctx context.Context, createReq *pb
 		return nil, status.Errorf(codes.Internal, "failed to create comment: %v", err)
 	}
 
-	return &pb.CreateCommentResponse{Comment: &pb.CommentDTO{
-		Id:        comment.ID,
-		Content:   comment.Content,
-		UserId:    comment.UserID,
-		PostId:    comment.PostID,
-		CreatedAt: comment.CreatedAt.String(),
-		UpdatedAt: comment.UpdatedAt.String(),
-	}}, nil
+	return &pb.CreateCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
 }
 
 func (c *CommentsServiceServer) UpdateComment(ctx context.Context, updateReq *pb.UpdateCommentRequest) (*pb.UpdateCommentResponse, error) {
@@ -97,14 +71,7 @@ func (c *CommentsServiceServer) UpdateComment(ctx context.Context, updateReq *pb
 		return nil, status.Errorf(codes.Internal, "failed to update comment: %v", err)
 	}
 
-	return &pb.UpdateCommentResponse{Comment: &pb.CommentDTO{
-		Id:        comment.ID,
-		Content:   comment.Content,
-		UserId:    comment.UserID,
-		PostId:    comment.PostID,
-		CreatedAt: comment.CreatedAt.String(),
-		UpdatedAt: comment.UpdatedAt.String(),
-	}}, nil
+	return &pb.UpdateCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
 }
 
 func (c *CommentsServiceServer) DeleteComment(ctx context.Context, deleteReq *pb.DeleteCommentRequest) (*pb.DeleteCommentResponse, error) {
