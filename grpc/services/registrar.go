@@ -6,6 +6,7 @@ import (
 )
 
 func RegisterServices(s *grpc.Server) {
+	pb.RegisterChatsServiceServer(s, &ChatsServiceServer{})
 	pb.RegisterCommentsServiceServer(s, &CommentsServiceServer{})
 	pb.RegisterMessagesServiceServer(s, &MessagesServiceServer{})
 	pb.RegisterPostsServiceServer(s, &PostsServiceServer{})

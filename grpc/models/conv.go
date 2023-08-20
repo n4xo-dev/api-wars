@@ -68,6 +68,27 @@ func (p *ReadPostDTO) ToPbPostDTO() *pb.PostDTO {
 	}
 }
 
+func (c *Chat) ToPbChat() *pb.Chat {
+	pbMessages := make([]*pb.MessageDTO, len(c.Messages))
+	for i, m := range c.Messages {
+		pbMessages[i] = m.ToPbMessageDTO()
+	}
+
+	pbParticipants := make([]*pb.UserDTO, len(c.Participants))
+	for i, u := range c.Participants {
+		pbParticipants[i] = u.ToPbUserDTO()
+	}
+
+	return &pb.Chat{
+		Id:           c.ID,
+		Messages:     pbMessages,
+		Participants: pbParticipants,
+		CreatedAt:    c.CreatedAt.String(),
+		UpdatedAt:    c.UpdatedAt.String(),
+		DeletedAt:    c.DeletedAt.Time.String(),
+	}
+}
+
 func (u *User) ToPbUserDTO() *pb.UserDTO {
 	return &pb.UserDTO{
 		Id:        u.ID,

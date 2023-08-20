@@ -9,7 +9,7 @@ import "users.proto";
 
 option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
 
-service Chats {
+service ChatsService {
   rpc ListChats (ListChatsRequest) returns (ListChatsResponse) {}
   rpc GetChat (GetChatRequest) returns (GetChatResponse) {}
   rpc CreateChat (CreateChatRequest) returns (CreateChatResponse) {}
@@ -28,23 +28,24 @@ message Chat {
   string deleted_at = 6;
 }
 
-message ListChatsRequest {}
+message ListChatsRequest {
+  bool eager = 1;
+}
 
 message ListChatsResponse {
   repeated Chat chats = 1;
 }
 
 message GetChatRequest {
-  uint64 user_id = 1;
+  uint64 id = 1;
+  bool eager = 2;
 }
 
 message GetChatResponse {
   Chat chat = 1;
 }
 
-message CreateChatRequest {
-  Chat chat = 1;
-}
+message CreateChatRequest {}
 
 message CreateChatResponse {
   Chat chat = 1;
@@ -63,7 +64,9 @@ message DeleteChatRequest {
   uint64 id = 1;
 }
 
-message DeleteChatResponse {}
+message DeleteChatResponse {
+  bool deleted = 1;
+}
 
 message GetChatMessagesRequest {
   uint64 id = 1;
