@@ -23,6 +23,7 @@ func (rr *RedisServiceServer) Ping(ctx context.Context, pingReq *pb.PingRequest)
 	}
 	return &pb.PingResponse{Message: val}, nil
 }
+
 func (rr *RedisServiceServer) Get(ctx context.Context, getReq *pb.GetRedisRecordRequest) (*pb.GetRedisRecordResponse, error) {
 	val, err := db.RedisGet(getReq.Key)
 	if err == redis.Nil {
@@ -39,6 +40,7 @@ func (rr *RedisServiceServer) Get(ctx context.Context, getReq *pb.GetRedisRecord
 		},
 	}, nil
 }
+
 func (rr *RedisServiceServer) Set(ctx context.Context, setReq *pb.SetRedisRecordRequest) (*pb.SetRedisRecordResponse, error) {
 	err := db.RedisSet(setReq.Record.Key, setReq.Record.Value)
 	if err != nil {
