@@ -8,5 +8,6 @@ import (
 func RegisterServices(s *grpc.Server) {
 	pb.RegisterCommentsServiceServer(s, &CommentsServiceServer{})
 	pb.RegisterMessagesServiceServer(s, &MessagesServiceServer{})
+	pb.RegisterPostsServiceServer(s, &PostsServiceServer{})
 	pb.RegisterRedisServiceServer(s, &RedisServiceServer{})
 }
