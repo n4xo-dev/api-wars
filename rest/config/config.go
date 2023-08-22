@@ -12,6 +12,7 @@ type Config struct {
 	NumOfPosts           int
 	MaxNumOfMessages     int
 	MaxNumOfParticipants int
+	MaxNumOfWords        int
 }
 
 var config Config
@@ -40,6 +41,10 @@ func GetConfig() Config {
 		if err != nil {
 			maxNumOfParticipants = 4
 		}
+		maxNumOfWords, err := strconv.Atoi(os.Getenv("MAX_NUM_OF_WORDS"))
+		if err != nil {
+			maxNumOfWords = 10
+		}
 
 		config = Config{
 			NumOfUsers:           numOfUsers,
@@ -47,6 +52,7 @@ func GetConfig() Config {
 			NumOfPosts:           numOfPosts,
 			MaxNumOfMessages:     maxNumOfMessages,
 			MaxNumOfParticipants: maxNumOfParticipants,
+			MaxNumOfWords:        maxNumOfWords,
 		}
 	})
 
