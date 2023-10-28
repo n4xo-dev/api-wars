@@ -10,7 +10,6 @@ require (
 	github.com/redis/go-redis/v9 v9.0.5
 	github.com/valyala/fasthttp v1.48.0
 	github.com/vektah/gqlparser/v2 v2.5.8
-	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.2
 )
