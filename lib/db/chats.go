@@ -60,3 +60,34 @@ func ChatList(eager bool) ([]models.Chat, error) {
 
 	return chats, ctx.Error
 }
+
+// Get the messages of the chat with the provided id
+func ChatMessages(id uint64) ([]*models.Message, error) {
+
+	var messages []*models.Message
+	ctx := DBClient.Model(&models.Message{}).Where("chat_id = ?", id).Find(&messages)
+
+	return messages, ctx.Error
+}
+
+// Get the participants of the chat with the provided id
+func ChatParticipants(id uint64) ([]*models.User, error) {
+
+	chat := models.Chat{
+		ID: id,
+	}
+	ctx := DBClient.Preload("Participants").Find(&chat)
+
+	return chat.Participants, ctx.Error
+}
+
+// Gets the data of the chats with the provided user id
+func ChatListByUserID(userID uint64) ([]*models.Chat, error) {
+
+	user := models.User{
+		ID: userID,
+	}
+	ctx := DBClient.Model(&models.User{}).Preload("Chats").Find(&user)
+
+	return user.Chats, ctx.Error
+}
