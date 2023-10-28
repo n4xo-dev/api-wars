@@ -1,9 +1,9 @@
 package db
 
-import "github.com/iLopezosa/api-wars/graphql/graph/model"
+import "github.com/iLopezosa/api-wars/lib/models"
 
 // Updater or creates a post if the id provided within the post is found or not, respectively
-func PostUpsert(post *model.Post) error {
+func PostUpsert(post *models.Post) error {
 
 	ctx := DBClient.Save(post).Take(post)
 
@@ -11,19 +11,19 @@ func PostUpsert(post *model.Post) error {
 }
 
 // Gets the data of the post with the provided id
-func PostRead(id uint64) (model.Post, error) {
+func PostRead(id uint64) (models.Post, error) {
 
-	var post = model.Post{}
-	ctx := DBClient.Model(&model.Post{}).First(&post, id)
+	var post = models.Post{}
+	ctx := DBClient.Model(&models.Post{}).First(&post, id)
 
 	return post, ctx.Error
 }
 
 // Gets the comments of the post with the provided id
-func PostComments(id uint64) ([]*model.Comment, error) {
+func PostComments(id uint64) ([]*models.Comment, error) {
 
-	var comments []*model.Comment
-	ctx := DBClient.Model(&model.Comment{}).Where("post_id = ?", id).Find(&comments)
+	var comments []*models.Comment
+	ctx := DBClient.Model(&models.Comment{}).Where("post_id = ?", id).Find(&comments)
 
 	return comments, ctx.Error
 }
@@ -31,16 +31,16 @@ func PostComments(id uint64) ([]*model.Comment, error) {
 // Deletes the post with the provided id
 func PostDelete(id uint64) error {
 
-	var post = model.Post{
+	var post = models.Post{
 		ID: id,
 	}
-	ctx := DBClient.Model(&model.Post{}).Delete(&post)
+	ctx := DBClient.Model(&models.Post{}).Delete(&post)
 
 	return ctx.Error
 }
 
 // Patch update the post with the provided id
-func PostPatch(post *model.Post) error {
+func PostPatch(post *models.Post) error {
 
 	ctx := DBClient.Updates(post).Take(post)
 
@@ -48,19 +48,19 @@ func PostPatch(post *model.Post) error {
 }
 
 // Gets the data of all the posts
-func PostList() ([]*model.Post, error) {
+func PostList() ([]*models.Post, error) {
 
-	var posts []*model.Post
-	ctx := DBClient.Model(&model.Post{}).Find(&posts)
+	var posts []*models.Post
+	ctx := DBClient.Model(&models.Post{}).Find(&posts)
 
 	return posts, ctx.Error
 }
 
 // Gets the data of the posts with the provided user id
-func PostListByUserID(userID uint64) ([]*model.Post, error) {
+func PostListByUserID(userID uint64) ([]*models.Post, error) {
 
-	var posts []*model.Post
-	ctx := DBClient.Model(&model.Post{}).Where("user_id = ?", userID).Find(&posts)
+	var posts []*models.Post
+	ctx := DBClient.Model(&models.Post{}).Where("user_id = ?", userID).Find(&posts)
 
 	return posts, ctx.Error
 }

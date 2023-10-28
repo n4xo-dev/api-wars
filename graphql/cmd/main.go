@@ -15,8 +15,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
-	"github.com/iLopezosa/api-wars/graphql/db"
 	"github.com/iLopezosa/api-wars/graphql/graph"
+	"github.com/iLopezosa/api-wars/lib/db"
 	"github.com/joho/godotenv"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
@@ -48,8 +48,8 @@ func main() {
 	fmt.Println("\nCreating connection to the databases...")
 
 	db.Connect()
-	db.RedisConnect()
 	defer db.Disconnect()
+	db.RedisConnect()
 	defer db.RedisDisconnect()
 
 	if *resetDB {

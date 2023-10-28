@@ -1,19 +1,21 @@
 package model
 
+import "github.com/iLopezosa/api-wars/lib/models"
+
 type NewUser struct {
-	WriteUserDTO
+	models.WriteUserDTO
 }
 
 type NewPost struct {
-	WritePostDTO
+	models.WritePostDTO
 }
 
 type NewComment struct {
-	WriteCommentDTO
+	models.WriteCommentDTO
 }
 
 type NewMessage struct {
-	WriteMessageDTO
+	models.WriteMessageDTO
 }
 
 type NewChat struct {

@@ -19,6 +19,15 @@ func PostRead(id uint64) (models.ReadPostDTO, error) {
 	return post, ctx.Error
 }
 
+// Gets the comments of the post with the provided id
+func PostComments(id uint64) ([]*models.Comment, error) {
+
+	var comments []*models.Comment
+	ctx := DBClient.Model(&models.Comment{}).Where("post_id = ?", id).Find(&comments)
+
+	return comments, ctx.Error
+}
+
 // Deletes the post with the provided id
 func PostDelete(id uint64) error {
 
