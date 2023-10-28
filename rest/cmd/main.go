@@ -60,8 +60,8 @@ func main() {
 	fmt.Println("\nCreating connection to the databases...")
 
 	db.Connect()
-	db.RedisConnect()
 	defer db.Disconnect()
+	db.RedisConnect()
 	defer db.RedisDisconnect()
 
 	// Reset and seed the database
