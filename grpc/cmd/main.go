@@ -115,6 +115,7 @@ func main() {
 			log.Fatalf("failed to listen: %v", err)
 		}
 
+		fmt.Println("\nStarting gRPC server on port 50051...")
 		grpcServer := grpc.NewServer()
 		services.RegisterServices(grpcServer)
 
