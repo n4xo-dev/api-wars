@@ -1,8 +1,11 @@
-package models
+package conv
 
-import "github.com/iLopezosa/api-wars/grpc/pb"
+import (
+	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/models"
+)
 
-func (m *Message) ToPbMessageDTO() *pb.MessageDTO {
+func MessageToPb(m models.Message) *pb.MessageDTO {
 	return &pb.MessageDTO{
 		Id:        m.ID,
 		Content:   m.Content,
@@ -13,7 +16,7 @@ func (m *Message) ToPbMessageDTO() *pb.MessageDTO {
 	}
 }
 
-func (m *ReadMessageDTO) ToPbMessageDTO() *pb.MessageDTO {
+func MessageDTOToPb(m models.ReadMessageDTO) *pb.MessageDTO {
 	return &pb.MessageDTO{
 		Id:        m.ID,
 		Content:   m.Content,
@@ -24,7 +27,7 @@ func (m *ReadMessageDTO) ToPbMessageDTO() *pb.MessageDTO {
 	}
 }
 
-func (c *Comment) ToPbCommentDTO() *pb.CommentDTO {
+func CommentToPb(c models.Comment) *pb.CommentDTO {
 	return &pb.CommentDTO{
 		Id:        c.ID,
 		Content:   c.Content,
@@ -35,7 +38,7 @@ func (c *Comment) ToPbCommentDTO() *pb.CommentDTO {
 	}
 }
 
-func (c *ReadCommentDTO) ToPbCommentDTO() *pb.CommentDTO {
+func CommentDTOToPb(c models.ReadCommentDTO) *pb.CommentDTO {
 	return &pb.CommentDTO{
 		Id:        c.ID,
 		Content:   c.Content,
@@ -46,7 +49,7 @@ func (c *ReadCommentDTO) ToPbCommentDTO() *pb.CommentDTO {
 	}
 }
 
-func (p *Post) ToPbPostDTO() *pb.PostDTO {
+func PostToPb(p models.Post) *pb.PostDTO {
 	return &pb.PostDTO{
 		Id:        p.ID,
 		Title:     p.Title,
@@ -57,7 +60,7 @@ func (p *Post) ToPbPostDTO() *pb.PostDTO {
 	}
 }
 
-func (p *ReadPostDTO) ToPbPostDTO() *pb.PostDTO {
+func PostDTOToPb(p models.ReadPostDTO) *pb.PostDTO {
 	return &pb.PostDTO{
 		Id:        p.ID,
 		Title:     p.Title,
@@ -68,15 +71,15 @@ func (p *ReadPostDTO) ToPbPostDTO() *pb.PostDTO {
 	}
 }
 
-func (c *Chat) ToPbChat() *pb.Chat {
+func ChatToPb(c models.Chat) *pb.Chat {
 	pbMessages := make([]*pb.MessageDTO, len(c.Messages))
 	for i, m := range c.Messages {
-		pbMessages[i] = m.ToPbMessageDTO()
+		pbMessages[i] = MessageToPb(m)
 	}
 
 	pbParticipants := make([]*pb.UserDTO, len(c.Participants))
 	for i, u := range c.Participants {
-		pbParticipants[i] = u.ToPbUserDTO()
+		pbParticipants[i] = UserToPb(*u)
 	}
 
 	return &pb.Chat{
@@ -89,7 +92,7 @@ func (c *Chat) ToPbChat() *pb.Chat {
 	}
 }
 
-func (u *User) ToPbUserDTO() *pb.UserDTO {
+func UserToPb(u models.User) *pb.UserDTO {
 	return &pb.UserDTO{
 		Id:        u.ID,
 		Name:      u.Name,
@@ -99,7 +102,7 @@ func (u *User) ToPbUserDTO() *pb.UserDTO {
 	}
 }
 
-func (u *ReadUserDTO) ToPbUserDTO() *pb.UserDTO {
+func UserDTOToPb(u models.ReadUserDTO) *pb.UserDTO {
 	return &pb.UserDTO{
 		Id:        u.ID,
 		Name:      u.Name,

@@ -4,9 +4,10 @@ import (
 	context "context"
 	"errors"
 
-	"github.com/iLopezosa/api-wars/grpc/db"
-	"github.com/iLopezosa/api-wars/grpc/models"
+	"github.com/iLopezosa/api-wars/grpc/conv"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/iLopezosa/api-wars/lib/models"
 	"gorm.io/gorm"
 
 	//grpc "google.golang.org/grpc"
@@ -26,7 +27,7 @@ func (c *ChatsServiceServer) ListChats(ctx context.Context, listReq *pb.ListChat
 
 	pbChats := make([]*pb.Chat, len(chats))
 	for i, chat := range chats {
-		pbChats[i] = chat.ToPbChat()
+		pbChats[i] = conv.ChatToPb(chat)
 	}
 
 	return &pb.ListChatsResponse{
@@ -41,7 +42,7 @@ func (c *ChatsServiceServer) GetChat(ctx context.Context, getReq *pb.GetChatRequ
 
 	chat, err := db.ChatRead(getReq.Id, getReq.Eager)
 	if err == nil {
-		return &pb.GetChatResponse{Chat: chat.ToPbChat()}, nil
+		return &pb.GetChatResponse{Chat: conv.ChatToPb(chat)}, nil
 	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, status.Errorf(codes.NotFound, "chat not found")
@@ -57,7 +58,7 @@ func (c *ChatsServiceServer) CreateChat(ctx context.Context, createReq *pb.Creat
 	}
 
 	return &pb.CreateChatResponse{
-		Chat: chat.ToPbChat(),
+		Chat: conv.ChatToPb(*chat),
 	}, nil
 }
 
@@ -85,7 +86,7 @@ func (c *ChatsServiceServer) AddUsersToChat(ctx context.Context, addUsersReq *pb
 	}
 
 	return &pb.AddUsersToChatResponse{
-		Chat: chat.ToPbChat(),
+		Chat: conv.ChatToPb(chat),
 	}, nil
 }
 
@@ -113,7 +114,7 @@ func (c *ChatsServiceServer) GetChatMessages(ctx context.Context, getMessagesReq
 
 	pbMessages := make([]*pb.MessageDTO, len(messages))
 	for i, message := range messages {
-		pbMessages[i] = message.ToPbMessageDTO()
+		pbMessages[i] = conv.MessageDTOToPb(message)
 	}
 
 	return &pb.GetChatMessagesResponse{
@@ -136,7 +137,7 @@ func (c *ChatsServiceServer) GetChatUserMessages(ctx context.Context, getUserMes
 
 	pbMessages := make([]*pb.MessageDTO, len(messages))
 	for i, message := range messages {
-		pbMessages[i] = message.ToPbMessageDTO()
+		pbMessages[i] = conv.MessageDTOToPb(message)
 	}
 
 	return &pb.GetChatUserMessagesResponse{

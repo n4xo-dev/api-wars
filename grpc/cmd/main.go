@@ -31,9 +31,9 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/iLopezosa/api-wars/grpc/db"
 	"github.com/iLopezosa/api-wars/grpc/services"
 	"github.com/iLopezosa/api-wars/grpc/tests"
+	"github.com/iLopezosa/api-wars/lib/db"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )

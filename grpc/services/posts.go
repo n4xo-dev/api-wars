@@ -4,9 +4,10 @@ import (
 	context "context"
 	"errors"
 
-	"github.com/iLopezosa/api-wars/grpc/db"
-	"github.com/iLopezosa/api-wars/grpc/models"
+	"github.com/iLopezosa/api-wars/grpc/conv"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/iLopezosa/api-wars/lib/models"
 	"gorm.io/gorm"
 
 	// grpc "google.golang.org/grpc"
@@ -26,7 +27,7 @@ func (p *PostsServiceServer) ListPosts(ctx context.Context, listReq *pb.ListPost
 
 	pbPosts := make([]*pb.PostDTO, len(posts))
 	for i, post := range posts {
-		pbPosts[i] = post.ToPbPostDTO()
+		pbPosts[i] = conv.PostDTOToPb(post)
 	}
 
 	return &pb.ListPostsResponse{Posts: pbPosts}, nil
@@ -39,7 +40,7 @@ func (p *PostsServiceServer) GetPost(ctx context.Context, getReq *pb.GetPostRequ
 
 	post, err := db.PostRead(getReq.Id)
 	if err == nil {
-		return &pb.GetPostResponse{Post: post.ToPbPostDTO()}, nil
+		return &pb.GetPostResponse{Post: conv.PostDTOToPb(post)}, nil
 	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, status.Errorf(codes.NotFound, "Post not found")
@@ -59,7 +60,7 @@ func (p *PostsServiceServer) CreatePost(ctx context.Context, createReq *pb.Creat
 		return nil, status.Errorf(codes.Internal, "Error while creating post: %v", err)
 	}
 
-	return &pb.CreatePostResponse{Post: post.ToPbPostDTO()}, nil
+	return &pb.CreatePostResponse{Post: conv.PostToPb(*post)}, nil
 }
 
 func (p *PostsServiceServer) UpdatePost(ctx context.Context, updateReq *pb.UpdatePostRequest) (*pb.UpdatePostResponse, error) {
@@ -74,7 +75,7 @@ func (p *PostsServiceServer) UpdatePost(ctx context.Context, updateReq *pb.Updat
 		return nil, status.Errorf(codes.Internal, "Error while updating post: %v", err)
 	}
 
-	return &pb.UpdatePostResponse{Post: post.ToPbPostDTO()}, nil
+	return &pb.UpdatePostResponse{Post: conv.PostToPb(*post)}, nil
 }
 
 func (p *PostsServiceServer) DeletePost(ctx context.Context, deleteReq *pb.DeletePostRequest) (*pb.DeletePostResponse, error) {
@@ -101,7 +102,7 @@ func (p *PostsServiceServer) GetPostsComments(ctx context.Context, getCommentsRe
 
 	pbComments := make([]*pb.CommentDTO, len(comments))
 	for i, comment := range comments {
-		pbComments[i] = comment.ToPbCommentDTO()
+		pbComments[i] = conv.CommentDTOToPb(comment)
 	}
 
 	return &pb.GetPostsCommentsResponse{Comments: pbComments}, nil

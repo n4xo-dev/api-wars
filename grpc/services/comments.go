@@ -5,9 +5,10 @@ import (
 	"errors"
 
 	// grpc "google.golang.org/grpc"
-	"github.com/iLopezosa/api-wars/grpc/db"
-	"github.com/iLopezosa/api-wars/grpc/models"
+	"github.com/iLopezosa/api-wars/grpc/conv"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/iLopezosa/api-wars/lib/models"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ func (c *CommentsServiceServer) ListComments(ctx context.Context, listReq *pb.Li
 	commentsPB := make([]*pb.CommentDTO, len(comments))
 
 	for i, comment := range comments {
-		commentsPB[i] = comment.ToPbCommentDTO()
+		commentsPB[i] = conv.CommentDTOToPb(comment)
 	}
 
 	return &pb.ListCommentsResponse{Comments: commentsPB}, nil
@@ -39,7 +40,7 @@ func (c *CommentsServiceServer) GetComment(ctx context.Context, getReq *pb.GetCo
 
 	comment, err := db.CommentRead(getReq.Id)
 	if err == nil {
-		return &pb.GetCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
+		return &pb.GetCommentResponse{Comment: conv.CommentDTOToPb(comment)}, nil
 	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, status.Errorf(codes.NotFound, "comment not found")
@@ -58,7 +59,7 @@ func (c *CommentsServiceServer) CreateComment(ctx context.Context, createReq *pb
 		return nil, status.Errorf(codes.Internal, "failed to create comment: %v", err)
 	}
 
-	return &pb.CreateCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
+	return &pb.CreateCommentResponse{Comment: conv.CommentToPb(*comment)}, nil
 }
 
 func (c *CommentsServiceServer) UpdateComment(ctx context.Context, updateReq *pb.UpdateCommentRequest) (*pb.UpdateCommentResponse, error) {
@@ -76,7 +77,7 @@ func (c *CommentsServiceServer) UpdateComment(ctx context.Context, updateReq *pb
 		return nil, status.Errorf(codes.Internal, "failed to update comment: %v", err)
 	}
 
-	return &pb.UpdateCommentResponse{Comment: comment.ToPbCommentDTO()}, nil
+	return &pb.UpdateCommentResponse{Comment: conv.CommentToPb(*comment)}, nil
 }
 
 func (c *CommentsServiceServer) DeleteComment(ctx context.Context, deleteReq *pb.DeleteCommentRequest) (*pb.DeleteCommentResponse, error) {

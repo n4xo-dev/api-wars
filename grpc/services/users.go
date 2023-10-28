@@ -4,9 +4,10 @@ import (
 	context "context"
 	"errors"
 
-	"github.com/iLopezosa/api-wars/grpc/db"
-	"github.com/iLopezosa/api-wars/grpc/models"
+	"github.com/iLopezosa/api-wars/grpc/conv"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/iLopezosa/api-wars/lib/models"
 	"gorm.io/gorm"
 
 	// grpc "google.golang.org/grpc"
@@ -26,7 +27,7 @@ func (u *UserServiceServer) ListUsers(ctx context.Context, listReq *pb.ListUsers
 
 	pbUsers := make([]*pb.UserDTO, len(users))
 	for i, user := range users {
-		pbUsers[i] = user.ToPbUserDTO()
+		pbUsers[i] = conv.UserDTOToPb(user)
 	}
 
 	return &pb.ListUsersResponse{Users: pbUsers}, nil
@@ -39,7 +40,7 @@ func (u *UserServiceServer) GetUser(ctx context.Context, getReq *pb.GetUserReque
 
 	user, err := db.UserRead(getReq.Id)
 	if err == nil {
-		return &pb.GetUserResponse{User: user.ToPbUserDTO()}, nil
+		return &pb.GetUserResponse{User: conv.UserDTOToPb(user)}, nil
 	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, status.Errorf(codes.NotFound, "user not found")
@@ -57,7 +58,7 @@ func (u *UserServiceServer) CreateUser(ctx context.Context, createReq *pb.Create
 		return nil, status.Errorf(codes.Internal, "error creating user: %v", err)
 	}
 
-	return &pb.CreateUserResponse{User: user.ToPbUserDTO()}, nil
+	return &pb.CreateUserResponse{User: conv.UserToPb(*user)}, nil
 }
 
 func (u *UserServiceServer) DeleteUser(ctx context.Context, deleteReq *pb.DeleteUserRequest) (*pb.DeleteUserResponse, error) {
@@ -86,7 +87,7 @@ func (u *UserServiceServer) UpdateUser(ctx context.Context, updateReq *pb.Update
 		return nil, status.Errorf(codes.Internal, "error updating user: %v", err)
 	}
 
-	return &pb.UpdateUserResponse{User: user.ToPbUserDTO()}, nil
+	return &pb.UpdateUserResponse{User: conv.UserToPb(*user)}, nil
 }
 
 func (u *UserServiceServer) GetUsersPosts(ctx context.Context, getPostsReq *pb.GetUsersPostsRequest) (*pb.ListPostsResponse, error) {
@@ -104,7 +105,7 @@ func (u *UserServiceServer) GetUsersPosts(ctx context.Context, getPostsReq *pb.G
 
 	pbPosts := make([]*pb.PostDTO, len(posts))
 	for i, post := range posts {
-		pbPosts[i] = post.ToPbPostDTO()
+		pbPosts[i] = conv.PostDTOToPb(post)
 	}
 
 	return &pb.ListPostsResponse{Posts: pbPosts}, nil
@@ -125,7 +126,7 @@ func (u *UserServiceServer) GetUsersComments(ctx context.Context, getCommentsReq
 
 	pbComments := make([]*pb.CommentDTO, len(comments))
 	for i, comment := range comments {
-		pbComments[i] = comment.ToPbCommentDTO()
+		pbComments[i] = conv.CommentDTOToPb(comment)
 	}
 
 	return &pb.ListCommentsResponse{Comments: pbComments}, nil
@@ -146,7 +147,7 @@ func (u *UserServiceServer) GetUsersMessages(ctx context.Context, getMessagesReq
 
 	pbMessages := make([]*pb.MessageDTO, len(messages))
 	for i, message := range messages {
-		pbMessages[i] = message.ToPbMessageDTO()
+		pbMessages[i] = conv.MessageDTOToPb(message)
 	}
 
 	return &pb.ListMessagesResponse{Messages: pbMessages}, nil
@@ -170,7 +171,7 @@ func (u *UserServiceServer) GetUsersMessagesFromChat(ctx context.Context, getCha
 
 	pbMessages := make([]*pb.MessageDTO, len(messages))
 	for i, message := range messages {
-		pbMessages[i] = message.ToPbMessageDTO()
+		pbMessages[i] = conv.MessageDTOToPb(message)
 	}
 
 	return &pb.ListMessagesResponse{Messages: pbMessages}, nil

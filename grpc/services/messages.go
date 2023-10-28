@@ -4,9 +4,10 @@ import (
 	context "context"
 	"errors"
 	// grpc "google.golang.org/grpc"
-	"github.com/iLopezosa/api-wars/grpc/db"
-	"github.com/iLopezosa/api-wars/grpc/models"
+	"github.com/iLopezosa/api-wars/grpc/conv"
 	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/iLopezosa/api-wars/lib/models"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -24,7 +25,7 @@ func (m *MessagesServiceServer) ListMessages(ctx context.Context, listReq *pb.Li
 
 	pbMessages := make([]*pb.MessageDTO, len(messages))
 	for i, message := range messages {
-		pbMessages[i] = message.ToPbMessageDTO()
+		pbMessages[i] = conv.MessageDTOToPb(message)
 	}
 
 	return &pb.ListMessagesResponse{Messages: pbMessages}, nil
@@ -37,7 +38,7 @@ func (m *MessagesServiceServer) GetMessage(ctx context.Context, getReq *pb.GetMe
 
 	message, err := db.MessageRead(getReq.Id)
 	if err == nil {
-		return &pb.GetMessageResponse{Message: message.ToPbMessageDTO()}, nil
+		return &pb.GetMessageResponse{Message: conv.MessageDTOToPb(message)}, nil
 	}
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, status.Errorf(codes.NotFound, "message not found")
@@ -57,7 +58,7 @@ func (m *MessagesServiceServer) CreateMessage(ctx context.Context, createReq *pb
 		return nil, status.Errorf(codes.Internal, "could not create message: %v", err)
 	}
 
-	return &pb.CreateMessageResponse{Message: message.ToPbMessageDTO()}, nil
+	return &pb.CreateMessageResponse{Message: conv.MessageToPb(*message)}, nil
 }
 
 func (m *MessagesServiceServer) UpdateMessage(ctx context.Context, updateReq *pb.UpdateMessageRequest) (*pb.UpdateMessageResponse, error) {
@@ -72,7 +73,7 @@ func (m *MessagesServiceServer) UpdateMessage(ctx context.Context, updateReq *pb
 		return nil, status.Errorf(codes.Internal, "could not update message: %v", err)
 	}
 
-	return &pb.UpdateMessageResponse{Message: message.ToPbMessageDTO()}, nil
+	return &pb.UpdateMessageResponse{Message: conv.MessageToPb(*message)}, nil
 }
 
 func (m *MessagesServiceServer) DeleteMessage(ctx context.Context, deleteReq *pb.DeleteMessageRequest) (*pb.DeleteMessageResponse, error) {
