@@ -1,14 +1,12 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"regexp"
 	"runtime"
 	"syscall"
 
@@ -87,18 +85,6 @@ func main() {
 	}
 
 	fmt.Println("\nClosing connection to the database...")
-}
-
-// Validate the flags passed to the command line
-func validateFlags(testsPtr *string) error {
-	re, err := regexp.Compile(`(^(users|posts|comments|messages|chats)(,(users|posts|comments|messages|chats))*$)|(^all$)`)
-	if err != nil {
-		return err
-	}
-	if !re.MatchString(*testsPtr) {
-		return errors.New("Invalid tests flag")
-	}
-	return nil
 }
 
 // PrintMemUsage outputs the current, total and OS memory being used. As well as the
