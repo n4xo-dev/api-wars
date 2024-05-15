@@ -13,6 +13,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/iLopezosa/api-wars/graphql/db"
 	"github.com/iLopezosa/api-wars/graphql/graph"
 	"github.com/joho/godotenv"
@@ -60,6 +61,8 @@ func main() {
 	// Initialize Fiber server
 	if *server {
 		app := fiber.New()
+
+		app.Use(logger.New())
 
 		// Create a gqlgen handler
 		h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
