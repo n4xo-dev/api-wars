@@ -62,7 +62,9 @@ func main() {
 	if *server {
 		app := fiber.New()
 
-		app.Use(logger.New())
+		app.Use(logger.New(logger.Config{
+			Format: "[${time}] ${ip} ${status} - ${latency} ${method} ${path} ? ${queryParams} : ${body} ! ${error}\n",
+		}))
 
 		// Create a gqlgen handler
 		h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))

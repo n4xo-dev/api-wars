@@ -87,7 +87,9 @@ func main() {
 	// Initialize Fiber server
 	if *server {
 		app := fiber.New()
-		app.Use(logger.New())
+		app.Use(logger.New(logger.Config{
+			Format: "[${time}] ${ip} ${status} - ${latency} ${method} ${path} ? ${queryParams} : ${body} ! ${error}\n",
+		}))
 		routers.Setup(app)
 		PrintMemUsage()
 		go func() {
