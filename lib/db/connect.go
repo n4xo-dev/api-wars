@@ -22,6 +22,7 @@ func Connect() *gorm.DB {
 		if err != nil {
 			log.Fatal(err)
 		}
+		log.Println("Connected to the database")
 
 		DBClient = db
 	})
