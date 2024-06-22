@@ -1,29 +1,24 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 
-const BASE_URL = 'http://localhost:8080/rest';
+const BASE_URL = (__ENV.BASE_URL || 'http://localhost:8080') + '/rest';
+const ACTION_SLEEP = parseInt(__ENV.ACTION_SLEEP) || 20;
 
 export const options = {
-  stages: [
-    // { duration: '2s', target: 1 },
-    { duration: '15s', target: 1000 },
-    { duration: '1m30s', target: 1000 },
-    { duration: '15s', target: 0 },
-  ],
+  scenarios: {
+    consumer_scenario: {
+      executor: 'ramping-vus',
+      stages: [
+        { duration: '15s', target: 1000 },
+        { duration: '1m30s', target: 1000 },
+        { duration: '15s', target: 0 },
+      ],
+      exec: 'consumer',
+    }
+  }
 };
 
-export function test() {
-  console.log('@@@ >>> TEST <<< @@@');
-  http.get(`${BASE_URL}/user/1`);
-}
-
-// The function that defines VU logic.
-//
-// See https://grafana.com/docs/k6/latest/examples/get-started-with-k6/ to learn more
-// about authoring k6 scripts.
-//
-export default function() {
-  const ACTION_SLEEP = 20;
+export function consumer() {
   // Get users and pick one
   const users = http.get(`${BASE_URL}/users/`).json();
   const randomUserIndex = Math.floor(Math.random() * users.length);

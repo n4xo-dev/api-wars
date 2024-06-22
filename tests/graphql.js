@@ -2,20 +2,20 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 export const options = {
-  stages: [
-    // { duration: '2s', target: 1 },
-    { duration: '15s', target: 1000 },
-    { duration: '1m30s', target: 1000 },
-    { duration: '15s', target: 0 },
-  ],
+  scenarios: {
+    consumer_scenario: {
+      executor: 'ramping-vus',
+      stages: [
+        { duration: '15s', target: 1000 },
+        { duration: '1m30s', target: 1000 },
+        { duration: '15s', target: 0 },
+      ],
+      exec: 'consumer',
+    }
+  }
 };
 
-// The function that defines VU logic.
-//
-// See https://grafana.com/docs/k6/latest/examples/get-started-with-k6/ to learn more
-// about authoring k6 scripts.
-//
-export default function() {
+export function consumer() {
   const baseURL = 'http://localhost:3000/graphql';
   const ACTION_SLEEP = 20;
   // Get users and pick one 
