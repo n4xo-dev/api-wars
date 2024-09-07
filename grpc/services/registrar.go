@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/iLopezosa/api-wars/grpc/pb"
+	"github.com/n4xo-dev/api-wars/grpc/pb"
 	"google.golang.org/grpc"
 )
 

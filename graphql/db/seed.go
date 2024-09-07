@@ -5,19 +5,19 @@ import (
 	"math/rand"
 	"slices"
 
-	"github.com/iLopezosa/api-wars/graphql/config"
-	"github.com/iLopezosa/api-wars/graphql/graph/model"
 	"github.com/jaswdr/faker"
+	"github.com/n4xo-dev/api-wars/graphql/config"
+	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
 func Reset() {
 
-	err := DBClient.Migrator().DropTable(model.Chat{}, model.Comment{}, model.Message{}, model.Post{}, model.User{}, "participants")
+	err := DBClient.Migrator().DropTable(models.Chat{}, models.Comment{}, models.Message{}, models.Post{}, models.User{}, "participants")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = DBClient.AutoMigrate(model.User{}, model.Post{}, model.Comment{}, model.Message{}, model.Chat{})
+	err = DBClient.AutoMigrate(models.User{}, models.Post{}, models.Comment{}, models.Message{}, models.Chat{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,20 +39,20 @@ func Seed() {
 	}()
 
 	// Create users, posts, and messages
-	users := make([]*model.User, conf.NumOfUsers)
+	users := make([]*models.User, conf.NumOfUsers)
 	for i := 0; i < conf.NumOfUsers; i++ {
 
-		posts := make([]model.Post, conf.NumOfPosts)
+		posts := make([]models.Post, conf.NumOfPosts)
 		for j := 0; j < conf.NumOfPosts; j++ { // For each post
 			consumerID := uint64(rand.Intn(conf.NumOfUsers)) + 1 // Pick a random consumer
 			if consumerID == uint64(i)+1 {                       // If the consumer is the same as the publisher, increment the consumerID
 				consumerID = (consumerID % uint64(conf.NumOfUsers)) + 1
 			}
 
-			posts[j] = model.Post{ // Create the post
+			posts[j] = models.Post{ // Create the post
 				Title:   fake.Company().CatchPhrase(),
 				Content: fake.Lorem().Paragraph(1),
-				Comments: []model.Comment{
+				Comments: []models.Comment{
 					{
 						Content: "I published this post.",
 						UserID:  uint64(i) + 1,
@@ -65,7 +65,7 @@ func Seed() {
 			}
 		}
 
-		users[i] = &model.User{
+		users[i] = &models.User{
 			Name:  fake.Person().Name(),
 			Email: fake.Internet().Email(),
 			Posts: posts,
@@ -79,7 +79,7 @@ func Seed() {
 	}
 
 	// Create chats and messages
-	chats := make([]*model.Chat, conf.NumOfChats)
+	chats := make([]*models.Chat, conf.NumOfChats)
 	for i := 0; i < conf.NumOfChats; i++ {
 		// Create a slice with all the users IDs to pick from
 		unusedUsers := make([]uint64, conf.NumOfUsers)
@@ -88,27 +88,27 @@ func Seed() {
 		}
 		// Pick a random number of participants
 		numOfParticipants := rand.Intn(conf.MaxNumOfParticipants) + 1
-		participants := make([]*model.User, numOfParticipants)
+		participants := make([]*models.User, numOfParticipants)
 		for j := 0; j < numOfParticipants; j++ { // For each participant in the chat
 			unusedUserIndex := rand.Intn(len(unusedUsers)) // Pick a random user
 			participantID := unusedUsers[unusedUserIndex]  // Get the user ID
-			participants[j] = &model.User{                 // Add the user to the chat
+			participants[j] = &models.User{                // Add the user to the chat
 				ID: participantID,
 			}
 			unusedUsers = slices.Delete(unusedUsers, unusedUserIndex, unusedUserIndex) // Remove the user from the slice
 		}
 		// Pick a random number of messages
 		numOfMessages := rand.Intn(conf.MaxNumOfMessages) + 1
-		messages := make([]model.Message, numOfMessages)
+		messages := make([]models.Message, numOfMessages)
 		for j := 0; j < numOfMessages; j++ { // For each message in the chat
 			usrIndex := uint64(rand.Intn(len(participants))) // Pick a random participant
-			messages[j] = model.Message{                     // Add the message to the chat
+			messages[j] = models.Message{                    // Add the message to the chat
 				Content: fake.Lorem().Sentence(rand.Intn(conf.MaxNumOfWords) + 1),
 				UserID:  participants[usrIndex].ID,
 			}
 		}
 		// Create the chat
-		chats[i] = &model.Chat{
+		chats[i] = &models.Chat{
 			Messages:     messages,
 			Participants: participants,
 		}

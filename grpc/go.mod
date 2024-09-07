@@ -1,4 +1,4 @@
-module github.com/iLopezosa/api-wars/grpc
+module github.com/n4xo-dev/api-wars/grpc
 
 go 1.21
 

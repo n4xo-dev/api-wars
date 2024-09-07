@@ -8,7 +8,7 @@ import "posts.proto";
 import "comments.proto";
 import "messages.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
+option go_package = "github.com/n4xo-dev/api-wars/grpc/pb";
 
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);

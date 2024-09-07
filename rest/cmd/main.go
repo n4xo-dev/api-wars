@@ -32,10 +32,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/iLopezosa/api-wars/lib/db"
-	"github.com/iLopezosa/api-wars/rest/routers"
-	"github.com/iLopezosa/api-wars/rest/tests"
 	"github.com/joho/godotenv"
+	"github.com/n4xo-dev/api-wars/lib/db"
+	"github.com/n4xo-dev/api-wars/rest/routers"
+	"github.com/n4xo-dev/api-wars/rest/tests"
 )
 
 // Main function

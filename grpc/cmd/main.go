@@ -31,10 +31,10 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/iLopezosa/api-wars/grpc/services"
-	"github.com/iLopezosa/api-wars/grpc/tests"
-	"github.com/iLopezosa/api-wars/lib/db"
 	"github.com/joho/godotenv"
+	"github.com/n4xo-dev/api-wars/grpc/services"
+	"github.com/n4xo-dev/api-wars/grpc/tests"
+	"github.com/n4xo-dev/api-wars/lib/db"
 	"google.golang.org/grpc"
 )
 

@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/iLopezosa/api-wars/rest/controllers"
+	"github.com/n4xo-dev/api-wars/rest/controllers"
 )
 
 func ChatsRouter(api *fiber.Router) {

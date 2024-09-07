@@ -1,4 +1,4 @@
-module github.com/iLopezosa/api-wars/rest
+module github.com/n4xo-dev/api-wars/rest
 
 go 1.21
 

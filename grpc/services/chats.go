@@ -4,10 +4,10 @@ import (
 	context "context"
 	"errors"
 
-	"github.com/iLopezosa/api-wars/grpc/conv"
-	"github.com/iLopezosa/api-wars/grpc/pb"
-	"github.com/iLopezosa/api-wars/lib/db"
-	"github.com/iLopezosa/api-wars/lib/models"
+	"github.com/n4xo-dev/api-wars/grpc/conv"
+	"github.com/n4xo-dev/api-wars/grpc/pb"
+	"github.com/n4xo-dev/api-wars/lib/db"
+	"github.com/n4xo-dev/api-wars/lib/models"
 	"gorm.io/gorm"
 
 	//grpc "google.golang.org/grpc"

@@ -1,4 +1,4 @@
-module github.com/iLopezosa/api-wars/lib
+module github.com/n4xo-dev/api-wars/lib
 
 go 1.21.0
 

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/iLopezosa/api-wars/lib/models"
+	"github.com/n4xo-dev/api-wars/lib/models"
 	"gorm.io/gorm"
 )
 

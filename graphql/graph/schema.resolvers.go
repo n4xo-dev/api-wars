@@ -9,108 +9,109 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/iLopezosa/api-wars/graphql/db"
-	"github.com/iLopezosa/api-wars/graphql/graph/model"
+	"github.com/n4xo-dev/api-wars/graphql/db"
+	"github.com/n4xo-dev/api-wars/graphql/graph/model"
+	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
 // ID is the resolver for the id field.
-func (r *chatResolver) ID(ctx context.Context, obj *model.Chat) (string, error) {
+func (r *chatResolver) ID(ctx context.Context, obj *models.Chat) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // Messages is the resolver for the messages field.
-func (r *chatResolver) Messages(ctx context.Context, obj *model.Chat) ([]*model.Message, error) {
+func (r *chatResolver) Messages(ctx context.Context, obj *models.Chat) ([]*models.Message, error) {
 	return db.ChatMessages(obj.ID)
 }
 
 // Participants is the resolver for the participants field.
-func (r *chatResolver) Participants(ctx context.Context, obj *model.Chat) ([]*model.User, error) {
+func (r *chatResolver) Participants(ctx context.Context, obj *models.Chat) ([]*models.User, error) {
 	return db.ChatParticipants(obj.ID)
 }
 
 // CreatedAt is the resolver for the createdAt field.
-func (r *chatResolver) CreatedAt(ctx context.Context, obj *model.Chat) (string, error) {
+func (r *chatResolver) CreatedAt(ctx context.Context, obj *models.Chat) (string, error) {
 	return obj.CreatedAt.String(), nil
 }
 
 // UpdatedAt is the resolver for the updatedAt field.
-func (r *chatResolver) UpdatedAt(ctx context.Context, obj *model.Chat) (*string, error) {
+func (r *chatResolver) UpdatedAt(ctx context.Context, obj *models.Chat) (*string, error) {
 	t := obj.UpdatedAt.String()
 	return &t, nil
 }
 
 // DeletedAt is the resolver for the deletedAt field.
-func (r *chatResolver) DeletedAt(ctx context.Context, obj *model.Chat) (*string, error) {
+func (r *chatResolver) DeletedAt(ctx context.Context, obj *models.Chat) (*string, error) {
 	t := obj.DeletedAt.Time.String()
 	return &t, nil
 }
 
 // ID is the resolver for the id field.
-func (r *commentResolver) ID(ctx context.Context, obj *model.Comment) (string, error) {
+func (r *commentResolver) ID(ctx context.Context, obj *models.Comment) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // UserID is the resolver for the userId field.
-func (r *commentResolver) UserID(ctx context.Context, obj *model.Comment) (string, error) {
+func (r *commentResolver) UserID(ctx context.Context, obj *models.Comment) (string, error) {
 	return fmt.Sprintf("%d", obj.UserID), nil
 }
 
 // PostID is the resolver for the postId field.
-func (r *commentResolver) PostID(ctx context.Context, obj *model.Comment) (string, error) {
+func (r *commentResolver) PostID(ctx context.Context, obj *models.Comment) (string, error) {
 	return fmt.Sprintf("%d", obj.PostID), nil
 }
 
 // CreatedAt is the resolver for the createdAt field.
-func (r *commentResolver) CreatedAt(ctx context.Context, obj *model.Comment) (string, error) {
+func (r *commentResolver) CreatedAt(ctx context.Context, obj *models.Comment) (string, error) {
 	return obj.CreatedAt.String(), nil
 }
 
 // UpdatedAt is the resolver for the updatedAt field.
-func (r *commentResolver) UpdatedAt(ctx context.Context, obj *model.Comment) (*string, error) {
+func (r *commentResolver) UpdatedAt(ctx context.Context, obj *models.Comment) (*string, error) {
 	t := obj.UpdatedAt.String()
 	return &t, nil
 }
 
 // DeletedAt is the resolver for the deletedAt field.
-func (r *commentResolver) DeletedAt(ctx context.Context, obj *model.Comment) (*string, error) {
+func (r *commentResolver) DeletedAt(ctx context.Context, obj *models.Comment) (*string, error) {
 	t := obj.DeletedAt.Time.String()
 	return &t, nil
 }
 
 // ID is the resolver for the id field.
-func (r *messageResolver) ID(ctx context.Context, obj *model.Message) (string, error) {
+func (r *messageResolver) ID(ctx context.Context, obj *models.Message) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // UserID is the resolver for the userId field.
-func (r *messageResolver) UserID(ctx context.Context, obj *model.Message) (string, error) {
+func (r *messageResolver) UserID(ctx context.Context, obj *models.Message) (string, error) {
 	return fmt.Sprintf("%d", obj.UserID), nil
 }
 
 // ChatID is the resolver for the chatId field.
-func (r *messageResolver) ChatID(ctx context.Context, obj *model.Message) (string, error) {
+func (r *messageResolver) ChatID(ctx context.Context, obj *models.Message) (string, error) {
 	return fmt.Sprintf("%d", obj.ChatID), nil
 }
 
 // CreatedAt is the resolver for the createdAt field.
-func (r *messageResolver) CreatedAt(ctx context.Context, obj *model.Message) (string, error) {
+func (r *messageResolver) CreatedAt(ctx context.Context, obj *models.Message) (string, error) {
 	return obj.CreatedAt.String(), nil
 }
 
 // UpdatedAt is the resolver for the updatedAt field.
-func (r *messageResolver) UpdatedAt(ctx context.Context, obj *model.Message) (*string, error) {
+func (r *messageResolver) UpdatedAt(ctx context.Context, obj *models.Message) (*string, error) {
 	t := obj.UpdatedAt.String()
 	return &t, nil
 }
 
 // DeletedAt is the resolver for the deletedAt field.
-func (r *messageResolver) DeletedAt(ctx context.Context, obj *model.Message) (*string, error) {
+func (r *messageResolver) DeletedAt(ctx context.Context, obj *models.Message) (*string, error) {
 	t := obj.DeletedAt.Time.String()
 	return &t, nil
 }
 
 // CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*models.User, error) {
 	u := input.WriteUserDTO.ToUser()
 
 	if err := db.UserUpsert(&u); err != nil {
@@ -121,7 +122,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 }
 
 // CreatePost is the resolver for the createPost field.
-func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
+func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*models.Post, error) {
 	p := input.WritePostDTO.ToPost()
 
 	if err := db.PostUpsert(&p); err != nil {
@@ -132,7 +133,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) 
 }
 
 // CreateComment is the resolver for the createComment field.
-func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewComment) (*model.Comment, error) {
+func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewComment) (*models.Comment, error) {
 	c := input.WriteCommentDTO.ToComment()
 
 	if err := db.CommentUpsert(&c); err != nil {
@@ -143,7 +144,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewCom
 }
 
 // CreateMessage is the resolver for the createMessage field.
-func (r *mutationResolver) CreateMessage(ctx context.Context, input model.NewMessage) (*model.Message, error) {
+func (r *mutationResolver) CreateMessage(ctx context.Context, input model.NewMessage) (*models.Message, error) {
 	m := input.WriteMessageDTO.ToMessage()
 
 	if err := db.MessageUpsert(&m); err != nil {
@@ -154,13 +155,13 @@ func (r *mutationResolver) CreateMessage(ctx context.Context, input model.NewMes
 }
 
 // CreateChat is the resolver for the createChat field.
-func (r *mutationResolver) CreateChat(ctx context.Context, input model.NewChat) (*model.Chat, error) {
-	c := model.Chat{
-		Participants: make([]*model.User, len(input.Participants)),
+func (r *mutationResolver) CreateChat(ctx context.Context, input model.NewChat) (*models.Chat, error) {
+	c := models.Chat{
+		Participants: make([]*models.User, len(input.Participants)),
 	}
 
 	for i, id := range input.Participants {
-		c.Participants[i] = &model.User{ID: id}
+		c.Participants[i] = &models.User{ID: id}
 	}
 
 	if err := db.ChatUpsert(&c); err != nil {
@@ -171,19 +172,19 @@ func (r *mutationResolver) CreateChat(ctx context.Context, input model.NewChat) 
 }
 
 // CreateRedisRecord is the resolver for the createRedisRecord field.
-func (r *mutationResolver) CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*model.RedisRecord, error) {
+func (r *mutationResolver) CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*models.RedisRecord, error) {
 	if err := db.RedisSet(input.Key, input.Value); err != nil {
 		return nil, err
 	}
 
-	return &model.RedisRecord{
+	return &models.RedisRecord{
 		Key:   input.Key,
 		Value: input.Value,
 	}, nil
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error) {
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*models.User, error) {
 	uID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -192,7 +193,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 		return nil, fmt.Errorf("id must be greater than 0")
 	}
 
-	u := model.User{
+	u := models.User{
 		ID: uID,
 	}
 	if input.Name != nil {
@@ -210,7 +211,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 }
 
 // UpdatePost is the resolver for the updatePost field.
-func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input model.UpdatePost) (*model.Post, error) {
+func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input model.UpdatePost) (*models.Post, error) {
 	pID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -219,7 +220,7 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input mode
 		return nil, fmt.Errorf("id must be greater than 0")
 	}
 
-	p := model.Post{
+	p := models.Post{
 		ID: pID,
 	}
 	if input.Title != nil {
@@ -237,7 +238,7 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, id string, input mode
 }
 
 // UpdateComment is the resolver for the updateComment field.
-func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input model.UpdateComment) (*model.Comment, error) {
+func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input model.UpdateComment) (*models.Comment, error) {
 	cID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -246,7 +247,7 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input m
 		return nil, fmt.Errorf("id must be greater than 0")
 	}
 
-	c := model.Comment{
+	c := models.Comment{
 		ID: cID,
 	}
 	if input.Content != nil {
@@ -261,7 +262,7 @@ func (r *mutationResolver) UpdateComment(ctx context.Context, id string, input m
 }
 
 // UpdateMessage is the resolver for the updateMessage field.
-func (r *mutationResolver) UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*model.Message, error) {
+func (r *mutationResolver) UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*models.Message, error) {
 	mID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -270,7 +271,7 @@ func (r *mutationResolver) UpdateMessage(ctx context.Context, id string, input m
 		return nil, fmt.Errorf("id must be greater than 0")
 	}
 
-	m := model.Message{
+	m := models.Message{
 		ID: mID,
 	}
 	if input.Content != nil {
@@ -285,19 +286,19 @@ func (r *mutationResolver) UpdateMessage(ctx context.Context, id string, input m
 }
 
 // UpdateRedisRecord is the resolver for the updateRedisRecord field.
-func (r *mutationResolver) UpdateRedisRecord(ctx context.Context, key string, value string) (*model.RedisRecord, error) {
+func (r *mutationResolver) UpdateRedisRecord(ctx context.Context, key string, value string) (*models.RedisRecord, error) {
 	if err := db.RedisSet(key, value); err != nil {
 		return nil, err
 	}
 
-	return &model.RedisRecord{
+	return &models.RedisRecord{
 		Key:   key,
 		Value: value,
 	}, nil
 }
 
 // AddUsersToChat is the resolver for the addUsersToChat field.
-func (r *mutationResolver) AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*model.Chat, error) {
+func (r *mutationResolver) AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*models.Chat, error) {
 	cID, err := strconv.ParseUint(chatID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -319,12 +320,12 @@ func (r *mutationResolver) AddUsersToChat(ctx context.Context, chatID string, us
 		return nil, err
 	}
 
-	newUs := make([]*model.User, len(uIDs))
+	newUs := make([]*models.User, len(uIDs))
 	for i, id := range uIDs {
-		newUs[i] = &model.User{ID: id}
+		newUs[i] = &models.User{ID: id}
 	}
 
-	c := model.Chat{
+	c := models.Chat{
 		ID:           cID,
 		Participants: append(currUs, newUs...),
 	}
@@ -407,39 +408,39 @@ func (r *mutationResolver) DeleteChat(ctx context.Context, id string) (*model.De
 }
 
 // ID is the resolver for the id field.
-func (r *postResolver) ID(ctx context.Context, obj *model.Post) (string, error) {
+func (r *postResolver) ID(ctx context.Context, obj *models.Post) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // Comments is the resolver for the comments field.
-func (r *postResolver) Comments(ctx context.Context, obj *model.Post) ([]*model.Comment, error) {
+func (r *postResolver) Comments(ctx context.Context, obj *models.Post) ([]*models.Comment, error) {
 	return db.PostComments(obj.ID)
 }
 
 // UserID is the resolver for the userId field.
-func (r *postResolver) UserID(ctx context.Context, obj *model.Post) (string, error) {
+func (r *postResolver) UserID(ctx context.Context, obj *models.Post) (string, error) {
 	return fmt.Sprintf("%d", obj.UserID), nil
 }
 
 // CreatedAt is the resolver for the createdAt field.
-func (r *postResolver) CreatedAt(ctx context.Context, obj *model.Post) (string, error) {
+func (r *postResolver) CreatedAt(ctx context.Context, obj *models.Post) (string, error) {
 	return obj.CreatedAt.String(), nil
 }
 
 // UpdatedAt is the resolver for the updatedAt field.
-func (r *postResolver) UpdatedAt(ctx context.Context, obj *model.Post) (*string, error) {
+func (r *postResolver) UpdatedAt(ctx context.Context, obj *models.Post) (*string, error) {
 	t := obj.UpdatedAt.String()
 	return &t, nil
 }
 
 // DeletedAt is the resolver for the deletedAt field.
-func (r *postResolver) DeletedAt(ctx context.Context, obj *model.Post) (*string, error) {
+func (r *postResolver) DeletedAt(ctx context.Context, obj *models.Post) (*string, error) {
 	t := obj.DeletedAt.Time.String()
 	return &t, nil
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
 	users, err := db.UserList()
 	if err != nil {
 		return nil, err
@@ -449,7 +450,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 // User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+func (r *queryResolver) User(ctx context.Context, id string) (*models.User, error) {
 	uID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -464,7 +465,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 }
 
 // UserByEmail is the resolver for the userByEmail field.
-func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*model.User, error) {
+func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*models.User, error) {
 	users, err := db.UserFindByEmail(email)
 	if err != nil {
 		return nil, err
@@ -474,7 +475,7 @@ func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*model.U
 }
 
 // Posts is the resolver for the posts field.
-func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
+func (r *queryResolver) Posts(ctx context.Context) ([]*models.Post, error) {
 	posts, err := db.PostList()
 	if err != nil {
 		return nil, err
@@ -484,7 +485,7 @@ func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 }
 
 // Post is the resolver for the post field.
-func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error) {
+func (r *queryResolver) Post(ctx context.Context, id string) (*models.Post, error) {
 	pID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -499,7 +500,7 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error
 }
 
 // PostsByUser is the resolver for the postsByUser field.
-func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*model.Post, error) {
+func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*models.Post, error) {
 	uID, err := strconv.ParseUint(userID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -514,7 +515,7 @@ func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*mode
 }
 
 // Comments is the resolver for the comments field.
-func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) {
+func (r *queryResolver) Comments(ctx context.Context) ([]*models.Comment, error) {
 	comments, err := db.CommentList()
 	if err != nil {
 		return nil, err
@@ -524,7 +525,7 @@ func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) 
 }
 
 // Comment is the resolver for the comment field.
-func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment, error) {
+func (r *queryResolver) Comment(ctx context.Context, id string) (*models.Comment, error) {
 	cID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -539,7 +540,7 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment,
 }
 
 // CommentsByUser is the resolver for the commentsByUser field.
-func (r *queryResolver) CommentsByUser(ctx context.Context, userID string) ([]*model.Comment, error) {
+func (r *queryResolver) CommentsByUser(ctx context.Context, userID string) ([]*models.Comment, error) {
 	uID, err := strconv.ParseUint(userID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -554,7 +555,7 @@ func (r *queryResolver) CommentsByUser(ctx context.Context, userID string) ([]*m
 }
 
 // CommentsByPost is the resolver for the commentsByPost field.
-func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*model.Comment, error) {
+func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*models.Comment, error) {
 	pID, err := strconv.ParseUint(postID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -569,7 +570,7 @@ func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*m
 }
 
 // Messages is the resolver for the messages field.
-func (r *queryResolver) Messages(ctx context.Context) ([]*model.Message, error) {
+func (r *queryResolver) Messages(ctx context.Context) ([]*models.Message, error) {
 	messages, err := db.MessageList()
 	if err != nil {
 		return nil, err
@@ -579,7 +580,7 @@ func (r *queryResolver) Messages(ctx context.Context) ([]*model.Message, error) 
 }
 
 // Message is the resolver for the message field.
-func (r *queryResolver) Message(ctx context.Context, id string) (*model.Message, error) {
+func (r *queryResolver) Message(ctx context.Context, id string) (*models.Message, error) {
 	mID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -594,7 +595,7 @@ func (r *queryResolver) Message(ctx context.Context, id string) (*model.Message,
 }
 
 // MessagesByUser is the resolver for the messagesByUser field.
-func (r *queryResolver) MessagesByUser(ctx context.Context, userID string) ([]*model.Message, error) {
+func (r *queryResolver) MessagesByUser(ctx context.Context, userID string) ([]*models.Message, error) {
 	uID, err := strconv.ParseUint(userID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -609,7 +610,7 @@ func (r *queryResolver) MessagesByUser(ctx context.Context, userID string) ([]*m
 }
 
 // MessagesByChat is the resolver for the messagesByChat field.
-func (r *queryResolver) MessagesByChat(ctx context.Context, chatID string) ([]*model.Message, error) {
+func (r *queryResolver) MessagesByChat(ctx context.Context, chatID string) ([]*models.Message, error) {
 	cID, err := strconv.ParseUint(chatID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -624,7 +625,7 @@ func (r *queryResolver) MessagesByChat(ctx context.Context, chatID string) ([]*m
 }
 
 // MessagesByChatAndUser is the resolver for the messagesByChatAndUser field.
-func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*model.Message, error) {
+func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*models.Message, error) {
 	cID, err := strconv.ParseUint(chatID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -644,7 +645,7 @@ func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string
 }
 
 // Chats is the resolver for the chats field.
-func (r *queryResolver) Chats(ctx context.Context) ([]*model.Chat, error) {
+func (r *queryResolver) Chats(ctx context.Context) ([]*models.Chat, error) {
 	chats, err := db.ChatList()
 	if err != nil {
 		return nil, err
@@ -654,7 +655,7 @@ func (r *queryResolver) Chats(ctx context.Context) ([]*model.Chat, error) {
 }
 
 // Chat is the resolver for the chat field.
-func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error) {
+func (r *queryResolver) Chat(ctx context.Context, id string) (*models.Chat, error) {
 	cID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return nil, err
@@ -669,56 +670,56 @@ func (r *queryResolver) Chat(ctx context.Context, id string) (*model.Chat, error
 }
 
 // RedisRecord is the resolver for the redisRecord field.
-func (r *queryResolver) RedisRecord(ctx context.Context, key string) (*model.RedisRecord, error) {
+func (r *queryResolver) RedisRecord(ctx context.Context, key string) (*models.RedisRecord, error) {
 	val, err := db.RedisGet(key)
 	if err != nil {
 		return nil, err
 	}
 
-	return &model.RedisRecord{
+	return &models.RedisRecord{
 		Key:   key,
 		Value: val,
 	}, nil
 }
 
 // ID is the resolver for the id field.
-func (r *userResolver) ID(ctx context.Context, obj *model.User) (string, error) {
+func (r *userResolver) ID(ctx context.Context, obj *models.User) (string, error) {
 	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // Posts is the resolver for the posts field.
-func (r *userResolver) Posts(ctx context.Context, obj *model.User) ([]*model.Post, error) {
+func (r *userResolver) Posts(ctx context.Context, obj *models.User) ([]*models.Post, error) {
 	return db.PostListByUserID(obj.ID)
 }
 
 // Messages is the resolver for the messages field.
-func (r *userResolver) Messages(ctx context.Context, obj *model.User) ([]*model.Message, error) {
+func (r *userResolver) Messages(ctx context.Context, obj *models.User) ([]*models.Message, error) {
 	return db.MessageListByUserID(obj.ID)
 }
 
 // Comments is the resolver for the comments field.
-func (r *userResolver) Comments(ctx context.Context, obj *model.User) ([]*model.Comment, error) {
+func (r *userResolver) Comments(ctx context.Context, obj *models.User) ([]*models.Comment, error) {
 	return db.CommentListByUserID(obj.ID)
 }
 
 // Chats is the resolver for the chats field.
-func (r *userResolver) Chats(ctx context.Context, obj *model.User) ([]*model.Chat, error) {
+func (r *userResolver) Chats(ctx context.Context, obj *models.User) ([]*models.Chat, error) {
 	return db.ChatListByUserID(obj.ID)
 }
 
 // CreatedAt is the resolver for the createdAt field.
-func (r *userResolver) CreatedAt(ctx context.Context, obj *model.User) (string, error) {
+func (r *userResolver) CreatedAt(ctx context.Context, obj *models.User) (string, error) {
 	return obj.CreatedAt.String(), nil
 }
 
 // UpdatedAt is the resolver for the updatedAt field.
-func (r *userResolver) UpdatedAt(ctx context.Context, obj *model.User) (*string, error) {
+func (r *userResolver) UpdatedAt(ctx context.Context, obj *models.User) (*string, error) {
 	t := obj.UpdatedAt.String()
 	return &t, nil
 }
 
 // DeletedAt is the resolver for the deletedAt field.
-func (r *userResolver) DeletedAt(ctx context.Context, obj *model.User) (*string, error) {
+func (r *userResolver) DeletedAt(ctx context.Context, obj *models.User) (*string, error) {
 	t := obj.DeletedAt.Time.String()
 	return &t, nil
 }

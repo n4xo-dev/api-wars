@@ -14,7 +14,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/iLopezosa/api-wars/graphql/graph/model"
+	"github.com/n4xo-dev/api-wars/lib/models"
+	"github.com/n4xo-dev/api-wars/graphql/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -160,44 +161,44 @@ type ComplexityRoot struct {
 }
 
 type ChatResolver interface {
-	ID(ctx context.Context, obj *model.Chat) (string, error)
-	Messages(ctx context.Context, obj *model.Chat) ([]*model.Message, error)
-	Participants(ctx context.Context, obj *model.Chat) ([]*model.User, error)
-	CreatedAt(ctx context.Context, obj *model.Chat) (string, error)
-	UpdatedAt(ctx context.Context, obj *model.Chat) (*string, error)
-	DeletedAt(ctx context.Context, obj *model.Chat) (*string, error)
+	ID(ctx context.Context, obj *models.Chat) (string, error)
+	Messages(ctx context.Context, obj *models.Chat) ([]*models.Message, error)
+	Participants(ctx context.Context, obj *models.Chat) ([]*models.User, error)
+	CreatedAt(ctx context.Context, obj *models.Chat) (string, error)
+	UpdatedAt(ctx context.Context, obj *models.Chat) (*string, error)
+	DeletedAt(ctx context.Context, obj *models.Chat) (*string, error)
 }
 type CommentResolver interface {
-	ID(ctx context.Context, obj *model.Comment) (string, error)
+	ID(ctx context.Context, obj *models.Comment) (string, error)
 
-	UserID(ctx context.Context, obj *model.Comment) (string, error)
-	PostID(ctx context.Context, obj *model.Comment) (string, error)
-	CreatedAt(ctx context.Context, obj *model.Comment) (string, error)
-	UpdatedAt(ctx context.Context, obj *model.Comment) (*string, error)
-	DeletedAt(ctx context.Context, obj *model.Comment) (*string, error)
+	UserID(ctx context.Context, obj *models.Comment) (string, error)
+	PostID(ctx context.Context, obj *models.Comment) (string, error)
+	CreatedAt(ctx context.Context, obj *models.Comment) (string, error)
+	UpdatedAt(ctx context.Context, obj *models.Comment) (*string, error)
+	DeletedAt(ctx context.Context, obj *models.Comment) (*string, error)
 }
 type MessageResolver interface {
-	ID(ctx context.Context, obj *model.Message) (string, error)
+	ID(ctx context.Context, obj *models.Message) (string, error)
 
-	UserID(ctx context.Context, obj *model.Message) (string, error)
-	ChatID(ctx context.Context, obj *model.Message) (string, error)
-	CreatedAt(ctx context.Context, obj *model.Message) (string, error)
-	UpdatedAt(ctx context.Context, obj *model.Message) (*string, error)
-	DeletedAt(ctx context.Context, obj *model.Message) (*string, error)
+	UserID(ctx context.Context, obj *models.Message) (string, error)
+	ChatID(ctx context.Context, obj *models.Message) (string, error)
+	CreatedAt(ctx context.Context, obj *models.Message) (string, error)
+	UpdatedAt(ctx context.Context, obj *models.Message) (*string, error)
+	DeletedAt(ctx context.Context, obj *models.Message) (*string, error)
 }
 type MutationResolver interface {
-	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error)
-	CreateComment(ctx context.Context, input model.NewComment) (*model.Comment, error)
-	CreateMessage(ctx context.Context, input model.NewMessage) (*model.Message, error)
-	CreateChat(ctx context.Context, input model.NewChat) (*model.Chat, error)
-	CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*model.RedisRecord, error)
-	UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error)
-	UpdatePost(ctx context.Context, id string, input model.UpdatePost) (*model.Post, error)
-	UpdateComment(ctx context.Context, id string, input model.UpdateComment) (*model.Comment, error)
-	UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*model.Message, error)
-	UpdateRedisRecord(ctx context.Context, key string, value string) (*model.RedisRecord, error)
-	AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*model.Chat, error)
+	CreateUser(ctx context.Context, input model.NewUser) (*models.User, error)
+	CreatePost(ctx context.Context, input model.NewPost) (*models.Post, error)
+	CreateComment(ctx context.Context, input model.NewComment) (*models.Comment, error)
+	CreateMessage(ctx context.Context, input model.NewMessage) (*models.Message, error)
+	CreateChat(ctx context.Context, input model.NewChat) (*models.Chat, error)
+	CreateRedisRecord(ctx context.Context, input model.NewRedisRecord) (*models.RedisRecord, error)
+	UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*models.User, error)
+	UpdatePost(ctx context.Context, id string, input model.UpdatePost) (*models.Post, error)
+	UpdateComment(ctx context.Context, id string, input model.UpdateComment) (*models.Comment, error)
+	UpdateMessage(ctx context.Context, id string, input model.UpdateMessage) (*models.Message, error)
+	UpdateRedisRecord(ctx context.Context, key string, value string) (*models.RedisRecord, error)
+	AddUsersToChat(ctx context.Context, chatID string, userIds []string) (*models.Chat, error)
 	DeleteUser(ctx context.Context, id string) (*model.Deletion, error)
 	DeletePost(ctx context.Context, id string) (*model.Deletion, error)
 	DeleteComment(ctx context.Context, id string) (*model.Deletion, error)
@@ -205,44 +206,44 @@ type MutationResolver interface {
 	DeleteChat(ctx context.Context, id string) (*model.Deletion, error)
 }
 type PostResolver interface {
-	ID(ctx context.Context, obj *model.Post) (string, error)
+	ID(ctx context.Context, obj *models.Post) (string, error)
 
-	Comments(ctx context.Context, obj *model.Post) ([]*model.Comment, error)
-	UserID(ctx context.Context, obj *model.Post) (string, error)
-	CreatedAt(ctx context.Context, obj *model.Post) (string, error)
-	UpdatedAt(ctx context.Context, obj *model.Post) (*string, error)
-	DeletedAt(ctx context.Context, obj *model.Post) (*string, error)
+	Comments(ctx context.Context, obj *models.Post) ([]*models.Comment, error)
+	UserID(ctx context.Context, obj *models.Post) (string, error)
+	CreatedAt(ctx context.Context, obj *models.Post) (string, error)
+	UpdatedAt(ctx context.Context, obj *models.Post) (*string, error)
+	DeletedAt(ctx context.Context, obj *models.Post) (*string, error)
 }
 type QueryResolver interface {
-	Users(ctx context.Context) ([]*model.User, error)
-	User(ctx context.Context, id string) (*model.User, error)
-	UserByEmail(ctx context.Context, email string) (*model.User, error)
-	Posts(ctx context.Context) ([]*model.Post, error)
-	Post(ctx context.Context, id string) (*model.Post, error)
-	PostsByUser(ctx context.Context, userID string) ([]*model.Post, error)
-	Comments(ctx context.Context) ([]*model.Comment, error)
-	Comment(ctx context.Context, id string) (*model.Comment, error)
-	CommentsByUser(ctx context.Context, userID string) ([]*model.Comment, error)
-	CommentsByPost(ctx context.Context, postID string) ([]*model.Comment, error)
-	Messages(ctx context.Context) ([]*model.Message, error)
-	Message(ctx context.Context, id string) (*model.Message, error)
-	MessagesByUser(ctx context.Context, userID string) ([]*model.Message, error)
-	MessagesByChat(ctx context.Context, chatID string) ([]*model.Message, error)
-	MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*model.Message, error)
-	Chats(ctx context.Context) ([]*model.Chat, error)
-	Chat(ctx context.Context, id string) (*model.Chat, error)
-	RedisRecord(ctx context.Context, key string) (*model.RedisRecord, error)
+	Users(ctx context.Context) ([]*models.User, error)
+	User(ctx context.Context, id string) (*models.User, error)
+	UserByEmail(ctx context.Context, email string) (*models.User, error)
+	Posts(ctx context.Context) ([]*models.Post, error)
+	Post(ctx context.Context, id string) (*models.Post, error)
+	PostsByUser(ctx context.Context, userID string) ([]*models.Post, error)
+	Comments(ctx context.Context) ([]*models.Comment, error)
+	Comment(ctx context.Context, id string) (*models.Comment, error)
+	CommentsByUser(ctx context.Context, userID string) ([]*models.Comment, error)
+	CommentsByPost(ctx context.Context, postID string) ([]*models.Comment, error)
+	Messages(ctx context.Context) ([]*models.Message, error)
+	Message(ctx context.Context, id string) (*models.Message, error)
+	MessagesByUser(ctx context.Context, userID string) ([]*models.Message, error)
+	MessagesByChat(ctx context.Context, chatID string) ([]*models.Message, error)
+	MessagesByChatAndUser(ctx context.Context, chatID string, userID string) ([]*models.Message, error)
+	Chats(ctx context.Context) ([]*models.Chat, error)
+	Chat(ctx context.Context, id string) (*models.Chat, error)
+	RedisRecord(ctx context.Context, key string) (*models.RedisRecord, error)
 }
 type UserResolver interface {
-	ID(ctx context.Context, obj *model.User) (string, error)
+	ID(ctx context.Context, obj *models.User) (string, error)
 
-	Posts(ctx context.Context, obj *model.User) ([]*model.Post, error)
-	Messages(ctx context.Context, obj *model.User) ([]*model.Message, error)
-	Comments(ctx context.Context, obj *model.User) ([]*model.Comment, error)
-	Chats(ctx context.Context, obj *model.User) ([]*model.Chat, error)
-	CreatedAt(ctx context.Context, obj *model.User) (string, error)
-	UpdatedAt(ctx context.Context, obj *model.User) (*string, error)
-	DeletedAt(ctx context.Context, obj *model.User) (*string, error)
+	Posts(ctx context.Context, obj *models.User) ([]*models.Post, error)
+	Messages(ctx context.Context, obj *models.User) ([]*models.Message, error)
+	Comments(ctx context.Context, obj *models.User) ([]*models.Comment, error)
+	Chats(ctx context.Context, obj *models.User) ([]*models.Chat, error)
+	CreatedAt(ctx context.Context, obj *models.User) (string, error)
+	UpdatedAt(ctx context.Context, obj *models.User) (*string, error)
+	DeletedAt(ctx context.Context, obj *models.User) (*string, error)
 }
 
 type NewChatResolver interface {
@@ -1664,7 +1665,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Chat_id(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_id(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1708,7 +1709,7 @@ func (ec *executionContext) fieldContext_Chat_id(ctx context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Chat_messages(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_messages(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_messages(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1731,7 +1732,7 @@ func (ec *executionContext) _Chat_messages(ctx context.Context, field graphql.Co
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalOMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -1765,7 +1766,7 @@ func (ec *executionContext) fieldContext_Chat_messages(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Chat_participants(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_participants(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_participants(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1788,7 +1789,7 @@ func (ec *executionContext) _Chat_participants(ctx context.Context, field graphq
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.User)
+	res := resTmp.([]*models.User)
 	fc.Result = res
 	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
@@ -1828,7 +1829,7 @@ func (ec *executionContext) fieldContext_Chat_participants(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Chat_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1872,7 +1873,7 @@ func (ec *executionContext) fieldContext_Chat_createdAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Chat_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1913,7 +1914,7 @@ func (ec *executionContext) fieldContext_Chat_updatedAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Chat_deletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Chat) (ret graphql.Marshaler) {
+func (ec *executionContext) _Chat_deletedAt(ctx context.Context, field graphql.CollectedField, obj *models.Chat) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Chat_deletedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1954,7 +1955,7 @@ func (ec *executionContext) fieldContext_Chat_deletedAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1998,7 +1999,7 @@ func (ec *executionContext) fieldContext_Comment_id(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_content(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_content(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_content(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2042,7 +2043,7 @@ func (ec *executionContext) fieldContext_Comment_content(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_userId(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_userId(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_userId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2086,7 +2087,7 @@ func (ec *executionContext) fieldContext_Comment_userId(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_postId(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_postId(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_postId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2130,7 +2131,7 @@ func (ec *executionContext) fieldContext_Comment_postId(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2174,7 +2175,7 @@ func (ec *executionContext) fieldContext_Comment_createdAt(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2215,7 +2216,7 @@ func (ec *executionContext) fieldContext_Comment_updatedAt(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Comment_deletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
+func (ec *executionContext) _Comment_deletedAt(ctx context.Context, field graphql.CollectedField, obj *models.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_deletedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2344,7 +2345,7 @@ func (ec *executionContext) fieldContext_Deletion_msg(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_id(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_id(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2388,7 +2389,7 @@ func (ec *executionContext) fieldContext_Message_id(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_content(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_content(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_content(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2432,7 +2433,7 @@ func (ec *executionContext) fieldContext_Message_content(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_userId(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_userId(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_userId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2476,7 +2477,7 @@ func (ec *executionContext) fieldContext_Message_userId(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_chatId(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_chatId(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_chatId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2520,7 +2521,7 @@ func (ec *executionContext) fieldContext_Message_chatId(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2564,7 +2565,7 @@ func (ec *executionContext) fieldContext_Message_createdAt(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2605,7 +2606,7 @@ func (ec *executionContext) fieldContext_Message_updatedAt(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Message_deletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Message) (ret graphql.Marshaler) {
+func (ec *executionContext) _Message_deletedAt(ctx context.Context, field graphql.CollectedField, obj *models.Message) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Message_deletedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2672,7 +2673,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
@@ -2749,7 +2750,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Post)
+	res := resTmp.(*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
 }
@@ -2822,7 +2823,7 @@ func (ec *executionContext) _Mutation_createComment(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Comment)
+	res := resTmp.(*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx, field.Selections, res)
 }
@@ -2893,7 +2894,7 @@ func (ec *executionContext) _Mutation_createMessage(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Message)
+	res := resTmp.(*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx, field.Selections, res)
 }
@@ -2964,7 +2965,7 @@ func (ec *executionContext) _Mutation_createChat(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Chat)
+	res := resTmp.(*models.Chat)
 	fc.Result = res
 	return ec.marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx, field.Selections, res)
 }
@@ -3033,7 +3034,7 @@ func (ec *executionContext) _Mutation_createRedisRecord(ctx context.Context, fie
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.RedisRecord)
+	res := resTmp.(*models.RedisRecord)
 	fc.Result = res
 	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
 }
@@ -3094,7 +3095,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
@@ -3171,7 +3172,7 @@ func (ec *executionContext) _Mutation_updatePost(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Post)
+	res := resTmp.(*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
 }
@@ -3244,7 +3245,7 @@ func (ec *executionContext) _Mutation_updateComment(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Comment)
+	res := resTmp.(*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx, field.Selections, res)
 }
@@ -3315,7 +3316,7 @@ func (ec *executionContext) _Mutation_updateMessage(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Message)
+	res := resTmp.(*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx, field.Selections, res)
 }
@@ -3386,7 +3387,7 @@ func (ec *executionContext) _Mutation_updateRedisRecord(ctx context.Context, fie
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.RedisRecord)
+	res := resTmp.(*models.RedisRecord)
 	fc.Result = res
 	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
 }
@@ -3447,7 +3448,7 @@ func (ec *executionContext) _Mutation_addUsersToChat(ctx context.Context, field 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Chat)
+	res := resTmp.(*models.Chat)
 	fc.Result = res
 	return ec.marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx, field.Selections, res)
 }
@@ -3795,7 +3796,7 @@ func (ec *executionContext) fieldContext_Mutation_deleteChat(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -3839,7 +3840,7 @@ func (ec *executionContext) fieldContext_Post_id(ctx context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_title(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_title(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_title(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -3883,7 +3884,7 @@ func (ec *executionContext) fieldContext_Post_title(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_content(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_content(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_content(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -3927,7 +3928,7 @@ func (ec *executionContext) fieldContext_Post_content(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_comments(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_comments(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_comments(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -3950,7 +3951,7 @@ func (ec *executionContext) _Post_comments(ctx context.Context, field graphql.Co
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Comment)
+	res := resTmp.([]*models.Comment)
 	fc.Result = res
 	return ec.marshalOComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx, field.Selections, res)
 }
@@ -3984,7 +3985,7 @@ func (ec *executionContext) fieldContext_Post_comments(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_userId(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_userId(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_userId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -4028,7 +4029,7 @@ func (ec *executionContext) fieldContext_Post_userId(ctx context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -4072,7 +4073,7 @@ func (ec *executionContext) fieldContext_Post_createdAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -4113,7 +4114,7 @@ func (ec *executionContext) fieldContext_Post_updatedAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_deletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_deletedAt(ctx context.Context, field graphql.CollectedField, obj *models.Post) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Post_deletedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -4180,7 +4181,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.User)
+	res := resTmp.([]*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
@@ -4246,7 +4247,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
@@ -4323,7 +4324,7 @@ func (ec *executionContext) _Query_userByEmail(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
@@ -4400,7 +4401,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Post)
+	res := resTmp.([]*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
 }
@@ -4462,7 +4463,7 @@ func (ec *executionContext) _Query_post(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Post)
+	res := resTmp.(*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
 }
@@ -4535,7 +4536,7 @@ func (ec *executionContext) _Query_postsByUser(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Post)
+	res := resTmp.([]*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
 }
@@ -4608,7 +4609,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Comment)
+	res := resTmp.([]*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx, field.Selections, res)
 }
@@ -4668,7 +4669,7 @@ func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Comment)
+	res := resTmp.(*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx, field.Selections, res)
 }
@@ -4739,7 +4740,7 @@ func (ec *executionContext) _Query_commentsByUser(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Comment)
+	res := resTmp.([]*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx, field.Selections, res)
 }
@@ -4810,7 +4811,7 @@ func (ec *executionContext) _Query_commentsByPost(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Comment)
+	res := resTmp.([]*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx, field.Selections, res)
 }
@@ -4881,7 +4882,7 @@ func (ec *executionContext) _Query_messages(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -4941,7 +4942,7 @@ func (ec *executionContext) _Query_message(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Message)
+	res := resTmp.(*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx, field.Selections, res)
 }
@@ -5012,7 +5013,7 @@ func (ec *executionContext) _Query_messagesByUser(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -5083,7 +5084,7 @@ func (ec *executionContext) _Query_messagesByChat(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -5154,7 +5155,7 @@ func (ec *executionContext) _Query_messagesByChatAndUser(ctx context.Context, fi
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -5225,7 +5226,7 @@ func (ec *executionContext) _Query_chats(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Chat)
+	res := resTmp.([]*models.Chat)
 	fc.Result = res
 	return ec.marshalNChat2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChatᚄ(ctx, field.Selections, res)
 }
@@ -5283,7 +5284,7 @@ func (ec *executionContext) _Query_chat(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Chat)
+	res := resTmp.(*models.Chat)
 	fc.Result = res
 	return ec.marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx, field.Selections, res)
 }
@@ -5352,7 +5353,7 @@ func (ec *executionContext) _Query_redisRecord(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.RedisRecord)
+	res := resTmp.(*models.RedisRecord)
 	fc.Result = res
 	return ec.marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx, field.Selections, res)
 }
@@ -5516,7 +5517,7 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _RedisRecord_key(ctx context.Context, field graphql.CollectedField, obj *model.RedisRecord) (ret graphql.Marshaler) {
+func (ec *executionContext) _RedisRecord_key(ctx context.Context, field graphql.CollectedField, obj *models.RedisRecord) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_RedisRecord_key(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5560,7 +5561,7 @@ func (ec *executionContext) fieldContext_RedisRecord_key(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _RedisRecord_value(ctx context.Context, field graphql.CollectedField, obj *model.RedisRecord) (ret graphql.Marshaler) {
+func (ec *executionContext) _RedisRecord_value(ctx context.Context, field graphql.CollectedField, obj *models.RedisRecord) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_RedisRecord_value(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5604,7 +5605,7 @@ func (ec *executionContext) fieldContext_RedisRecord_value(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5648,7 +5649,7 @@ func (ec *executionContext) fieldContext_User_id(ctx context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_name(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5692,7 +5693,7 @@ func (ec *executionContext) fieldContext_User_name(ctx context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_email(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5736,7 +5737,7 @@ func (ec *executionContext) fieldContext_User_email(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _User_posts(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_posts(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_posts(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5762,7 +5763,7 @@ func (ec *executionContext) _User_posts(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Post)
+	res := resTmp.([]*models.Post)
 	fc.Result = res
 	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
 }
@@ -5798,7 +5799,7 @@ func (ec *executionContext) fieldContext_User_posts(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _User_messages(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_messages(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_messages(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5824,7 +5825,7 @@ func (ec *executionContext) _User_messages(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Message)
+	res := resTmp.([]*models.Message)
 	fc.Result = res
 	return ec.marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx, field.Selections, res)
 }
@@ -5858,7 +5859,7 @@ func (ec *executionContext) fieldContext_User_messages(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _User_comments(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_comments(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_comments(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5884,7 +5885,7 @@ func (ec *executionContext) _User_comments(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Comment)
+	res := resTmp.([]*models.Comment)
 	fc.Result = res
 	return ec.marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx, field.Selections, res)
 }
@@ -5918,7 +5919,7 @@ func (ec *executionContext) fieldContext_User_comments(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _User_chats(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_chats(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_chats(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -5944,7 +5945,7 @@ func (ec *executionContext) _User_chats(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Chat)
+	res := resTmp.([]*models.Chat)
 	fc.Result = res
 	return ec.marshalNChat2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChatᚄ(ctx, field.Selections, res)
 }
@@ -5976,7 +5977,7 @@ func (ec *executionContext) fieldContext_User_chats(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _User_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -6020,7 +6021,7 @@ func (ec *executionContext) fieldContext_User_createdAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _User_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -6061,7 +6062,7 @@ func (ec *executionContext) fieldContext_User_updatedAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _User_deletedAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_deletedAt(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_deletedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -8277,7 +8278,7 @@ func (ec *executionContext) unmarshalInputUpdateUser(ctx context.Context, obj in
 
 var chatImplementors = []string{"Chat"}
 
-func (ec *executionContext) _Chat(ctx context.Context, sel ast.SelectionSet, obj *model.Chat) graphql.Marshaler {
+func (ec *executionContext) _Chat(ctx context.Context, sel ast.SelectionSet, obj *models.Chat) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, chatImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -8515,7 +8516,7 @@ func (ec *executionContext) _Chat(ctx context.Context, sel ast.SelectionSet, obj
 
 var commentImplementors = []string{"Comment"}
 
-func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, obj *model.Comment) graphql.Marshaler {
+func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, obj *models.Comment) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, commentImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -8808,7 +8809,7 @@ func (ec *executionContext) _Deletion(ctx context.Context, sel ast.SelectionSet,
 
 var messageImplementors = []string{"Message"}
 
-func (ec *executionContext) _Message(ctx context.Context, sel ast.SelectionSet, obj *model.Message) graphql.Marshaler {
+func (ec *executionContext) _Message(ctx context.Context, sel ast.SelectionSet, obj *models.Message) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, messageImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -9218,7 +9219,7 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 var postImplementors = []string{"Post"}
 
-func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj *model.Post) graphql.Marshaler {
+func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj *models.Post) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, postImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -9915,7 +9916,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var redisRecordImplementors = []string{"RedisRecord"}
 
-func (ec *executionContext) _RedisRecord(ctx context.Context, sel ast.SelectionSet, obj *model.RedisRecord) graphql.Marshaler {
+func (ec *executionContext) _RedisRecord(ctx context.Context, sel ast.SelectionSet, obj *models.RedisRecord) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, redisRecordImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -9959,7 +9960,7 @@ func (ec *executionContext) _RedisRecord(ctx context.Context, sel ast.SelectionS
 
 var userImplementors = []string{"User"}
 
-func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
+func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *models.User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -10624,11 +10625,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNChat2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx context.Context, sel ast.SelectionSet, v model.Chat) graphql.Marshaler {
+func (ec *executionContext) marshalNChat2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx context.Context, sel ast.SelectionSet, v models.Chat) graphql.Marshaler {
 	return ec._Chat(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNChat2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChatᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Chat) graphql.Marshaler {
+func (ec *executionContext) marshalNChat2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChatᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Chat) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -10672,7 +10673,7 @@ func (ec *executionContext) marshalNChat2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑ
 	return ret
 }
 
-func (ec *executionContext) marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx context.Context, sel ast.SelectionSet, v *model.Chat) graphql.Marshaler {
+func (ec *executionContext) marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐChat(ctx context.Context, sel ast.SelectionSet, v *models.Chat) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -10682,11 +10683,11 @@ func (ec *executionContext) marshalNChat2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwar
 	return ec._Chat(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNComment2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v model.Comment) graphql.Marshaler {
+func (ec *executionContext) marshalNComment2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v models.Comment) graphql.Marshaler {
 	return ec._Comment(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Comment) graphql.Marshaler {
+func (ec *executionContext) marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Comment) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -10730,7 +10731,7 @@ func (ec *executionContext) marshalNComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapi
 	return ret
 }
 
-func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v *model.Comment) graphql.Marshaler {
+func (ec *executionContext) marshalNComment2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v *models.Comment) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -10769,11 +10770,11 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalNMessage2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx context.Context, sel ast.SelectionSet, v model.Message) graphql.Marshaler {
+func (ec *executionContext) marshalNMessage2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx context.Context, sel ast.SelectionSet, v models.Message) graphql.Marshaler {
 	return ec._Message(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Message) graphql.Marshaler {
+func (ec *executionContext) marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Message) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -10817,7 +10818,7 @@ func (ec *executionContext) marshalNMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapi
 	return ret
 }
 
-func (ec *executionContext) marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx context.Context, sel ast.SelectionSet, v *model.Message) graphql.Marshaler {
+func (ec *executionContext) marshalNMessage2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessage(ctx context.Context, sel ast.SelectionSet, v *models.Message) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -10857,11 +10858,11 @@ func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋiLopezosaᚋapiᚑw
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNPost2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v models.Post) graphql.Marshaler {
 	return ec._Post(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Post) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -10905,7 +10906,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑ
 	return ret
 }
 
-func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *models.Post) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -10915,11 +10916,11 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwar
 	return ec._Post(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNRedisRecord2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v model.RedisRecord) graphql.Marshaler {
+func (ec *executionContext) marshalNRedisRecord2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v models.RedisRecord) graphql.Marshaler {
 	return ec._RedisRecord(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v *model.RedisRecord) graphql.Marshaler {
+func (ec *executionContext) marshalNRedisRecord2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐRedisRecord(ctx context.Context, sel ast.SelectionSet, v *models.RedisRecord) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -10996,11 +10997,11 @@ func (ec *executionContext) unmarshalNUpdateUser2githubᚗcomᚋiLopezosaᚋapi�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNUser2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v models.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -11044,7 +11045,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑ
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *models.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -11333,7 +11334,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Comment) graphql.Marshaler {
+func (ec *executionContext) marshalOComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Comment) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -11380,7 +11381,7 @@ func (ec *executionContext) marshalOComment2ᚕᚖgithubᚗcomᚋiLopezosaᚋapi
 	return ret
 }
 
-func (ec *executionContext) marshalOMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Message) graphql.Marshaler {
+func (ec *executionContext) marshalOMessage2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐMessageᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Message) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -11481,7 +11482,7 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) marshalOUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalOUser2ᚕᚖgithubᚗcomᚋiLopezosaᚋapiᚑwarsᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.User) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

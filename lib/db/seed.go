@@ -5,9 +5,9 @@ import (
 	"math/rand"
 	"slices"
 
-	"github.com/iLopezosa/api-wars/lib/config"
-	"github.com/iLopezosa/api-wars/lib/models"
 	"github.com/jaswdr/faker"
+	"github.com/n4xo-dev/api-wars/lib/config"
+	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
 func Reset() {

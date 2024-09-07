@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/iLopezosa/api-wars/lib/models"
+	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
 // Updates or creates a user if the id provided within the user is found or not, respectively

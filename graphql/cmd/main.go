@@ -14,9 +14,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/iLopezosa/api-wars/graphql/db"
-	"github.com/iLopezosa/api-wars/graphql/graph"
 	"github.com/joho/godotenv"
+	"github.com/n4xo-dev/api-wars/graphql/db"
+	"github.com/n4xo-dev/api-wars/graphql/graph"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 

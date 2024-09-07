@@ -1,4 +1,4 @@
-module github.com/iLopezosa/api-wars/graphql
+module github.com/n4xo-dev/api-wars/graphql
 
 go 1.21
 

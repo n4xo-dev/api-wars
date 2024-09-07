@@ -1,9 +1,9 @@
 package db
 
-import "github.com/iLopezosa/api-wars/graphql/graph/model"
+import "github.com/n4xo-dev/api-wars/lib/models"
 
 // Updates or creates a user if the id provided within the user is found or not, respectively
-func UserUpsert(u *model.User) error {
+func UserUpsert(u *models.User) error {
 
 	ctx := DBClient.Save(u).Take(u)
 
@@ -11,16 +11,16 @@ func UserUpsert(u *model.User) error {
 }
 
 // Gets the data of the user with the provided id
-func UserRead(id uint64) (model.User, error) {
+func UserRead(id uint64) (models.User, error) {
 
-	user := model.User{}
-	ctx := DBClient.Model(&model.User{}).First(&user, id)
+	user := models.User{}
+	ctx := DBClient.Model(&models.User{}).First(&user, id)
 
 	return user, ctx.Error
 }
 
 // Patch update the user with the provided id
-func UserPatch(u *model.User) error {
+func UserPatch(u *models.User) error {
 
 	ctx := DBClient.Updates(u).Take(u)
 
@@ -30,7 +30,7 @@ func UserPatch(u *model.User) error {
 // Deletes the user with the provided id
 func UserDelete(id uint64) error {
 
-	var user = model.User{
+	var user = models.User{
 		ID: id,
 	}
 	ctx := DBClient.Delete(&user)
@@ -39,19 +39,19 @@ func UserDelete(id uint64) error {
 }
 
 // Gets the data of all the users
-func UserList() ([]*model.User, error) {
+func UserList() ([]*models.User, error) {
 
-	var users []*model.User
-	ctx := DBClient.Model(&model.User{}).Find(&users)
+	var users []*models.User
+	ctx := DBClient.Model(&models.User{}).Find(&users)
 
 	return users, ctx.Error
 }
 
 // Gets the data of the user with the provided email
-func UserFindByEmail(email string) ([]model.User, error) {
+func UserFindByEmail(email string) ([]models.User, error) {
 
-	var users []model.User
-	ctx := DBClient.Model(&model.User{}).Where("email = ?", email).Find(&users)
+	var users []models.User
+	ctx := DBClient.Model(&models.User{}).Where("email = ?", email).Find(&users)
 
 	return users, ctx.Error
 }

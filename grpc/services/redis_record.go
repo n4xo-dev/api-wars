@@ -3,8 +3,8 @@ package services
 import (
 	context "context"
 
-	"github.com/iLopezosa/api-wars/grpc/pb"
-	"github.com/iLopezosa/api-wars/lib/db"
+	"github.com/n4xo-dev/api-wars/grpc/pb"
+	"github.com/n4xo-dev/api-wars/lib/db"
 	"github.com/redis/go-redis/v9"
 
 	// grpc "google.golang.org/grpc"

@@ -7,7 +7,7 @@ syntax = "proto3";
 import "messages.proto";
 import "users.proto";
 
-option go_package = "github.com/iLopezosa/api-wars/grpc/pb";
+option go_package = "github.com/n4xo-dev/api-wars/grpc/pb";
 
 service ChatsService {
   rpc ListChats (ListChatsRequest) returns (ListChatsResponse) {}

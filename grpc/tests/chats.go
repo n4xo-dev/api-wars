@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/iLopezosa/api-wars/lib/db"
-	"github.com/iLopezosa/api-wars/lib/models"
+	"github.com/n4xo-dev/api-wars/lib/db"
+	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
 func TestChatsComplete() {
