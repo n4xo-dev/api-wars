@@ -27,7 +27,7 @@ func (c *ChatsServiceServer) ListChats(ctx context.Context, listReq *pb.ListChat
 
 	pbChats := make([]*pb.Chat, len(chats))
 	for i, chat := range chats {
-		pbChats[i] = conv.ChatToPb(chat)
+		pbChats[i] = conv.ChatToPb(*chat)
 	}
 
 	return &pb.ListChatsResponse{
