@@ -21,6 +21,14 @@ func UserRead(id uint64) (models.ReadUserDTO, error) {
 	return user, ctx.Error
 }
 
+func FullUserRead(id uint64) (models.User, error) {
+
+	user := models.User{}
+	ctx := DBClient.Model(&models.User{}).First(&user, id)
+
+	return user, ctx.Error
+}
+
 // Patch update the user with the provided id
 func UserPatch(u *models.User) error {
 
@@ -49,10 +57,26 @@ func UserList() ([]models.ReadUserDTO, error) {
 	return users, ctx.Error
 }
 
+func FullUserList() ([]*models.User, error) {
+
+	var users []*models.User
+	ctx := DBClient.Model(&models.User{}).Find(&users)
+
+	return users, ctx.Error
+}
+
 // Gets the data of the user with the provided email
 func UserFindByEmail(email string) ([]models.ReadUserDTO, error) {
 
 	var users []models.ReadUserDTO
+	ctx := DBClient.Model(&models.User{}).Where("email = ?", email).Find(&users)
+
+	return users, ctx.Error
+}
+
+func FullUserFindByEmail(email string) ([]models.User, error) {
+
+	var users []models.User
 	ctx := DBClient.Model(&models.User{}).Where("email = ?", email).Find(&users)
 
 	return users, ctx.Error

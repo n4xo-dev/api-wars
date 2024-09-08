@@ -19,6 +19,14 @@ func PostRead(id uint64) (models.ReadPostDTO, error) {
 	return post, ctx.Error
 }
 
+func FullPostRead(id uint64) (models.Post, error) {
+
+	var post = models.Post{}
+	ctx := DBClient.Model(&models.Post{}).First(&post, id)
+
+	return post, ctx.Error
+}
+
 // Deletes the post with the provided id
 func PostDelete(id uint64) error {
 
@@ -47,6 +55,14 @@ func PostList() ([]models.ReadPostDTO, error) {
 	return posts, ctx.Error
 }
 
+func FullPostList() ([]*models.Post, error) {
+
+	var posts []*models.Post
+	ctx := DBClient.Model(&models.Post{}).Find(&posts)
+
+	return posts, ctx.Error
+}
+
 // Gets the data of the posts with the provided user id
 func PostListByUserID(userID uint64) ([]models.ReadPostDTO, error) {
 
@@ -54,4 +70,21 @@ func PostListByUserID(userID uint64) ([]models.ReadPostDTO, error) {
 	ctx := DBClient.Model(&models.Post{}).Where("user_id = ?", userID).Find(&posts)
 
 	return posts, ctx.Error
+}
+
+func FullPostListByUserID(userID uint64) ([]*models.Post, error) {
+
+	var posts []*models.Post
+	ctx := DBClient.Model(&models.Post{}).Where("user_id = ?", userID).Find(&posts)
+
+	return posts, ctx.Error
+}
+
+// Gets the comments of the post with the provided id
+func PostComments(id uint64) ([]*models.Comment, error) {
+
+	var comments []*models.Comment
+	ctx := DBClient.Model(&models.Comment{}).Where("post_id = ?", id).Find(&comments)
+
+	return comments, ctx.Error
 }

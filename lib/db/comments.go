@@ -19,6 +19,14 @@ func CommentRead(id uint64) (models.ReadCommentDTO, error) {
 	return comment, ctx.Error
 }
 
+func FullCommentRead(id uint64) (models.Comment, error) {
+
+	var comment = models.Comment{}
+	ctx := DBClient.Model(&models.Comment{}).First(&comment, id)
+
+	return comment, ctx.Error
+}
+
 // Patch update the comment with the provided id
 func CommentPatch(c *models.Comment) error {
 
@@ -47,6 +55,14 @@ func CommentList() ([]models.ReadCommentDTO, error) {
 	return comments, ctx.Error
 }
 
+func FullCommentList() ([]*models.Comment, error) {
+
+	var comments []*models.Comment
+	ctx := DBClient.Model(&models.Comment{}).Find(&comments)
+
+	return comments, ctx.Error
+}
+
 // Gets the data of the comments with the provided post id
 func CommentListByPostID(postID uint64) ([]models.ReadCommentDTO, error) {
 
@@ -56,10 +72,26 @@ func CommentListByPostID(postID uint64) ([]models.ReadCommentDTO, error) {
 	return comments, ctx.Error
 }
 
+func FullCommentListByPostID(postID uint64) ([]*models.Comment, error) {
+
+	var comments []*models.Comment
+	ctx := DBClient.Model(&models.Comment{}).Where("post_id = ?", postID).Find(&comments)
+
+	return comments, ctx.Error
+}
+
 // Gets the data of the comments with the provided user id
 func CommentListByUserID(userID uint64) ([]models.ReadCommentDTO, error) {
 
 	var comments []models.ReadCommentDTO
+	ctx := DBClient.Model(&models.Comment{}).Where("user_id = ?", userID).Find(&comments)
+
+	return comments, ctx.Error
+}
+
+func FullCommentListByUserID(userID uint64) ([]*models.Comment, error) {
+
+	var comments []*models.Comment
 	ctx := DBClient.Model(&models.Comment{}).Where("user_id = ?", userID).Find(&comments)
 
 	return comments, ctx.Error

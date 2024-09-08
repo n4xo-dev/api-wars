@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/n4xo-dev/api-wars/graphql/db"
 	"github.com/n4xo-dev/api-wars/graphql/graph/model"
+	"github.com/n4xo-dev/api-wars/lib/db"
 	"github.com/n4xo-dev/api-wars/lib/models"
 )
 
@@ -441,7 +441,7 @@ func (r *postResolver) DeletedAt(ctx context.Context, obj *models.Post) (*string
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
-	users, err := db.UserList()
+	users, err := db.FullUserList()
 	if err != nil {
 		return nil, err
 	}
@@ -456,7 +456,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*models.User, erro
 		return nil, err
 	}
 
-	user, err := db.UserRead(uID)
+	user, err := db.FullUserRead(uID)
 	if err != nil {
 		return nil, err
 	}
@@ -466,7 +466,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*models.User, erro
 
 // UserByEmail is the resolver for the userByEmail field.
 func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*models.User, error) {
-	users, err := db.UserFindByEmail(email)
+	users, err := db.FullUserFindByEmail(email)
 	if err != nil {
 		return nil, err
 	}
@@ -476,7 +476,7 @@ func (r *queryResolver) UserByEmail(ctx context.Context, email string) (*models.
 
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*models.Post, error) {
-	posts, err := db.PostList()
+	posts, err := db.FullPostList()
 	if err != nil {
 		return nil, err
 	}
@@ -491,7 +491,7 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*models.Post, erro
 		return nil, err
 	}
 
-	post, err := db.PostRead(pID)
+	post, err := db.FullPostRead(pID)
 	if err != nil {
 		return nil, err
 	}
@@ -506,7 +506,7 @@ func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*mode
 		return nil, err
 	}
 
-	posts, err := db.PostListByUserID(uID)
+	posts, err := db.FullPostListByUserID(uID)
 	if err != nil {
 		return nil, err
 	}
@@ -516,7 +516,7 @@ func (r *queryResolver) PostsByUser(ctx context.Context, userID string) ([]*mode
 
 // Comments is the resolver for the comments field.
 func (r *queryResolver) Comments(ctx context.Context) ([]*models.Comment, error) {
-	comments, err := db.CommentList()
+	comments, err := db.FullCommentList()
 	if err != nil {
 		return nil, err
 	}
@@ -531,7 +531,7 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*models.Comment
 		return nil, err
 	}
 
-	comment, err := db.CommentRead(cID)
+	comment, err := db.FullCommentRead(cID)
 	if err != nil {
 		return nil, err
 	}
@@ -546,7 +546,7 @@ func (r *queryResolver) CommentsByUser(ctx context.Context, userID string) ([]*m
 		return nil, err
 	}
 
-	comments, err := db.CommentListByUserID(uID)
+	comments, err := db.FullCommentListByUserID(uID)
 	if err != nil {
 		return nil, err
 	}
@@ -561,7 +561,7 @@ func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*m
 		return nil, err
 	}
 
-	comments, err := db.CommentListByPostID(pID)
+	comments, err := db.FullCommentListByPostID(pID)
 	if err != nil {
 		return nil, err
 	}
@@ -571,7 +571,7 @@ func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*m
 
 // Messages is the resolver for the messages field.
 func (r *queryResolver) Messages(ctx context.Context) ([]*models.Message, error) {
-	messages, err := db.MessageList()
+	messages, err := db.FullMessageList()
 	if err != nil {
 		return nil, err
 	}
@@ -586,7 +586,7 @@ func (r *queryResolver) Message(ctx context.Context, id string) (*models.Message
 		return nil, err
 	}
 
-	message, err := db.MessageRead(mID)
+	message, err := db.FullMessageRead(mID)
 	if err != nil {
 		return nil, err
 	}
@@ -601,7 +601,7 @@ func (r *queryResolver) MessagesByUser(ctx context.Context, userID string) ([]*m
 		return nil, err
 	}
 
-	messages, err := db.MessageListByUserID(uID)
+	messages, err := db.FullMessageListByUserID(uID)
 	if err != nil {
 		return nil, err
 	}
@@ -616,7 +616,7 @@ func (r *queryResolver) MessagesByChat(ctx context.Context, chatID string) ([]*m
 		return nil, err
 	}
 
-	messages, err := db.MessageListByChatID(cID)
+	messages, err := db.FullMessageListByChatID(cID)
 	if err != nil {
 		return nil, err
 	}
@@ -636,7 +636,7 @@ func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string
 		return nil, err
 	}
 
-	messages, err := db.MessageListByChatIDAndUserID(cID, uID)
+	messages, err := db.FullMessageListByChatIDAndUserID(cID, uID)
 	if err != nil {
 		return nil, err
 	}
@@ -646,7 +646,7 @@ func (r *queryResolver) MessagesByChatAndUser(ctx context.Context, chatID string
 
 // Chats is the resolver for the chats field.
 func (r *queryResolver) Chats(ctx context.Context) ([]*models.Chat, error) {
-	chats, err := db.ChatList()
+	chats, err := db.ChatList(false)
 	if err != nil {
 		return nil, err
 	}
@@ -661,7 +661,7 @@ func (r *queryResolver) Chat(ctx context.Context, id string) (*models.Chat, erro
 		return nil, err
 	}
 
-	chat, err := db.ChatRead(cID)
+	chat, err := db.ChatRead(cID, false)
 	if err != nil {
 		return nil, err
 	}
@@ -689,17 +689,17 @@ func (r *userResolver) ID(ctx context.Context, obj *models.User) (string, error)
 
 // Posts is the resolver for the posts field.
 func (r *userResolver) Posts(ctx context.Context, obj *models.User) ([]*models.Post, error) {
-	return db.PostListByUserID(obj.ID)
+	return db.FullPostListByUserID(obj.ID)
 }
 
 // Messages is the resolver for the messages field.
 func (r *userResolver) Messages(ctx context.Context, obj *models.User) ([]*models.Message, error) {
-	return db.MessageListByUserID(obj.ID)
+	return db.FullMessageListByUserID(obj.ID)
 }
 
 // Comments is the resolver for the comments field.
 func (r *userResolver) Comments(ctx context.Context, obj *models.User) ([]*models.Comment, error) {
-	return db.CommentListByUserID(obj.ID)
+	return db.FullCommentListByUserID(obj.ID)
 }
 
 // Chats is the resolver for the chats field.

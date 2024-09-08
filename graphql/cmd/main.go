@@ -15,8 +15,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"github.com/n4xo-dev/api-wars/graphql/db"
 	"github.com/n4xo-dev/api-wars/graphql/graph"
+	"github.com/n4xo-dev/api-wars/lib/db"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 
@@ -63,7 +63,7 @@ func main() {
 		app := fiber.New()
 
 		app.Use(logger.New(logger.Config{
-			Format: "[${time}] ${ip} ${status} - ${latency} ${method} ${path} ? ${queryParams} : ${body} ! ${error}\n",
+			Format: "[${time}] ${ip} ${status} - ${latency} ${method} ${path} ? ${queryParams} ! ${error}\n",
 		}))
 
 		// Create a gqlgen handler
