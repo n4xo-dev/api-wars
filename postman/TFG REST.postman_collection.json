@@ -43,7 +43,13 @@
 					"name": "List",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cache-Control",
+								"value": "no-cache",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{restUrl}}/users",
 							"host": [
@@ -697,12 +703,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{restUrl}}/chats",
+							"raw": "{{restUrl}}/chats?eager=true",
 							"host": [
 								"{{restUrl}}"
 							],
 							"path": [
 								"chats"
+							],
+							"query": [
+								{
+									"key": "eager",
+									"value": "true"
+								}
 							]
 						}
 					},
