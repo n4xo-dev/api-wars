@@ -1,0 +1,323 @@
+
+          /\      |‾‾| /‾‾/   /‾‾/   
+     /\  /  \     |  |/  /   /  /    
+    /  \/    \    |     (   /   ‾‾\  
+   /          \   |  |\  \ |  (‾)  | 
+  / __________ \  |__| \__\ \_____/ .io
+
+     execution: local
+        script: graphql/tests/graphqlCache.js
+        output: json (tests/graphqlCache.json)
+
+     scenarios: (100.00%) 1 scenario, 10000 max VUs, 2m0s max duration (incl. graceful stop):
+              * cache_scenario: Up to 10000 looping VUs for 1m30s over 2 stages (gracefulRampDown: 30s, exec: cache, gracefulStop: 30s)
+
+
+running (0m00.5s), 00082/10000 VUs, 3638 complete and 0 interrupted iterations
+cache_scenario   [   1% ] 00082/10000 VUs  0m00.5s/1m30.0s
+
+running (0m01.5s), 00249/10000 VUs, 12999 complete and 0 interrupted iterations
+cache_scenario   [   2% ] 00249/10000 VUs  0m01.5s/1m30.0s
+
+running (0m02.5s), 00415/10000 VUs, 22403 complete and 0 interrupted iterations
+cache_scenario   [   3% ] 00415/10000 VUs  0m02.5s/1m30.0s
+
+running (0m03.5s), 00575/10000 VUs, 32380 complete and 0 interrupted iterations
+cache_scenario   [   4% ] 00575/10000 VUs  0m03.5s/1m30.0s
+
+running (0m04.5s), 00747/10000 VUs, 41837 complete and 0 interrupted iterations
+cache_scenario   [   5% ] 00748/10000 VUs  0m04.5s/1m30.0s
+
+running (0m05.5s), 00909/10000 VUs, 51417 complete and 0 interrupted iterations
+cache_scenario   [   6% ] 00909/10000 VUs  0m05.5s/1m30.0s
+
+running (0m06.5s), 01082/10000 VUs, 60907 complete and 0 interrupted iterations
+cache_scenario   [   7% ] 01082/10000 VUs  0m06.5s/1m30.0s
+
+running (0m07.5s), 01248/10000 VUs, 71361 complete and 0 interrupted iterations
+cache_scenario   [   8% ] 01248/10000 VUs  0m07.5s/1m30.0s
+
+running (0m08.5s), 01415/10000 VUs, 80518 complete and 0 interrupted iterations
+cache_scenario   [   9% ] 01415/10000 VUs  0m08.5s/1m30.0s
+
+running (0m09.5s), 01575/10000 VUs, 91135 complete and 0 interrupted iterations
+cache_scenario   [  11% ] 01575/10000 VUs  0m09.5s/1m30.0s
+
+running (0m10.5s), 01754/10000 VUs, 99745 complete and 0 interrupted iterations
+cache_scenario   [  12% ] 01754/10000 VUs  0m10.5s/1m30.0s
+
+running (0m11.5s), 01915/10000 VUs, 110659 complete and 0 interrupted iterations
+cache_scenario   [  13% ] 01915/10000 VUs  0m11.5s/1m30.0s
+
+running (0m12.5s), 02081/10000 VUs, 119075 complete and 0 interrupted iterations
+cache_scenario   [  14% ] 02081/10000 VUs  0m12.5s/1m30.0s
+
+running (0m13.5s), 02248/10000 VUs, 129640 complete and 0 interrupted iterations
+cache_scenario   [  15% ] 02248/10000 VUs  0m13.5s/1m30.0s
+
+running (0m14.6s), 02413/10000 VUs, 139091 complete and 0 interrupted iterations
+cache_scenario   [  16% ] 02413/10000 VUs  0m14.6s/1m30.0s
+
+running (0m15.5s), 02582/10000 VUs, 148981 complete and 0 interrupted iterations
+cache_scenario   [  17% ] 02582/10000 VUs  0m15.5s/1m30.0s
+
+running (0m16.5s), 02747/10000 VUs, 157673 complete and 0 interrupted iterations
+cache_scenario   [  18% ] 02747/10000 VUs  0m16.5s/1m30.0s
+
+running (0m17.5s), 02911/10000 VUs, 168246 complete and 0 interrupted iterations
+cache_scenario   [  19% ] 02911/10000 VUs  0m17.5s/1m30.0s
+
+running (0m18.5s), 03081/10000 VUs, 177214 complete and 0 interrupted iterations
+cache_scenario   [  21% ] 03081/10000 VUs  0m18.5s/1m30.0s
+
+running (0m19.5s), 03248/10000 VUs, 187107 complete and 0 interrupted iterations
+cache_scenario   [  22% ] 03248/10000 VUs  0m19.5s/1m30.0s
+
+running (0m20.5s), 03415/10000 VUs, 196412 complete and 0 interrupted iterations
+cache_scenario   [  23% ] 03415/10000 VUs  0m20.5s/1m30.0s
+
+running (0m21.5s), 03581/10000 VUs, 206407 complete and 0 interrupted iterations
+cache_scenario   [  24% ] 03581/10000 VUs  0m21.5s/1m30.0s
+
+running (0m22.5s), 03748/10000 VUs, 215267 complete and 0 interrupted iterations
+cache_scenario   [  25% ] 03748/10000 VUs  0m22.5s/1m30.0s
+
+running (0m23.5s), 03915/10000 VUs, 225889 complete and 0 interrupted iterations
+cache_scenario   [  26% ] 03915/10000 VUs  0m23.5s/1m30.0s
+
+running (0m24.5s), 04081/10000 VUs, 233638 complete and 0 interrupted iterations
+cache_scenario   [  27% ] 04081/10000 VUs  0m24.5s/1m30.0s
+
+running (0m25.5s), 04248/10000 VUs, 244012 complete and 0 interrupted iterations
+cache_scenario   [  28% ] 04248/10000 VUs  0m25.5s/1m30.0s
+
+running (0m26.5s), 04357/10000 VUs, 252681 complete and 0 interrupted iterations
+cache_scenario   [  29% ] 04357/10000 VUs  0m26.5s/1m30.0s
+
+running (0m27.5s), 04582/10000 VUs, 263759 complete and 0 interrupted iterations
+cache_scenario   [  31% ] 04582/10000 VUs  0m27.5s/1m30.0s
+
+running (0m30.6s), 04777/10000 VUs, 271303 complete and 0 interrupted iterations
+cache_scenario   [  34% ] 04777/10000 VUs  0m30.6s/1m30.0s
+
+running (0m30.6s), 04777/10000 VUs, 271303 complete and 0 interrupted iterations
+cache_scenario   [  34% ] 04777/10000 VUs  0m30.6s/1m30.0s
+
+running (0m31.5s), 05248/10000 VUs, 280339 complete and 0 interrupted iterations
+cache_scenario   [  35% ] 05248/10000 VUs  0m31.5s/1m30.0s
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=warning msg="Request Failed" error="Post \"http://localhost:3000/graphql\": dial tcp 127.0.0.1:3000: connect: connection reset by peer"
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+time="2024-09-10T12:40:00+02:00" level=error msg="TypeError: Value is not an object: null\n\tat file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:35:19(50)\n\tat go.k6.io/k6/js/modules/k6.(*K6).Group-fm (native)\n\tat cache (file:///Users/n4xo/dev/api-wars/graphql/tests/graphqlCache.js:23:8(5))\n" executor=ramping-vus scenario=cache_scenario source=stacktrace
+
+running (0m32.5s), 05415/10000 VUs, 289384 complete and 0 interrupted iterations
+cache_scenario   [  36% ] 05415/10000 VUs  0m32.5s/1m30.0s
+
+running (0m33.5s), 05581/10000 VUs, 298073 complete and 0 interrupted iterations
+cache_scenario   [  37% ] 05581/10000 VUs  0m33.5s/1m30.0s
+
+running (0m34.5s), 05748/10000 VUs, 308044 complete and 0 interrupted iterations
+cache_scenario   [  38% ] 05748/10000 VUs  0m34.5s/1m30.0s
+
+running (0m35.5s), 05915/10000 VUs, 316171 complete and 0 interrupted iterations
+cache_scenario   [  39% ] 05915/10000 VUs  0m35.5s/1m30.0s
+
+running (0m36.5s), 06081/10000 VUs, 326348 complete and 0 interrupted iterations
+cache_scenario   [  41% ] 06081/10000 VUs  0m36.5s/1m30.0s
+
+running (0m37.5s), 06248/10000 VUs, 333705 complete and 0 interrupted iterations
+cache_scenario   [  42% ] 06248/10000 VUs  0m37.5s/1m30.0s
+
+running (0m38.5s), 06415/10000 VUs, 344147 complete and 0 interrupted iterations
+cache_scenario   [  43% ] 06415/10000 VUs  0m38.5s/1m30.0s
+
+running (0m39.5s), 06581/10000 VUs, 352086 complete and 0 interrupted iterations
+cache_scenario   [  44% ] 06581/10000 VUs  0m39.5s/1m30.0s
+
+running (0m40.5s), 06746/10000 VUs, 362031 complete and 0 interrupted iterations
+cache_scenario   [  45% ] 06746/10000 VUs  0m40.5s/1m30.0s
+
+running (0m41.5s), 06916/10000 VUs, 370279 complete and 0 interrupted iterations
+cache_scenario   [  46% ] 06916/10000 VUs  0m41.5s/1m30.0s
+
+running (0m42.5s), 07081/10000 VUs, 379265 complete and 0 interrupted iterations
+cache_scenario   [  47% ] 07081/10000 VUs  0m42.5s/1m30.0s
+
+running (0m43.5s), 07248/10000 VUs, 389348 complete and 0 interrupted iterations
+cache_scenario   [  48% ] 07248/10000 VUs  0m43.5s/1m30.0s
+
+running (0m44.5s), 07414/10000 VUs, 396502 complete and 0 interrupted iterations
+cache_scenario   [  49% ] 07414/10000 VUs  0m44.5s/1m30.0s
+
+running (0m45.5s), 07581/10000 VUs, 406749 complete and 0 interrupted iterations
+cache_scenario   [  51% ] 07581/10000 VUs  0m45.5s/1m30.0s
+
+running (0m46.5s), 07748/10000 VUs, 414307 complete and 0 interrupted iterations
+cache_scenario   [  52% ] 07748/10000 VUs  0m46.5s/1m30.0s
+
+running (0m47.5s), 07914/10000 VUs, 423170 complete and 0 interrupted iterations
+cache_scenario   [  53% ] 07914/10000 VUs  0m47.5s/1m30.0s
+
+running (0m48.5s), 08083/10000 VUs, 432257 complete and 0 interrupted iterations
+cache_scenario   [  54% ] 08083/10000 VUs  0m48.5s/1m30.0s
+
+running (0m49.5s), 08248/10000 VUs, 439907 complete and 0 interrupted iterations
+cache_scenario   [  55% ] 08248/10000 VUs  0m49.5s/1m30.0s
+
+running (0m50.5s), 08413/10000 VUs, 449147 complete and 0 interrupted iterations
+cache_scenario   [  56% ] 08413/10000 VUs  0m50.5s/1m30.0s
+
+running (0m51.5s), 08580/10000 VUs, 457482 complete and 0 interrupted iterations
+cache_scenario   [  57% ] 08580/10000 VUs  0m51.5s/1m30.0s
+
+running (0m52.5s), 08748/10000 VUs, 466245 complete and 0 interrupted iterations
+cache_scenario   [  58% ] 08748/10000 VUs  0m52.5s/1m30.0s
+
+running (0m53.5s), 08914/10000 VUs, 477907 complete and 0 interrupted iterations
+cache_scenario   [  59% ] 08914/10000 VUs  0m53.5s/1m30.0s
+
+running (0m54.5s), 09081/10000 VUs, 484449 complete and 0 interrupted iterations
+cache_scenario   [  61% ] 09081/10000 VUs  0m54.5s/1m30.0s
+
+running (0m55.5s), 09247/10000 VUs, 494166 complete and 0 interrupted iterations
+cache_scenario   [  62% ] 09247/10000 VUs  0m55.5s/1m30.0s
+
+running (0m56.5s), 09414/10000 VUs, 502590 complete and 0 interrupted iterations
+cache_scenario   [  63% ] 09414/10000 VUs  0m56.5s/1m30.0s
+
+running (0m57.5s), 09580/10000 VUs, 510621 complete and 0 interrupted iterations
+cache_scenario   [  64% ] 09580/10000 VUs  0m57.5s/1m30.0s
+
+running (0m58.5s), 09748/10000 VUs, 520290 complete and 0 interrupted iterations
+cache_scenario   [  65% ] 09748/10000 VUs  0m58.5s/1m30.0s
+
+running (0m59.5s), 09914/10000 VUs, 528683 complete and 0 interrupted iterations
+cache_scenario   [  66% ] 09914/10000 VUs  0m59.5s/1m30.0s
+
+running (1m00.5s), 10000/10000 VUs, 538837 complete and 0 interrupted iterations
+cache_scenario   [  67% ] 10000/10000 VUs  1m00.5s/1m30.0s
+
+running (1m01.9s), 10000/10000 VUs, 549779 complete and 0 interrupted iterations
+cache_scenario   [  69% ] 10000/10000 VUs  1m01.9s/1m30.0s
+
+running (1m02.5s), 10000/10000 VUs, 556127 complete and 0 interrupted iterations
+cache_scenario   [  69% ] 10000/10000 VUs  1m02.5s/1m30.0s
+
+running (1m03.5s), 10000/10000 VUs, 564891 complete and 0 interrupted iterations
+cache_scenario   [  71% ] 10000/10000 VUs  1m03.5s/1m30.0s
+
+running (1m04.5s), 10000/10000 VUs, 572754 complete and 0 interrupted iterations
+cache_scenario   [  72% ] 10000/10000 VUs  1m04.5s/1m30.0s
+
+running (1m05.5s), 10000/10000 VUs, 582503 complete and 0 interrupted iterations
+cache_scenario   [  73% ] 10000/10000 VUs  1m05.5s/1m30.0s
+
+running (1m06.5s), 10000/10000 VUs, 592527 complete and 0 interrupted iterations
+cache_scenario   [  74% ] 10000/10000 VUs  1m06.5s/1m30.0s
+
+running (1m07.5s), 10000/10000 VUs, 600058 complete and 0 interrupted iterations
+cache_scenario   [  75% ] 10000/10000 VUs  1m07.5s/1m30.0s
+
+running (1m08.5s), 10000/10000 VUs, 608324 complete and 0 interrupted iterations
+cache_scenario   [  76% ] 10000/10000 VUs  1m08.5s/1m30.0s
+
+running (1m09.5s), 10000/10000 VUs, 617727 complete and 0 interrupted iterations
+cache_scenario   [  77% ] 10000/10000 VUs  1m09.5s/1m30.0s
+
+running (1m10.5s), 10000/10000 VUs, 625578 complete and 0 interrupted iterations
+cache_scenario   [  78% ] 10000/10000 VUs  1m10.5s/1m30.0s
+
+running (1m11.5s), 10000/10000 VUs, 635432 complete and 0 interrupted iterations
+cache_scenario   [  79% ] 10000/10000 VUs  1m11.5s/1m30.0s
+
+running (1m12.5s), 10000/10000 VUs, 644816 complete and 0 interrupted iterations
+cache_scenario   [  81% ] 10000/10000 VUs  1m12.5s/1m30.0s
+
+running (1m13.5s), 10000/10000 VUs, 652988 complete and 0 interrupted iterations
+cache_scenario   [  82% ] 10000/10000 VUs  1m13.5s/1m30.0s
+
+running (1m14.5s), 10000/10000 VUs, 662161 complete and 0 interrupted iterations
+cache_scenario   [  83% ] 10000/10000 VUs  1m14.5s/1m30.0s
+
+running (1m15.5s), 10000/10000 VUs, 671311 complete and 0 interrupted iterations
+cache_scenario   [  84% ] 10000/10000 VUs  1m15.5s/1m30.0s
+
+running (1m16.5s), 10000/10000 VUs, 678488 complete and 0 interrupted iterations
+cache_scenario   [  85% ] 10000/10000 VUs  1m16.5s/1m30.0s
+
+running (1m17.5s), 10000/10000 VUs, 687622 complete and 0 interrupted iterations
+cache_scenario   [  86% ] 10000/10000 VUs  1m17.5s/1m30.0s
+
+running (1m18.5s), 10000/10000 VUs, 697931 complete and 0 interrupted iterations
+cache_scenario   [  87% ] 10000/10000 VUs  1m18.5s/1m30.0s
+
+running (1m19.5s), 10000/10000 VUs, 704205 complete and 0 interrupted iterations
+cache_scenario   [  88% ] 10000/10000 VUs  1m19.5s/1m30.0s
+
+running (1m20.5s), 10000/10000 VUs, 713543 complete and 0 interrupted iterations
+cache_scenario   [  89% ] 10000/10000 VUs  1m20.5s/1m30.0s
+
+running (1m21.5s), 10000/10000 VUs, 722863 complete and 0 interrupted iterations
+cache_scenario   [  91% ] 10000/10000 VUs  1m21.5s/1m30.0s
+
+running (1m22.5s), 10000/10000 VUs, 729713 complete and 0 interrupted iterations
+cache_scenario   [  92% ] 10000/10000 VUs  1m22.5s/1m30.0s
+
+running (1m23.5s), 10000/10000 VUs, 738221 complete and 0 interrupted iterations
+cache_scenario   [  93% ] 10000/10000 VUs  1m23.5s/1m30.0s
+
+running (1m24.5s), 10000/10000 VUs, 747896 complete and 0 interrupted iterations
+cache_scenario   [  94% ] 10000/10000 VUs  1m24.5s/1m30.0s
+
+running (1m25.5s), 10000/10000 VUs, 755331 complete and 0 interrupted iterations
+cache_scenario   [  95% ] 10000/10000 VUs  1m25.5s/1m30.0s
+
+running (1m26.5s), 10000/10000 VUs, 763929 complete and 0 interrupted iterations
+cache_scenario   [  96% ] 10000/10000 VUs  1m26.5s/1m30.0s
+
+running (1m27.5s), 10000/10000 VUs, 772845 complete and 0 interrupted iterations
+cache_scenario   [  97% ] 10000/10000 VUs  1m27.5s/1m30.0s
+
+running (1m28.5s), 10000/10000 VUs, 782147 complete and 0 interrupted iterations
+cache_scenario   [  98% ] 10000/10000 VUs  1m28.5s/1m30.0s
+
+running (1m29.5s), 10000/10000 VUs, 789105 complete and 0 interrupted iterations
+cache_scenario   [  99% ] 10000/10000 VUs  1m29.5s/1m30.0s
+
+running (1m30.5s), 03145/10000 VUs, 800359 complete and 0 interrupted iterations
+cache_scenario ↓ [ 100% ] 10000/10000 VUs  1m30s
+
+     █ cache
+
+     data_received..................: 251 MB  2.8 MB/s
+     data_sent......................: 438 MB  4.8 MB/s
+     graphql_error_rate.............: 0.00%   ✓ 0            ✗ 1606988
+     group_duration.................: avg=749.39ms min=1.07ms med=815.42ms max=3.17s p(90)=1.24s    p(95)=1.32s   
+     http_req_blocked...............: avg=338.9µs  min=0s     med=1µs      max=2.2s  p(90)=2µs      p(95)=2µs     
+     http_req_connecting............: avg=324.14µs min=0s     med=0s       max=2.2s  p(90)=0s       p(95)=0s      
+     http_req_duration..............: avg=367.12ms min=0s     med=388.28ms max=2.82s p(90)=632.37ms p(95)=707ms   
+       { expected_response:true }...: avg=367.12ms min=294µs  med=388.28ms max=2.82s p(90)=632.37ms p(95)=707ms   
+     http_req_failed................: 0.00%   ✓ 7            ✗ 1606988
+     http_req_receiving.............: avg=2.51ms   min=0s     med=7µs      max=2.2s  p(90)=37µs     p(95)=136µs   
+     http_req_sending...............: avg=80.67µs  min=0s     med=3µs      max=2.18s p(90)=10µs     p(95)=52µs    
+     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s    p(90)=0s       p(95)=0s      
+     http_req_waiting...............: avg=364.53ms min=0s     med=387.53ms max=2.59s p(90)=629.17ms p(95)=700.38ms
+     http_reqs......................: 1606995 17749.285318/s
+     iteration_duration.............: avg=750.36ms min=1.08ms med=816.44ms max=3.17s p(90)=1.24s    p(95)=1.32s   
+     iterations.....................: 803501  8874.681317/s
+     vus............................: 3131    min=82         max=10000
+     vus_max........................: 10000   min=10000      max=10000
+
+
+running (1m30.5s), 00000/10000 VUs, 803501 complete and 0 interrupted iterations
+cache_scenario ✓ [ 100% ] 00000/10000 VUs  1m30s

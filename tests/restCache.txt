@@ -1,0 +1,317 @@
+
+          /\      |‾‾| /‾‾/   /‾‾/   
+     /\  /  \     |  |/  /   /  /    
+    /  \/    \    |     (   /   ‾‾\  
+   /          \   |  |\  \ |  (‾)  | 
+  / __________ \  |__| \__\ \_____/ .io
+
+     execution: local
+        script: rest/tests/restCache.js
+        output: json (tests/restCache.json)
+
+     scenarios: (100.00%) 1 scenario, 10000 max VUs, 2m0s max duration (incl. graceful stop):
+              * cache_scenario: Up to 10000 looping VUs for 1m30s over 2 stages (gracefulRampDown: 30s, exec: cache, gracefulStop: 30s)
+
+
+running (0m00.5s), 00079/10000 VUs, 1350 complete and 0 interrupted iterations
+cache_scenario   [   1% ] 00079/10000 VUs  0m00.5s/1m30.0s
+
+running (0m01.5s), 00243/10000 VUs, 8175 complete and 0 interrupted iterations
+cache_scenario   [   2% ] 00243/10000 VUs  0m01.5s/1m30.0s
+time="2024-09-10T12:37:53+02:00" level=warning msg="The test has generated metrics with 105973 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (0m02.5s), 00413/10000 VUs, 14034 complete and 0 interrupted iterations
+cache_scenario   [   3% ] 00413/10000 VUs  0m02.5s/1m30.0s
+
+running (0m03.5s), 00584/10000 VUs, 20896 complete and 0 interrupted iterations
+cache_scenario   [   4% ] 00584/10000 VUs  0m03.5s/1m30.0s
+time="2024-09-10T12:37:54+02:00" level=warning msg="The test has generated metrics with 200860 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (0m04.5s), 00746/10000 VUs, 26893 complete and 0 interrupted iterations
+cache_scenario   [   5% ] 00746/10000 VUs  0m04.5s/1m30.0s
+
+running (0m05.5s), 00911/10000 VUs, 33964 complete and 0 interrupted iterations
+cache_scenario   [   6% ] 00911/10000 VUs  0m05.5s/1m30.0s
+
+running (0m06.5s), 01079/10000 VUs, 41165 complete and 0 interrupted iterations
+cache_scenario   [   7% ] 01079/10000 VUs  0m06.5s/1m30.0s
+time="2024-09-10T12:37:58+02:00" level=warning msg="The test has generated metrics with 400408 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (0m07.6s), 01267/10000 VUs, 47553 complete and 0 interrupted iterations
+cache_scenario   [   8% ] 01267/10000 VUs  0m07.6s/1m30.0s
+
+running (0m08.5s), 01412/10000 VUs, 53568 complete and 0 interrupted iterations
+cache_scenario   [   9% ] 01412/10000 VUs  0m08.5s/1m30.0s
+
+running (0m09.5s), 01579/10000 VUs, 60677 complete and 0 interrupted iterations
+cache_scenario   [  11% ] 01579/10000 VUs  0m09.5s/1m30.0s
+
+running (0m10.5s), 01746/10000 VUs, 68119 complete and 0 interrupted iterations
+cache_scenario   [  12% ] 01746/10000 VUs  0m10.5s/1m30.0s
+
+running (0m11.6s), 01937/10000 VUs, 75534 complete and 0 interrupted iterations
+cache_scenario   [  13% ] 01937/10000 VUs  0m11.6s/1m30.0s
+
+running (0m12.5s), 02079/10000 VUs, 80393 complete and 0 interrupted iterations
+cache_scenario   [  14% ] 02079/10000 VUs  0m12.5s/1m30.0s
+
+running (0m14.7s), 02207/10000 VUs, 85214 complete and 0 interrupted iterations
+cache_scenario   [  16% ] 02207/10000 VUs  0m14.7s/1m30.0s
+
+running (0m15.5s), 02579/10000 VUs, 90604 complete and 0 interrupted iterations
+cache_scenario   [  17% ] 02579/10000 VUs  0m15.5s/1m30.0s
+time="2024-09-10T12:38:07+02:00" level=warning msg="The test has generated metrics with 800917 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (0m16.5s), 02746/10000 VUs, 96446 complete and 0 interrupted iterations
+cache_scenario   [  18% ] 02746/10000 VUs  0m16.5s/1m30.0s
+
+running (0m17.5s), 02912/10000 VUs, 103121 complete and 0 interrupted iterations
+cache_scenario   [  19% ] 02912/10000 VUs  0m17.5s/1m30.0s
+
+running (0m18.5s), 03083/10000 VUs, 108826 complete and 0 interrupted iterations
+cache_scenario   [  21% ] 03083/10000 VUs  0m18.5s/1m30.0s
+
+running (0m19.5s), 03246/10000 VUs, 113478 complete and 0 interrupted iterations
+cache_scenario   [  22% ] 03246/10000 VUs  0m19.5s/1m30.0s
+
+running (0m20.5s), 03412/10000 VUs, 120152 complete and 0 interrupted iterations
+cache_scenario   [  23% ] 03412/10000 VUs  0m20.5s/1m30.0s
+
+running (0m21.5s), 03579/10000 VUs, 126194 complete and 0 interrupted iterations
+cache_scenario   [  24% ] 03579/10000 VUs  0m21.5s/1m30.0s
+
+running (0m22.5s), 03744/10000 VUs, 132574 complete and 0 interrupted iterations
+cache_scenario   [  25% ] 03744/10000 VUs  0m22.5s/1m30.0s
+
+running (0m23.5s), 03912/10000 VUs, 138889 complete and 0 interrupted iterations
+cache_scenario   [  26% ] 03912/10000 VUs  0m23.5s/1m30.0s
+
+running (0m24.6s), 04102/10000 VUs, 145076 complete and 0 interrupted iterations
+cache_scenario   [  27% ] 04102/10000 VUs  0m24.6s/1m30.0s
+
+running (0m25.5s), 04245/10000 VUs, 149606 complete and 0 interrupted iterations
+cache_scenario   [  28% ] 04245/10000 VUs  0m25.5s/1m30.0s
+
+running (0m26.5s), 04413/10000 VUs, 155881 complete and 0 interrupted iterations
+cache_scenario   [  29% ] 04413/10000 VUs  0m26.5s/1m30.0s
+
+running (0m27.5s), 04579/10000 VUs, 162214 complete and 0 interrupted iterations
+cache_scenario   [  31% ] 04579/10000 VUs  0m27.5s/1m30.0s
+
+running (0m28.5s), 04746/10000 VUs, 168573 complete and 0 interrupted iterations
+cache_scenario   [  32% ] 04746/10000 VUs  0m28.5s/1m30.0s
+
+running (0m29.5s), 04912/10000 VUs, 175735 complete and 0 interrupted iterations
+cache_scenario   [  33% ] 04912/10000 VUs  0m29.5s/1m30.0s
+
+running (0m30.5s), 05079/10000 VUs, 182658 complete and 0 interrupted iterations
+cache_scenario   [  34% ] 05079/10000 VUs  0m30.5s/1m30.0s
+
+running (0m31.5s), 05246/10000 VUs, 188025 complete and 0 interrupted iterations
+cache_scenario   [  35% ] 05246/10000 VUs  0m31.5s/1m30.0s
+
+running (0m32.5s), 05412/10000 VUs, 192972 complete and 0 interrupted iterations
+cache_scenario   [  36% ] 05412/10000 VUs  0m32.5s/1m30.0s
+time="2024-09-10T12:38:23+02:00" level=warning msg="The test has generated metrics with 1600360 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (0m33.5s), 05579/10000 VUs, 199501 complete and 0 interrupted iterations
+cache_scenario   [  37% ] 05579/10000 VUs  0m33.5s/1m30.0s
+
+running (0m34.5s), 05745/10000 VUs, 206002 complete and 0 interrupted iterations
+cache_scenario   [  38% ] 05745/10000 VUs  0m34.5s/1m30.0s
+
+running (0m35.5s), 05912/10000 VUs, 213394 complete and 0 interrupted iterations
+cache_scenario   [  39% ] 05912/10000 VUs  0m35.5s/1m30.0s
+
+running (0m36.5s), 06079/10000 VUs, 220306 complete and 0 interrupted iterations
+cache_scenario   [  41% ] 06079/10000 VUs  0m36.5s/1m30.0s
+
+running (0m37.5s), 06245/10000 VUs, 227277 complete and 0 interrupted iterations
+cache_scenario   [  42% ] 06245/10000 VUs  0m37.5s/1m30.0s
+
+running (0m39.0s), 06492/10000 VUs, 235627 complete and 0 interrupted iterations
+cache_scenario   [  43% ] 06492/10000 VUs  0m39.0s/1m30.0s
+
+running (0m39.5s), 06580/10000 VUs, 238420 complete and 0 interrupted iterations
+cache_scenario   [  44% ] 06580/10000 VUs  0m39.5s/1m30.0s
+
+running (0m40.7s), 06775/10000 VUs, 243549 complete and 0 interrupted iterations
+cache_scenario   [  45% ] 06775/10000 VUs  0m40.7s/1m30.0s
+
+running (0m41.5s), 06912/10000 VUs, 248032 complete and 0 interrupted iterations
+cache_scenario   [  46% ] 06912/10000 VUs  0m41.5s/1m30.0s
+
+running (0m42.5s), 07079/10000 VUs, 255262 complete and 0 interrupted iterations
+cache_scenario   [  47% ] 07079/10000 VUs  0m42.5s/1m30.0s
+
+running (0m43.5s), 07245/10000 VUs, 262243 complete and 0 interrupted iterations
+cache_scenario   [  48% ] 07245/10000 VUs  0m43.5s/1m30.0s
+
+running (0m44.5s), 07412/10000 VUs, 269420 complete and 0 interrupted iterations
+cache_scenario   [  49% ] 07412/10000 VUs  0m44.5s/1m30.0s
+
+running (0m45.5s), 07579/10000 VUs, 276100 complete and 0 interrupted iterations
+cache_scenario   [  51% ] 07579/10000 VUs  0m45.5s/1m30.0s
+
+running (0m46.5s), 07745/10000 VUs, 282402 complete and 0 interrupted iterations
+cache_scenario   [  52% ] 07745/10000 VUs  0m46.5s/1m30.0s
+
+running (0m47.5s), 07912/10000 VUs, 288806 complete and 0 interrupted iterations
+cache_scenario   [  53% ] 07912/10000 VUs  0m47.5s/1m30.0s
+
+running (0m48.5s), 08078/10000 VUs, 293714 complete and 0 interrupted iterations
+cache_scenario   [  54% ] 08078/10000 VUs  0m48.5s/1m30.0s
+
+running (0m49.5s), 08245/10000 VUs, 298347 complete and 0 interrupted iterations
+cache_scenario   [  55% ] 08245/10000 VUs  0m49.5s/1m30.0s
+
+running (0m50.5s), 08412/10000 VUs, 303473 complete and 0 interrupted iterations
+cache_scenario   [  56% ] 08412/10000 VUs  0m50.5s/1m30.0s
+
+running (0m51.5s), 08578/10000 VUs, 309104 complete and 0 interrupted iterations
+cache_scenario   [  57% ] 08578/10000 VUs  0m51.5s/1m30.0s
+
+running (0m52.5s), 08745/10000 VUs, 316247 complete and 0 interrupted iterations
+cache_scenario   [  58% ] 08745/10000 VUs  0m52.5s/1m30.0s
+
+running (0m53.5s), 08912/10000 VUs, 323633 complete and 0 interrupted iterations
+cache_scenario   [  59% ] 08912/10000 VUs  0m53.5s/1m30.0s
+
+running (0m54.5s), 09078/10000 VUs, 330383 complete and 0 interrupted iterations
+cache_scenario   [  61% ] 09078/10000 VUs  0m54.5s/1m30.0s
+
+running (0m55.5s), 09245/10000 VUs, 337109 complete and 0 interrupted iterations
+cache_scenario   [  62% ] 09245/10000 VUs  0m55.5s/1m30.0s
+
+running (0m56.5s), 09412/10000 VUs, 344120 complete and 0 interrupted iterations
+cache_scenario   [  63% ] 09412/10000 VUs  0m56.5s/1m30.0s
+
+running (0m57.5s), 09577/10000 VUs, 350585 complete and 0 interrupted iterations
+cache_scenario   [  64% ] 09577/10000 VUs  0m57.5s/1m30.0s
+
+running (0m58.5s), 09745/10000 VUs, 357168 complete and 0 interrupted iterations
+cache_scenario   [  65% ] 09745/10000 VUs  0m58.5s/1m30.0s
+
+running (1m00.0s), 09999/10000 VUs, 364266 complete and 0 interrupted iterations
+cache_scenario   [  67% ] 09999/10000 VUs  1m00.0s/1m30.0s
+
+running (1m00.5s), 10000/10000 VUs, 366433 complete and 0 interrupted iterations
+cache_scenario   [  67% ] 10000/10000 VUs  1m00.5s/1m30.0s
+
+running (1m01.5s), 10000/10000 VUs, 371219 complete and 0 interrupted iterations
+cache_scenario   [  68% ] 10000/10000 VUs  1m01.5s/1m30.0s
+
+running (1m02.5s), 10000/10000 VUs, 376100 complete and 0 interrupted iterations
+cache_scenario   [  69% ] 10000/10000 VUs  1m02.5s/1m30.0s
+
+running (1m03.5s), 10000/10000 VUs, 383123 complete and 0 interrupted iterations
+cache_scenario   [  71% ] 10000/10000 VUs  1m03.5s/1m30.0s
+
+running (1m04.5s), 10000/10000 VUs, 390305 complete and 0 interrupted iterations
+cache_scenario   [  72% ] 10000/10000 VUs  1m04.5s/1m30.0s
+
+running (1m05.5s), 10000/10000 VUs, 397163 complete and 0 interrupted iterations
+cache_scenario   [  73% ] 10000/10000 VUs  1m05.5s/1m30.0s
+
+running (1m06.5s), 10000/10000 VUs, 404409 complete and 0 interrupted iterations
+cache_scenario   [  74% ] 10000/10000 VUs  1m06.5s/1m30.0s
+
+running (1m07.5s), 10000/10000 VUs, 410342 complete and 0 interrupted iterations
+cache_scenario   [  75% ] 10000/10000 VUs  1m07.5s/1m30.0s
+
+running (1m08.5s), 10000/10000 VUs, 417494 complete and 0 interrupted iterations
+cache_scenario   [  76% ] 10000/10000 VUs  1m08.5s/1m30.0s
+
+running (1m09.5s), 10000/10000 VUs, 424162 complete and 0 interrupted iterations
+cache_scenario   [  77% ] 10000/10000 VUs  1m09.5s/1m30.0s
+
+running (1m10.5s), 10000/10000 VUs, 431433 complete and 0 interrupted iterations
+cache_scenario   [  78% ] 10000/10000 VUs  1m10.5s/1m30.0s
+
+running (1m11.5s), 10000/10000 VUs, 437746 complete and 0 interrupted iterations
+cache_scenario   [  79% ] 10000/10000 VUs  1m11.5s/1m30.0s
+
+running (1m12.5s), 10000/10000 VUs, 441107 complete and 0 interrupted iterations
+cache_scenario   [  81% ] 10000/10000 VUs  1m12.5s/1m30.0s
+
+running (1m13.5s), 10000/10000 VUs, 445549 complete and 0 interrupted iterations
+cache_scenario   [  82% ] 10000/10000 VUs  1m13.5s/1m30.0s
+time="2024-09-10T12:39:04+02:00" level=warning msg="The test has generated metrics with 3227938 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details." component=metrics-engine-ingester
+
+running (1m14.5s), 10000/10000 VUs, 449964 complete and 0 interrupted iterations
+cache_scenario   [  83% ] 10000/10000 VUs  1m14.5s/1m30.0s
+
+running (1m15.5s), 10000/10000 VUs, 453076 complete and 0 interrupted iterations
+cache_scenario   [  84% ] 10000/10000 VUs  1m15.5s/1m30.0s
+
+running (1m16.5s), 10000/10000 VUs, 455848 complete and 0 interrupted iterations
+cache_scenario   [  85% ] 10000/10000 VUs  1m16.5s/1m30.0s
+
+running (1m17.5s), 10000/10000 VUs, 459931 complete and 0 interrupted iterations
+cache_scenario   [  86% ] 10000/10000 VUs  1m17.5s/1m30.0s
+
+running (1m18.5s), 10000/10000 VUs, 466117 complete and 0 interrupted iterations
+cache_scenario   [  87% ] 10000/10000 VUs  1m18.5s/1m30.0s
+
+running (1m19.5s), 10000/10000 VUs, 472255 complete and 0 interrupted iterations
+cache_scenario   [  88% ] 10000/10000 VUs  1m19.5s/1m30.0s
+
+running (1m20.5s), 10000/10000 VUs, 478671 complete and 0 interrupted iterations
+cache_scenario   [  89% ] 10000/10000 VUs  1m20.5s/1m30.0s
+
+running (1m21.5s), 10000/10000 VUs, 485350 complete and 0 interrupted iterations
+cache_scenario   [  91% ] 10000/10000 VUs  1m21.5s/1m30.0s
+
+running (1m22.5s), 10000/10000 VUs, 492010 complete and 0 interrupted iterations
+cache_scenario   [  92% ] 10000/10000 VUs  1m22.5s/1m30.0s
+
+running (1m23.5s), 10000/10000 VUs, 498646 complete and 0 interrupted iterations
+cache_scenario   [  93% ] 10000/10000 VUs  1m23.5s/1m30.0s
+
+running (1m24.5s), 10000/10000 VUs, 505223 complete and 0 interrupted iterations
+cache_scenario   [  94% ] 10000/10000 VUs  1m24.5s/1m30.0s
+
+running (1m25.5s), 10000/10000 VUs, 511712 complete and 0 interrupted iterations
+cache_scenario   [  95% ] 10000/10000 VUs  1m25.5s/1m30.0s
+
+running (1m26.5s), 10000/10000 VUs, 518327 complete and 0 interrupted iterations
+cache_scenario   [  96% ] 10000/10000 VUs  1m26.5s/1m30.0s
+
+running (1m27.5s), 10000/10000 VUs, 524692 complete and 0 interrupted iterations
+cache_scenario   [  97% ] 10000/10000 VUs  1m27.5s/1m30.0s
+
+running (1m28.5s), 10000/10000 VUs, 529873 complete and 0 interrupted iterations
+cache_scenario   [  98% ] 10000/10000 VUs  1m28.5s/1m30.0s
+
+running (1m29.5s), 10000/10000 VUs, 531463 complete and 0 interrupted iterations
+cache_scenario   [  99% ] 10000/10000 VUs  1m29.5s/1m30.0s
+
+running (1m30.5s), 05186/10000 VUs, 537506 complete and 0 interrupted iterations
+cache_scenario ↓ [ 100% ] 07266/10000 VUs  1m30s
+
+running (1m31.5s), 00409/10000 VUs, 542283 complete and 0 interrupted iterations
+cache_scenario ↓ [ 100% ] 07266/10000 VUs  1m30s
+
+     █ cache
+
+     data_received..................: 202 MB  2.2 MB/s
+     data_sent......................: 204 MB  2.2 MB/s
+     group_duration.................: avg=1.11s    min=1.59ms med=1.15s    max=3.86s    p(90)=1.88s    p(95)=2.34s   
+     http_req_blocked...............: avg=131.51µs min=0s     med=1µs      max=1.53s    p(90)=2µs      p(95)=3µs     
+     http_req_connecting............: avg=129.37µs min=0s     med=0s       max=1.53s    p(90)=0s       p(95)=0s      
+     http_req_duration..............: avg=370.39ms min=347µs  med=375.85ms max=2.47s    p(90)=577.32ms p(95)=735ms   
+       { expected_response:true }...: avg=370.39ms min=347µs  med=375.85ms max=2.47s    p(90)=577.32ms p(95)=735ms   
+     http_req_failed................: 0.00%   ✓ 0            ✗ 1628076
+     http_req_receiving.............: avg=38.39µs  min=4µs    med=8µs      max=173.76ms p(90)=22µs     p(95)=50µs    
+     http_req_sending...............: avg=17.67µs  min=1µs    med=3µs      max=123.48ms p(90)=8µs      p(95)=16µs    
+     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s       p(90)=0s       p(95)=0s      
+     http_req_waiting...............: avg=370.33ms min=340µs  med=375.81ms max=2.47s    p(90)=577.23ms p(95)=734.79ms
+     http_reqs......................: 1628076 17756.830834/s
+     iteration_duration.............: avg=1.11s    min=1.59ms med=1.15s    max=3.86s    p(90)=1.88s    p(95)=2.34s   
+     iterations.....................: 542692  5918.943611/s
+     vus............................: 409     min=85         max=10000
+     vus_max........................: 10000   min=10000      max=10000
+
+
+running (1m31.7s), 00000/10000 VUs, 542692 complete and 0 interrupted iterations
+cache_scenario ✓ [ 100% ] 00000/10000 VUs  1m30s
