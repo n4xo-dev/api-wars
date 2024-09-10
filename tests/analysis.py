@@ -2,7 +2,7 @@ import json
 import glob
 from collections import defaultdict
 import statistics
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 import matplotlib.pyplot as plt
 import numpy as np
@@ -147,7 +147,7 @@ def plot_stacked_bar_chart(data, title, ylabel, filename):
     plt.savefig(filename)
     plt.close()
 
-def plot_detailed_time_series(api_name, rps_data, latency_data, error_data, filename):
+def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_second_data, filename):
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 15), sharex=True)
     fig.suptitle(f'Time Series Analysis for {api_name}', fontsize=16)
 
@@ -165,10 +165,13 @@ def plot_detailed_time_series(api_name, rps_data, latency_data, error_data, file
     ax2.legend()
     ax2.grid(True)
 
-    # Error Rate
-    times_error, values_error = zip(*error_data)
-    ax3.plot(times_error, values_error, label='Error Rate', color='red')
-    ax3.set_ylabel('Error Rate')
+    # Errors per Second
+    if errors_per_second_data:
+        times_errors, values_errors = zip(*errors_per_second_data)
+        ax3.plot(times_errors, values_errors, label='Errors per Second', color='red')
+    else:
+        ax3.text(0.5, 0.5, 'No errors recorded', horizontalalignment='center', verticalalignment='center', transform=ax3.transAxes)
+    ax3.set_ylabel('Errors per Second')
     ax3.legend()
     ax3.grid(True)
 
@@ -182,34 +185,18 @@ def plot_detailed_time_series(api_name, rps_data, latency_data, error_data, file
     plt.savefig(filename)
     plt.close()
 
-def calculate_requests_per_second(requests, window=1):
+def calculate_requests_per_second(requests):
     rps = defaultdict(int)
     for time, _ in requests:
         rps[time.replace(microsecond=0)] += 1
-    
-    return sorted((time, count / window) for time, count in rps.items())
+    return sorted((time, count) for time, count in rps.items())
 
-def calculate_error_rate(errors, requests, window=1):
-    error_counts = defaultdict(int)
-    request_counts = defaultdict(int)
-    
-    for time, _ in errors:
-        error_counts[time.replace(microsecond=0)] += 1
-    
-    for time, _ in requests:
-        request_counts[time.replace(microsecond=0)] += 1
-    
-    error_rates = []
-    for time in sorted(set(error_counts.keys()) | set(request_counts.keys())):
-        total_requests = sum(request_counts[t] for t in request_counts if t <= time)
-        total_errors = sum(error_counts[t] for t in error_counts if t <= time)
-        if total_requests > 0:
-            error_rate = total_errors / total_requests
-        else:
-            error_rate = 0
-        error_rates.append((time, error_rate))
-    
-    return error_rates
+def calculate_errors_per_second(errors):
+    eps = defaultdict(int)
+    for time, value in errors:
+        if value == 1:  # Count only when the error metric is 1
+            eps[time.replace(microsecond=0)] += 1
+    return sorted((time, count) for time, count in eps.items())
 
 def main():
     results = {}
@@ -225,17 +212,17 @@ def main():
             # Prepare time series data
             if 'http_reqs' in metrics:
                 time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['http_reqs'])
-                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['http_req_failed'], metrics['http_reqs'])
+                if 'graphql' in api_name.lower():
+                    # For GraphQL tests, use graphql_error_rate
+                    time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('graphql_error_rate', []))
+                else:
+                    # For REST, use http_req_failed
+                    time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('http_req_failed', []))
                 time_series_data[api_name]['latency'] = metrics['http_req_duration']
             elif 'grpc_requests' in metrics:
                 time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['grpc_requests'])
-                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['grpc_error_rate'], metrics['grpc_requests'])
+                time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('grpc_error_rate', []))
                 time_series_data[api_name]['latency'] = metrics['grpc_req_duration']
-            elif 'graphql_error_rate' in metrics:
-                # Assuming GraphQL uses http_reqs for request count
-                time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['http_reqs'])
-                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['graphql_error_rate'], metrics['http_reqs'])
-                time_series_data[api_name]['latency'] = metrics['http_req_duration']
         else:
             print(f"Warning: Could not determine start and end times for {filename}")
 
@@ -258,7 +245,7 @@ def main():
             api_name,
             data['requests_per_second'],
             data['latency'],
-            data['error_rate'],
+            data['errors_per_second'],
             f'{api_name}_time_series.png'
         )
 
