@@ -4,6 +4,9 @@ from collections import defaultdict
 import statistics
 from datetime import datetime
 import re
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.dates import DateFormatter
 
 METRICS_OF_INTEREST = {
     'http_reqs',
@@ -18,12 +21,12 @@ METRICS_OF_INTEREST = {
 }
 
 def parse_time(time_str):
-    # Remove the last 3 digits of the nanosecond part
     modified_time_str = re.sub(r'(\.\d{6})\d+', r'\1', time_str)
     return datetime.strptime(modified_time_str, "%Y-%m-%dT%H:%M:%S.%f%z")
 
 def load_json_file(filename):
     metrics = defaultdict(list)
+    timestamps = []
     start_time = None
     end_time = None
     with open(filename, 'r') as file:
@@ -31,8 +34,9 @@ def load_json_file(filename):
             try:
                 data = json.loads(line)
                 if data['type'] == 'Point' and data['metric'] in METRICS_OF_INTEREST:
-                    metrics[data['metric']].append(data['data']['value'])
                     time = parse_time(data['data']['time'])
+                    timestamps.append(time)
+                    metrics[data['metric']].append((time, data['data']['value']))
                     if start_time is None or time < start_time:
                         start_time = time
                     if end_time is None or time > end_time:
@@ -41,7 +45,7 @@ def load_json_file(filename):
                 print(f"Error parsing line in {filename}: {line}")
             except ValueError as e:
                 print(f"Error parsing time in {filename}: {e}")
-    return metrics, start_time, end_time
+    return metrics, start_time, end_time, timestamps
 
 def analyze_metrics(metrics, start_time, end_time):
     analysis = {}
@@ -55,7 +59,7 @@ def analyze_metrics(metrics, start_time, end_time):
                 'per_second': total_requests / duration if duration > 0 else 0
             }
         elif metric in ['http_req_failed', 'graphql_error_rate', 'grpc_error_rate']:
-            total_errors = sum(values)
+            total_errors = sum(value for _, value in values)
             total_requests = len(metrics.get('http_reqs', [])) or len(metrics.get('grpc_requests', []))
             error_percentage = (total_errors / total_requests * 100) if total_requests > 0 else 0
             analysis[metric] = {
@@ -63,19 +67,21 @@ def analyze_metrics(metrics, start_time, end_time):
                 'percentage': error_percentage
             }
         elif metric in ['data_sent', 'data_received']:
+            values_only = [value for _, value in values]
             analysis[metric] = {
-                'min': min(values),
-                'max': max(values),
-                'avg': statistics.mean(values),
-                'median': statistics.median(values),
-                'total': sum(values)
+                'min': min(values_only),
+                'max': max(values_only),
+                'avg': statistics.mean(values_only),
+                'median': statistics.median(values_only),
+                'total': sum(values_only)
             }
         else:
+            values_only = [value for _, value in values]
             analysis[metric] = {
-                'min': min(values),
-                'max': max(values),
-                'avg': statistics.mean(values),
-                'median': statistics.median(values)
+                'min': min(values_only),
+                'max': max(values_only),
+                'avg': statistics.mean(values_only),
+                'median': statistics.median(values_only)
             }
     return analysis
 
@@ -83,7 +89,7 @@ def compare_apis(results):
     comparisons = {
         'http_requests': compare_metric(results, 'http_reqs', 'grpc_requests', key='total'),
         'request_duration': compare_metric(results, 'http_req_duration', 'grpc_req_duration', key='avg'),
-        'error_rate': compare_metric(results, 'http_req_failed', 'graphql_error_rate', 'grpc_error_rate', key='percentage'),
+        'error_rate': compare_error_rates(results),
         'data_sent': compare_metric(results, 'data_sent', key='total'),
         'data_received': compare_metric(results, 'data_received', key='total')
     }
@@ -98,18 +104,165 @@ def compare_metric(results, *metric_names, key='avg'):
                 break
     return comparison
 
+def compare_error_rates(results):
+    comparison = {}
+    for api, data in results.items():
+        if 'graphql_error_rate' in data:
+            comparison[api] = data['graphql_error_rate']['percentage']
+        elif 'grpc_error_rate' in data:
+            comparison[api] = data['grpc_error_rate']['percentage']
+        elif 'http_req_failed' in data:
+            comparison[api] = data['http_req_failed']['percentage']
+    return comparison
+
+def plot_bar_chart(data, title, ylabel, filename):
+    plt.figure(figsize=(10, 6))
+    plt.bar(data.keys(), data.values())
+    plt.title(title)
+    plt.ylabel(ylabel)
+    plt.xlabel('API')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
+
+def plot_stacked_bar_chart(data, title, ylabel, filename):
+    apis = list(data.keys())
+    metrics = list(data[apis[0]].keys())
+    
+    fig, ax = plt.subplots(figsize=(12, 6))
+    bottom = np.zeros(len(apis))
+    
+    for metric in metrics:
+        values = [data[api][metric] for api in apis]
+        ax.bar(apis, values, label=metric, bottom=bottom)
+        bottom += np.array(values)
+    
+    ax.set_title(title)
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel('API')
+    ax.legend()
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
+
+def plot_detailed_time_series(api_name, rps_data, latency_data, error_data, filename):
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 15), sharex=True)
+    fig.suptitle(f'Time Series Analysis for {api_name}', fontsize=16)
+
+    # Requests per Second
+    times_rps, values_rps = zip(*rps_data)
+    ax1.plot(times_rps, values_rps, label='RPS', color='blue')
+    ax1.set_ylabel('Requests per Second')
+    ax1.legend()
+    ax1.grid(True)
+
+    # Latency
+    times_latency, values_latency = zip(*latency_data)
+    ax2.plot(times_latency, values_latency, label='Latency', color='green')
+    ax2.set_ylabel('Latency (ms)')
+    ax2.legend()
+    ax2.grid(True)
+
+    # Error Rate
+    times_error, values_error = zip(*error_data)
+    ax3.plot(times_error, values_error, label='Error Rate', color='red')
+    ax3.set_ylabel('Error Rate')
+    ax3.legend()
+    ax3.grid(True)
+
+    # Format x-axis
+    for ax in (ax1, ax2, ax3):
+        ax.xaxis.set_major_formatter(DateFormatter('%H:%M:%S'))
+        
+    plt.xlabel('Time')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
+
+def calculate_requests_per_second(requests, window=1):
+    rps = defaultdict(int)
+    for time, _ in requests:
+        rps[time.replace(microsecond=0)] += 1
+    
+    return sorted((time, count / window) for time, count in rps.items())
+
+def calculate_error_rate(errors, requests, window=1):
+    error_counts = defaultdict(int)
+    request_counts = defaultdict(int)
+    
+    for time, _ in errors:
+        error_counts[time.replace(microsecond=0)] += 1
+    
+    for time, _ in requests:
+        request_counts[time.replace(microsecond=0)] += 1
+    
+    error_rates = []
+    for time in sorted(set(error_counts.keys()) | set(request_counts.keys())):
+        total_requests = sum(request_counts[t] for t in request_counts if t <= time)
+        total_errors = sum(error_counts[t] for t in error_counts if t <= time)
+        if total_requests > 0:
+            error_rate = total_errors / total_requests
+        else:
+            error_rate = 0
+        error_rates.append((time, error_rate))
+    
+    return error_rates
+
 def main():
     results = {}
+    time_series_data = defaultdict(lambda: defaultdict(dict))
+    
     for filename in glob.glob('*.json'):
         api_name = filename.split('.')[0]
-        metrics, start_time, end_time = load_json_file(filename)
+        metrics, start_time, end_time, timestamps = load_json_file(filename)
+        
         if start_time and end_time:
             results[api_name] = analyze_metrics(metrics, start_time, end_time)
+            
+            # Prepare time series data
+            if 'http_reqs' in metrics:
+                time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['http_reqs'])
+                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['http_req_failed'], metrics['http_reqs'])
+                time_series_data[api_name]['latency'] = metrics['http_req_duration']
+            elif 'grpc_requests' in metrics:
+                time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['grpc_requests'])
+                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['grpc_error_rate'], metrics['grpc_requests'])
+                time_series_data[api_name]['latency'] = metrics['grpc_req_duration']
+            elif 'graphql_error_rate' in metrics:
+                # Assuming GraphQL uses http_reqs for request count
+                time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['http_reqs'])
+                time_series_data[api_name]['error_rate'] = calculate_error_rate(metrics['graphql_error_rate'], metrics['http_reqs'])
+                time_series_data[api_name]['latency'] = metrics['http_req_duration']
         else:
             print(f"Warning: Could not determine start and end times for {filename}")
 
     comparisons = compare_apis(results)
 
+    # Generate bar charts
+    plot_bar_chart(comparisons['http_requests'], 'Total Requests by API', 'Number of Requests', 'total_requests.png')
+    plot_bar_chart(comparisons['request_duration'], 'Average Request Duration by API', 'Duration (ms)', 'avg_duration.png')
+    plot_bar_chart(comparisons['error_rate'], 'Error Rate by API', 'Error Rate (%)', 'error_rate.png')
+    plot_bar_chart(comparisons['data_sent'], 'Total Data Sent by API', 'Data Sent (bytes)', 'data_sent.png')
+    plot_bar_chart(comparisons['data_received'], 'Total Data Received by API', 'Data Received (bytes)', 'data_received.png')
+
+    # Generate stacked bar chart for data transfer
+    data_transfer = {api: {'Sent': results[api]['data_sent']['total'], 'Received': results[api]['data_received']['total']} for api in results}
+    plot_stacked_bar_chart(data_transfer, 'Data Transfer by API', 'Data Transfer (bytes)', 'data_transfer.png')
+
+    # Generate detailed time series plots for each API
+    for api_name, data in time_series_data.items():
+        plot_detailed_time_series(
+            api_name,
+            data['requests_per_second'],
+            data['latency'],
+            data['error_rate'],
+            f'{api_name}_time_series.png'
+        )
+
+    # Print textual results
     print("API Performance Comparison:")
     for metric, values in comparisons.items():
         print(f"\n{metric.capitalize()}:")
@@ -123,6 +276,8 @@ def main():
             print(f"  {metric}:")
             for key, value in values.items():
                 print(f"    {key}: {value}")
+
+    print("\nGraphs have been saved as PNG files in the current directory.")
 
 if __name__ == "__main__":
     main()
