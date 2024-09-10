@@ -18,8 +18,8 @@ export const options = {
     cache_scenario: {
       executor: 'ramping-vus',
       stages: [
-        { duration: '1m', target: 10000 },
-        { duration: '30s', target: 10000 },
+        { duration: '5s', target: 10000 },
+        { duration: '10s', target: 10000 },
       ],
       exec: 'cache',
     },
