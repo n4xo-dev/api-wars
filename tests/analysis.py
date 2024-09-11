@@ -84,13 +84,16 @@ def analyze_metrics(metrics, start_time, end_time):
                 'median': statistics.median(values_only)
             }
     
-    # Calculate average request size
+    # Calculate average request and response size
     total_data_sent = analysis.get('data_sent', {}).get('total', 0)
+    total_data_received = analysis.get('data_received', {}).get('total', 0)
     total_requests = analysis.get('http_reqs', {}).get('total') or analysis.get('grpc_requests', {}).get('total', 0)
     if total_requests > 0:
         analysis['avg_request_size'] = total_data_sent / total_requests
+        analysis['avg_response_size'] = total_data_received / total_requests
     else:
         analysis['avg_request_size'] = 0
+        analysis['avg_response_size'] = 0
 
     return analysis
 
@@ -101,7 +104,8 @@ def compare_apis(results):
         'error_rate': compare_error_rates(results),
         'data_sent': compare_metric(results, 'data_sent', key='total'),
         'data_received': compare_metric(results, 'data_received', key='total'),
-        'avg_request_size': compare_metric(results, 'avg_request_size')
+        'avg_request_size': compare_metric(results, 'avg_request_size'),
+        'avg_response_size': compare_metric(results, 'avg_response_size')
     }
     return comparisons
 
@@ -110,9 +114,13 @@ def compare_metric(results, *metric_names, key='avg'):
     for api, data in results.items():
         for metric in metric_names:
             if metric in data:
-                comparison[api] = data[metric][key]
+                if isinstance(data[metric], dict):
+                    comparison[api] = data[metric][key]
+                else:
+                    comparison[api] = data[metric]  # For non-dictionary values like avg_request_size
                 break
     return comparison
+
 
 def compare_error_rates(results):
     comparison = {}
@@ -269,6 +277,7 @@ def main():
     plot_bar_chart(comparisons['data_sent'], 'Total Data Sent by API', 'Data Sent (bytes)', 'data_sent.png')
     plot_bar_chart(comparisons['data_received'], 'Total Data Received by API', 'Data Received (bytes)', 'data_received.png')
     plot_bar_chart(comparisons['avg_request_size'], 'Average Request Size by API', 'Size (bytes)', 'avg_request_size.png')
+    plot_bar_chart(comparisons['avg_response_size'], 'Average Response Size by API', 'Size (bytes)', 'avg_response_size.png')
 
     data_transfer = {api: {'Sent': results[api]['data_sent']['total'], 'Received': results[api]['data_received']['total']} for api in results}
     plot_stacked_bar_chart(data_transfer, 'Data Transfer by API', 'Data Transfer (bytes)', 'data_transfer.png')
