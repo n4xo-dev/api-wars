@@ -83,6 +83,15 @@ def analyze_metrics(metrics, start_time, end_time):
                 'avg': statistics.mean(values_only),
                 'median': statistics.median(values_only)
             }
+    
+    # Calculate average request size
+    total_data_sent = analysis.get('data_sent', {}).get('total', 0)
+    total_requests = analysis.get('http_reqs', {}).get('total') or analysis.get('grpc_requests', {}).get('total', 0)
+    if total_requests > 0:
+        analysis['avg_request_size'] = total_data_sent / total_requests
+    else:
+        analysis['avg_request_size'] = 0
+
     return analysis
 
 def compare_apis(results):
@@ -91,7 +100,8 @@ def compare_apis(results):
         'request_duration': compare_metric(results, 'http_req_duration', 'grpc_req_duration', key='avg'),
         'error_rate': compare_error_rates(results),
         'data_sent': compare_metric(results, 'data_sent', key='total'),
-        'data_received': compare_metric(results, 'data_received', key='total')
+        'data_received': compare_metric(results, 'data_received', key='total'),
+        'avg_request_size': compare_metric(results, 'avg_request_size')
     }
     return comparisons
 
@@ -189,7 +199,7 @@ def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_secon
     ax5.legend()
     ax5.grid(True)
 
-    # Format x-axis
+
     for ax in (ax1, ax2, ax3, ax4, ax5):
         ax.xaxis.set_major_formatter(DateFormatter('%H:%M:%S'))
         
@@ -229,14 +239,14 @@ def main():
         if start_time and end_time:
             results[api_name] = analyze_metrics(metrics, start_time, end_time)
             
-            # Prepare time series data
+
             if 'http_reqs' in metrics:
                 time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['http_reqs'])
                 if 'graphql' in api_name.lower():
-                    # For GraphQL tests, use graphql_error_rate
+
                     time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('graphql_error_rate', []))
                 else:
-                    # For REST, use http_req_failed
+
                     time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('http_req_failed', []))
                 time_series_data[api_name]['latency'] = metrics['http_req_duration']
             elif 'grpc_requests' in metrics:
@@ -244,7 +254,7 @@ def main():
                 time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('grpc_error_rate', []))
                 time_series_data[api_name]['latency'] = metrics['grpc_req_duration']
             
-            # Add data transfer metrics
+
             time_series_data[api_name]['data_sent'] = calculate_data_transfer_per_second(metrics['data_sent'])
             time_series_data[api_name]['data_received'] = calculate_data_transfer_per_second(metrics['data_received'])
         else:
@@ -258,12 +268,11 @@ def main():
     plot_bar_chart(comparisons['error_rate'], 'Error Rate by API', 'Error Rate (%)', 'error_rate.png')
     plot_bar_chart(comparisons['data_sent'], 'Total Data Sent by API', 'Data Sent (bytes)', 'data_sent.png')
     plot_bar_chart(comparisons['data_received'], 'Total Data Received by API', 'Data Received (bytes)', 'data_received.png')
+    plot_bar_chart(comparisons['avg_request_size'], 'Average Request Size by API', 'Size (bytes)', 'avg_request_size.png')
 
-    # Generate stacked bar chart for data transfer
     data_transfer = {api: {'Sent': results[api]['data_sent']['total'], 'Received': results[api]['data_received']['total']} for api in results}
     plot_stacked_bar_chart(data_transfer, 'Data Transfer by API', 'Data Transfer (bytes)', 'data_transfer.png')
 
-    # Generate detailed time series plots for each API
     for api_name, data in time_series_data.items():
         plot_detailed_time_series(
             api_name,
@@ -275,7 +284,7 @@ def main():
             f'{api_name}_time_series.png'
         )
 
-    # Print textual results
+
     print("API Performance Comparison:")
     for metric, values in comparisons.items():
         print(f"\n{metric.capitalize()}:")
