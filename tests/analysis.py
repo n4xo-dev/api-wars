@@ -147,8 +147,8 @@ def plot_stacked_bar_chart(data, title, ylabel, filename):
     plt.savefig(filename)
     plt.close()
 
-def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_second_data, filename):
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 15), sharex=True)
+def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_second_data, data_sent, data_received, filename):
+    fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(12, 25), sharex=True)
     fig.suptitle(f'Time Series Analysis for {api_name}', fontsize=16)
 
     # Requests per Second
@@ -175,8 +175,22 @@ def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_secon
     ax3.legend()
     ax3.grid(True)
 
+    # Data Sent
+    times_sent, values_sent = zip(*data_sent)
+    ax4.plot(times_sent, values_sent, label='Data Sent', color='purple')
+    ax4.set_ylabel('Data Sent (bytes)')
+    ax4.legend()
+    ax4.grid(True)
+
+    # Data Received
+    times_received, values_received = zip(*data_received)
+    ax5.plot(times_received, values_received, label='Data Received', color='orange')
+    ax5.set_ylabel('Data Received (bytes)')
+    ax5.legend()
+    ax5.grid(True)
+
     # Format x-axis
-    for ax in (ax1, ax2, ax3):
+    for ax in (ax1, ax2, ax3, ax4, ax5):
         ax.xaxis.set_major_formatter(DateFormatter('%H:%M:%S'))
         
     plt.xlabel('Time')
@@ -184,6 +198,12 @@ def plot_detailed_time_series(api_name, rps_data, latency_data, errors_per_secon
     plt.tight_layout()
     plt.savefig(filename)
     plt.close()
+
+def calculate_data_transfer_per_second(data_points):
+    transfer = defaultdict(int)
+    for time, value in data_points:
+        transfer[time.replace(microsecond=0)] += value
+    return sorted((time, count) for time, count in transfer.items())
 
 def calculate_requests_per_second(requests):
     rps = defaultdict(int)
@@ -223,6 +243,10 @@ def main():
                 time_series_data[api_name]['requests_per_second'] = calculate_requests_per_second(metrics['grpc_requests'])
                 time_series_data[api_name]['errors_per_second'] = calculate_errors_per_second(metrics.get('grpc_error_rate', []))
                 time_series_data[api_name]['latency'] = metrics['grpc_req_duration']
+            
+            # Add data transfer metrics
+            time_series_data[api_name]['data_sent'] = calculate_data_transfer_per_second(metrics['data_sent'])
+            time_series_data[api_name]['data_received'] = calculate_data_transfer_per_second(metrics['data_received'])
         else:
             print(f"Warning: Could not determine start and end times for {filename}")
 
@@ -246,6 +270,8 @@ def main():
             data['requests_per_second'],
             data['latency'],
             data['errors_per_second'],
+            data['data_sent'],
+            data['data_received'],
             f'{api_name}_time_series.png'
         )
 
